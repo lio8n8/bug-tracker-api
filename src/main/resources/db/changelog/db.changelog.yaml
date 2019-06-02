@@ -1,0 +1,27 @@
+databaseChangeLog:
+- changeSet:
+    id: 1559468761652-1
+    author: lion (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: usersPK
+            name: id
+            type: UUID
+        - column:
+            name: email
+            type: VARCHAR(255)
+        - column:
+            name: f_name
+            type: VARCHAR(255)
+        - column:
+            name: l_name
+            type: VARCHAR(255)
+        - column:
+            name: psw
+            type: VARCHAR(255)
+        tableName: users
+

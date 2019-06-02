@@ -1,0 +1,25 @@
+def diffLog = "$projectDir/src/main/resources/db/changelog/db.changelog.yaml"
+
+configurations {
+    liquibase
+}
+
+dependencies {
+    liquibase 'org.liquibase.ext:liquibase-hibernate5:3.6'
+}
+
+task liquibaseDiffChangelog(type: JavaExec) {
+    group = "liquibase"
+
+    classpath sourceSets.main.runtimeClasspath
+    classpath configurations.liquibase
+    main = "liquibase.integration.commandline.Main"
+
+    args "--changeLogFile=" + diffLog
+    args "--referenceUrl=hibernate:spring:com.app.bugtracker.models?hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&dialect=org.hibernate.dialect.PostgreSQLDialect"
+    args "--username=postgres"
+    args "--password=postgres"
+    args "--url=jdbc:postgresql://localhost:5432/bugtracker"
+    args "--referenceDriver=liquibase.ext.hibernate.database.connection.HibernateDriver"
+    args "generateChangeLog"
+}

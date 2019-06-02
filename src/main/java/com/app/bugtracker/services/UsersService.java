@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import com.app.bugtracker.models.User;
 import com.app.bugtracker.repositories.IUsersRepository;
@@ -12,6 +13,7 @@ import com.app.bugtracker.repositories.IUsersRepository;
 /**
  * Users service
  */
+@Service
 public class UsersService implements IUsersService{
 	private final IUsersRepository usersRepository;
 	

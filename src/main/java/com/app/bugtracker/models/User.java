@@ -1,13 +1,25 @@
 package com.app.bugtracker.models;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.JoinColumn;
+
+import com.app.bugtracker.constants.UserRoles;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,4 +52,11 @@ public class User {
 	
 	@Transient
 	private String confirmPsw;
+	
+	@ElementCollection(targetClass = UserRoles.class, fetch = FetchType.EAGER)
+	@CollectionTable(name = "user_roles",
+	    joinColumns = @JoinColumn(name = "user_id"))
+	@Enumerated(EnumType.STRING)
+	@Column(name = "roles")
+	private Set<UserRoles> roles;
 }

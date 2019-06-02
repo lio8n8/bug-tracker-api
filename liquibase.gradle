@@ -8,7 +8,7 @@ dependencies {
     liquibase 'org.liquibase.ext:liquibase-hibernate5:3.6'
 }
 
-task liquibaseDiffChangelog(type: JavaExec) {
+task liquibase(type: JavaExec) {
     group = "liquibase"
 
     classpath sourceSets.main.runtimeClasspath
@@ -21,5 +21,5 @@ task liquibaseDiffChangelog(type: JavaExec) {
     args "--password=postgres"
     args "--url=jdbc:postgresql://localhost:5432/bugtracker"
     args "--referenceDriver=liquibase.ext.hibernate.database.connection.HibernateDriver"
-    args "generateChangeLog"
+    args "diffChangeLog"
 }

@@ -1,5 +1,7 @@
 package com.app.bugtracker.controllers;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,7 @@ import com.app.bugtracker.Dto.CreateUserDto;
 import com.app.bugtracker.Dto.UpdateUserDto;
 import com.app.bugtracker.constants.Urls;
 import com.app.bugtracker.models.User;
-import com.app.bugtracker.services.UsersService;
+import com.app.bugtracker.services.IUsersService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,17 +31,17 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping({ Urls.USERS })
 @Api(tags = "users-controller", description = "Users Controller")
 public class UsersController implements IUsersController {
-	private final UsersService usersService;
+	private final IUsersService usersService;
 
 	@Autowired
-	public UsersController(UsersService usersService) {
+	public UsersController(IUsersService usersService) {
 		this.usersService = usersService;
 	}
 
 	@Override
 	@GetMapping(path = { "/{id}" })
 	@ApiOperation("Find user by id.")
-	public ResponseEntity<User> findById(@PathVariable final String id) {
+	public ResponseEntity<User> findById(@PathVariable final UUID id) {
 		return usersService.findById(id).map(record -> ResponseEntity.ok().body(record))
 				.orElse(ResponseEntity.notFound().build());
 	}
@@ -47,9 +49,9 @@ public class UsersController implements IUsersController {
 	@Override
 	@GetMapping
 	@ApiOperation("Find users.")
-	public ResponseEntity<Page<User>> findAll(@RequestParam(value = "skip", required = false) final int skip,
-			@RequestParam(value = "limit", required = false) final int limit) {
-		return new ResponseEntity(usersService.findAll(skip, limit), HttpStatus.OK);
+	public ResponseEntity<Page<User>> findAll(@RequestParam(value = "skip", required = false) final Integer skip,
+			@RequestParam(value = "limit", required = false) final Integer limit) {
+		return new ResponseEntity<Page<User>>(usersService.findAll(skip, limit), HttpStatus.OK);
 	}
 
 	@Override
@@ -71,7 +73,7 @@ public class UsersController implements IUsersController {
 	@Override
 	@DeleteMapping(path = { "/{id}" })
 	@ApiOperation("Delete user by id.")
-	public void deleteById(@PathVariable final String id) {
+	public void deleteById(@PathVariable final UUID id) {
 		usersService.deleteById(id);
 	}
 

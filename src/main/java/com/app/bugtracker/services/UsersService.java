@@ -1,6 +1,7 @@
 package com.app.bugtracker.services;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,7 @@ public class UsersService implements IUsersService{
 	 * Finds user by id
 	 */
 	@Override
-	public Optional<User> findById(String id) {
+	public Optional<User> findById(UUID id) {
 		return usersRepository.findById(id);
 	}
 
@@ -34,7 +35,7 @@ public class UsersService implements IUsersService{
 	 * Finds all users
 	 */
 	@Override
-	public Page<User> findAll(int skip, int limit) {
+	public Page<User> findAll(Integer skip, Integer limit) {
 		return usersRepository.findAll(PageRequest.of(skip, limit));
 	}
 
@@ -51,7 +52,7 @@ public class UsersService implements IUsersService{
 	}
 
 	@Override
-	public void deleteById(String id) {
+	public void deleteById(UUID id) {
 		// TODO Auto-generated method stub
 		
 	}

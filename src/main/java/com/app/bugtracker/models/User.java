@@ -1,6 +1,7 @@
 package com.app.bugtracker.models;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -59,4 +60,7 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "roles")
 	private Set<UserRoles> roles;
+	
+	@OneToMany
+	private List<Task> tasks;
 }

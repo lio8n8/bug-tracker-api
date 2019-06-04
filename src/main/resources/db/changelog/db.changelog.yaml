@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 1559468761652-1
+    id: 1559679293546-1
     author: lion (generated)
     changes:
     - createTable:
@@ -8,20 +8,112 @@ databaseChangeLog:
         - column:
             constraints:
               primaryKey: true
-              primaryKeyName: usersPK
+              primaryKeyName: tasksPK
             name: id
             type: UUID
         - column:
-            name: email
+            name: created
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: description
             type: VARCHAR(255)
         - column:
-            name: f_name
+            name: priority
+            type: INTEGER
+        - column:
+            name: status
+            type: INTEGER
+        - column:
+            name: title
             type: VARCHAR(255)
         - column:
-            name: l_name
-            type: VARCHAR(255)
+            name: type
+            type: INTEGER
         - column:
-            name: psw
-            type: VARCHAR(255)
-        tableName: users
+            name: updated
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: assigned_to_id
+            type: UUID
+        - column:
+            name: created_by_id
+            type: UUID
+        tableName: tasks
+- changeSet:
+    id: 1559679293546-2
+    author: lion (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: user_id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: tasks_id
+            type: UUID
+        tableName: users_tasks
+- changeSet:
+    id: 1559679293546-3
+    author: lion (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: tasks_id
+        constraintName: UK_ntgmxrnn2x6w47tltwj5d1fyt
+        tableName: users_tasks
+- changeSet:
+    id: 1559679293546-4
+    author: lion (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: assigned_to_id
+        baseTableName: tasks
+        constraintName: FK4516wfa828r15k9u3iw5er4vi
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: users
+        validate: true
+- changeSet:
+    id: 1559679293546-5
+    author: lion (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: users_tasks
+        constraintName: FK6frwjo48hefay0rg31q970r8t
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: users
+        validate: true
+- changeSet:
+    id: 1559679293546-6
+    author: lion (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: created_by_id
+        baseTableName: tasks
+        constraintName: FKmeg3m9hk7eyq7u5kpot87f9ey
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: users
+        validate: true
+- changeSet:
+    id: 1559679293546-7
+    author: lion (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: tasks_id
+        baseTableName: users_tasks
+        constraintName: FKphskmyjd10svfk7iwnda2rib0
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: tasks
+        validate: true
 

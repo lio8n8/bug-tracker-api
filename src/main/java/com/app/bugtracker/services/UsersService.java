@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.app.bugtracker.DTO.user.CreateUserDTO;
@@ -19,10 +20,13 @@ import com.app.bugtracker.repositories.IUsersRepository;
 @Service
 public class UsersService implements IUsersService {
     private final IUsersRepository usersRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UsersService(IUsersRepository usersRepository) {
+    public UsersService(IUsersRepository usersRepository,
+            BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.usersRepository = usersRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     /**
@@ -41,10 +45,20 @@ public class UsersService implements IUsersService {
         return usersRepository.findAll(PageRequest.of(skip, limit));
     }
 
+    /**
+     * Create user
+     * @param createUserDTO
+     * @return {@link User}
+     */
     @Override
-    public User create(CreateUserDTO dto) {
-        // TODO Auto-generated method stub
-        return null;
+    public User create(CreateUserDTO createUserDTO) {
+        User user = User
+                .builder()
+                .email(createUserDTO.getEmail())
+                .psw(bCryptPasswordEncoder.encode(createUserDTO.getPsw()))
+                .build();
+        
+        return usersRepository.save(user);
     }
 
     @Override

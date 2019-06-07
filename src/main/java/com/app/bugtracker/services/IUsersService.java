@@ -17,7 +17,12 @@ public interface IUsersService {
 
     Page<User> findAll(Integer skip, Integer limit);
 
-    User create(CreateUserDTO dto);
+    /**
+     * Create user
+     * @param createUserDTO
+     * @return {@link User}
+     */
+    User create(CreateUserDTO createUserDTO);
 
     User update(UpdateUserDTO dto);
 

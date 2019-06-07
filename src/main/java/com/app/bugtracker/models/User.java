@@ -39,28 +39,27 @@ import lombok.Setter;
 @Entity
 @Table(name = "users")
 public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
-	private String email;
-	
-	private String fName;
-	
-	private String lName;
-	
-	private String psw;
-	
-	@Transient
-	private String confirmPsw;
-	
-	@ElementCollection(targetClass = UserRoles.class, fetch = FetchType.EAGER)
-	@CollectionTable(name = "user_roles",
-	    joinColumns = @JoinColumn(name = "user_id"))
-	@Enumerated(EnumType.STRING)
-	@Column(name = "roles")
-	private Set<UserRoles> roles;
-	
-	@OneToMany
-	private List<Task> tasks;
+    private String email;
+
+    private String fName;
+
+    private String lName;
+
+    private String psw;
+
+    @Transient
+    private String confirmPsw;
+
+    @ElementCollection(targetClass = UserRoles.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "roles")
+    private Set<UserRoles> roles;
+
+    @OneToMany
+    private List<Task> tasks;
 }

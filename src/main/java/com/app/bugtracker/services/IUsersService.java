@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 
+import com.app.bugtracker.DTO.user.CreateUserDTO;
+import com.app.bugtracker.DTO.user.UpdateUserDTO;
 import com.app.bugtracker.models.User;
 
 /**
@@ -15,9 +17,9 @@ public interface IUsersService {
 	
 	Page<User> findAll(Integer skip, Integer limit);
 	
-	User create(User user);
+	User create(CreateUserDTO dto);
 	
-	User update(User user);
+	User update(UpdateUserDTO dto);
 	
 	void deleteById(UUID id);
 	

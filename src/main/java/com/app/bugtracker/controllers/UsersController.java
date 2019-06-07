@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.bugtracker.Dto.CreateUserDto;
-import com.app.bugtracker.Dto.UpdateUserDto;
+import com.app.bugtracker.DTO.user.CreateUserDTO;
+import com.app.bugtracker.DTO.user.UpdateUserDTO;
 import com.app.bugtracker.constants.Urls;
 import com.app.bugtracker.models.User;
 import com.app.bugtracker.services.IUsersService;
@@ -57,7 +57,7 @@ public class UsersController implements IUsersController {
 	@Override
 	@PostMapping
 	@ApiOperation("Create user.")
-	public ResponseEntity<User> create(CreateUserDto dto) {
+	public ResponseEntity<User> create(CreateUserDTO dto) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -65,7 +65,7 @@ public class UsersController implements IUsersController {
 	@Override
 	@PutMapping(value = "/{id}")
 	@ApiOperation("Update user.")
-	public ResponseEntity update(UpdateUserDto dto) {
+	public ResponseEntity update(UpdateUserDTO dto) {
 		// TODO Auto-generated method stub
 		return null;
 	}

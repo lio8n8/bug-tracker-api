@@ -33,27 +33,27 @@ import lombok.Setter;
 @Entity
 @Table(name = "tasks")
 public class Task {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
-	
-	private String title;
-	
-	private String description;
-	
-	private Priority priority;
-	
-	private TaskType type;
-	
-	private TaskStatus status;
-	
-	@ManyToOne
-	private User createdBy;
-	
-	@ManyToOne
-	private User assignedTo;
-	
-	private Date created;
-	
-	private Date updated;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+
+    private String title;
+
+    private String description;
+
+    private Priority priority;
+
+    private TaskType type;
+
+    private TaskStatus status;
+
+    @ManyToOne
+    private User createdBy;
+
+    @ManyToOne
+    private User assignedTo;
+
+    private Date created;
+
+    private Date updated;
 }

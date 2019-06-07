@@ -10,6 +10,7 @@ import com.app.bugtracker.models.User;
 
 @Repository
 public interface IUsersRepository extends JpaRepository<User, String> {
-	Optional<User> findById(UUID id);
-	Optional<User> findByEmail(String email);
+    Optional<User> findById(UUID id);
+
+    Optional<User> findByEmail(String email);
 }

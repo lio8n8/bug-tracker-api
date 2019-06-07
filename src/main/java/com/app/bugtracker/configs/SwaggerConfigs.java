@@ -28,7 +28,7 @@ public class SwaggerConfigs {
             .build()
             .apiInfo(apiInfo());
     }
-
+    
     /**
      * Api info
      * 

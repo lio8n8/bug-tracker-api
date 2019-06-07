@@ -13,9 +13,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @ApiModel(description = "Create user dto")
 public class CreateUserDTO {
-	private String email;
-	@ApiModelProperty("Password")
-	private String psw;
-	@ApiModelProperty("Confirm password")
-	private String confirmPsw; 
+    private String email;
+    @ApiModelProperty("Password")
+    private String psw;
+    @ApiModelProperty("Confirm password")
+    private String confirmPsw;
 }

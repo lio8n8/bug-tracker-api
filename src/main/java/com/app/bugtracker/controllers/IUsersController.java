@@ -13,6 +13,6 @@ public interface IUsersController {
 	ResponseEntity<User> findById(UUID id);
 	ResponseEntity<Page<User>> findAll(Integer skip, Integer limit);
 	ResponseEntity<User> create(CreateUserDTO dto);
-	ResponseEntity update(UpdateUserDTO dto);
+	ResponseEntity<User> update(UUID id, UpdateUserDTO dto);
 	void deleteById(UUID id);
 }

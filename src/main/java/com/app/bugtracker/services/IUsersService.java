@@ -18,13 +18,19 @@ public interface IUsersService {
     Page<User> findAll(Integer skip, Integer limit);
 
     /**
-     * Create user
+     * Create user.
      * @param createUserDTO
      * @return {@link User}
      */
     User create(CreateUserDTO createUserDTO);
 
-    User update(UpdateUserDTO dto);
+    /**
+     * Update user.
+     * @param id user id
+     * @param updateUserDTO
+     * @return {@link User}
+     */
+    User update(UUID id, UpdateUserDTO updateUserDTO);
 
     void deleteById(UUID id);
 

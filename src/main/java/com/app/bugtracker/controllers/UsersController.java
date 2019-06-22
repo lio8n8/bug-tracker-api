@@ -71,9 +71,9 @@ public class UsersController implements IUsersController {
 	@Override
 	@PutMapping(value = "/{id}")
 	@ApiOperation("Update user.")
-	public ResponseEntity update(UpdateUserDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<User> update(@PathVariable final UUID id,
+	        @RequestBody @Valid final UpdateUserDTO updateUserDTO) {
+	    return new ResponseEntity<>(usersService.update(id, updateUserDTO), HttpStatus.OK);
 	}
 
 	@Override

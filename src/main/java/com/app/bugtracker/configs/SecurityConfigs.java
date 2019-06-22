@@ -20,12 +20,14 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
     protected final void configure(final HttpSecurity http) throws Exception{
         http.authorizeRequests()
             .antMatchers("/").permitAll()
-            .antMatchers(HttpMethod.POST, Urls.USERS).permitAll();
+            .antMatchers(HttpMethod.POST, Urls.USERS).permitAll()
+            .antMatchers(HttpMethod.PUT, Urls.USERS + "/**").permitAll();
     }
     
     @Override
     public final void configure(final WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.POST, Urls.USERS);
+        web.ignoring().antMatchers(HttpMethod.PUT, Urls.USERS + "/**");
         web.ignoring().antMatchers("/swagger-ui.html");
     }
     

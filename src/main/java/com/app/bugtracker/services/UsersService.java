@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.app.bugtracker.DTO.user.CreateUserDTO;
 import com.app.bugtracker.DTO.user.UpdateUserDTO;
+import com.app.bugtracker.exceptions.Exceptions;
+import com.app.bugtracker.exceptions.NotFoundException;
 import com.app.bugtracker.models.User;
 import com.app.bugtracker.repositories.IUsersRepository;
 
@@ -33,7 +35,7 @@ public class UsersService implements IUsersService {
      * Finds user by id
      */
     @Override
-    public Optional<User> findById(UUID id) {
+    public Optional<User> findById(final UUID id) {
         return usersRepository.findById(id);
     }
 
@@ -41,7 +43,7 @@ public class UsersService implements IUsersService {
      * Finds all users
      */
     @Override
-    public Page<User> findAll(Integer skip, Integer limit) {
+    public Page<User> findAll(final Integer skip, final Integer limit) {
         return usersRepository.findAll(PageRequest.of(skip, limit));
     }
 
@@ -51,7 +53,7 @@ public class UsersService implements IUsersService {
      * @return {@link User}
      */
     @Override
-    public User create(CreateUserDTO createUserDTO) {
+    public User create(final CreateUserDTO createUserDTO) {
         User user = User
                 .builder()
                 .email(createUserDTO.getEmail())
@@ -61,14 +63,26 @@ public class UsersService implements IUsersService {
         return usersRepository.save(user);
     }
 
+    /**
+     * Update user.
+     * @param id user id
+     * @param updateUserDTO
+     * @return {@link User}
+     */
     @Override
-    public User update(UpdateUserDTO dto) {
-        // TODO Auto-generated method stub
-        return null;
+    public User update(final UUID id, final UpdateUserDTO updateUserDTO) {
+        User user = usersRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));
+        
+        user.setEmail(updateUserDTO.getEmail());
+        user.setFName(updateUserDTO.getFName());
+        user.setLName(updateUserDTO.getLName());
+        
+        return usersRepository.save(user);
     }
 
     @Override
-    public void deleteById(UUID id) {
+    public void deleteById(final UUID id) {
         // TODO Auto-generated method stub
 
     }

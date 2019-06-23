@@ -18,7 +18,9 @@ import com.app.bugtracker.constants.Urls;
 public class SecurityConfigs extends WebSecurityConfigurerAdapter {
     @Override
     protected final void configure(final HttpSecurity http) throws Exception{
-        http.authorizeRequests()
+        http
+            .csrf().disable()
+            .authorizeRequests()
             .antMatchers("/").permitAll()
             .antMatchers(HttpMethod.POST, Urls.USERS).permitAll()
             .antMatchers(HttpMethod.PUT, Urls.USERS + "/**").permitAll();

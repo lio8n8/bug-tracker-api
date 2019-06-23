@@ -13,7 +13,19 @@ import com.app.bugtracker.models.User;
  * IUserService
  */
 public interface IUsersService {
+    /**
+     * Find user by id.
+     * @param id
+     * @return {@link User}
+     */
     Optional<User> findById(UUID id);
+    
+    /**
+     * Find user by email.
+     * @param email
+     * @return {@link User}
+     */
+    Optional<User> findByEmail(String email);
 
     Page<User> findAll(Integer skip, Integer limit);
 

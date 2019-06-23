@@ -4,12 +4,21 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.app.bugtracker.exceptions.Exceptions;
+import com.app.bugtracker.exceptions.NotFoundException;
+import com.app.bugtracker.models.User;
+import com.google.common.collect.Lists;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 public class JwtTokenService implements IJwtTokenService {
     private CustomUserDetailsService customUserDetailsService;
@@ -42,6 +51,26 @@ public class JwtTokenService implements IJwtTokenService {
     
     @Override
     public Authentication getAuthentication(final HttpServletRequest req) {
+        String token = req.getHeader(AUTHORIZATION);
+        if (null != token && token.length() > 0) {
+            String username = Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .parseClaimsJws(token.replace("Bearer", ""))
+                    .getBody()
+                    .getSubject();
+
+            if (null != username && username.length() > 0) {
+                return null;
+            }
+
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+
+            return new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.getAuthorities());
+        }
+        
         return null;
     }
 

@@ -38,6 +38,16 @@ public class UsersService implements IUsersService {
     public Optional<User> findById(final UUID id) {
         return usersRepository.findById(id);
     }
+    
+    /**
+     * Find user by email.
+     * @param email
+     * @return {@link User}
+     */
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return usersRepository.findByEmail(email);
+    }
 
     /**
      * Finds all users

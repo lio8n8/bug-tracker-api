@@ -81,10 +81,13 @@ public class UsersService implements IUsersService {
         return usersRepository.save(user);
     }
 
+    /**
+     * Delete user by id.
+     * @param id
+     */
     @Override
     public void deleteById(final UUID id) {
-        // TODO Auto-generated method stub
-
+        usersRepository.deleteById(id);
     }
 
     @Override

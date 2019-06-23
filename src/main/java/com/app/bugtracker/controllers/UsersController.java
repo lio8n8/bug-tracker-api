@@ -82,5 +82,4 @@ public class UsersController implements IUsersController {
 	public void deleteById(@PathVariable final UUID id) {
         usersService.deleteById(id);
     }
-
 }

@@ -32,6 +32,10 @@ public interface IUsersService {
      */
     User update(UUID id, UpdateUserDTO updateUserDTO);
 
+    /**
+     * Delete user by id.
+     * @param id
+     */
     void deleteById(UUID id);
 
     void resetPassword(String currentPsw, String newPsw, String confirmNewPsw);

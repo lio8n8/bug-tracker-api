@@ -1,4 +1,4 @@
-def diffLog = "$projectDir/src/main/resources/db/changelog/db.changelog.yaml"
+def diffLog = "$projectDir/src/main/resources/db/changelog/${(new Date()).format("dd-MM-yyyy-hh-mm")}-db.changelog.yaml"
 
 configurations {
     liquibase

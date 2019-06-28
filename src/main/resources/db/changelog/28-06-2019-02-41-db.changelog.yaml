@@ -1,7 +1,7 @@
 databaseChangeLog:
 - changeSet:
-    id: 1559679293546-1
-    author: lion (generated)
+    id: 1561722096834-1
+    author: root (generated)
     changes:
     - createTable:
         columns:
@@ -40,8 +40,48 @@ databaseChangeLog:
             type: UUID
         tableName: tasks
 - changeSet:
-    id: 1559679293546-2
-    author: lion (generated)
+    id: 1561722096834-2
+    author: root (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: user_id
+            type: UUID
+        - column:
+            name: roles
+            type: VARCHAR(255)
+        tableName: user_roles
+- changeSet:
+    id: 1561722096834-3
+    author: root (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: usersPK
+            name: id
+            type: UUID
+        - column:
+            name: email
+            type: VARCHAR(255)
+        - column:
+            name: f_name
+            type: VARCHAR(255)
+        - column:
+            name: l_name
+            type: VARCHAR(255)
+        - column:
+            name: psw
+            type: VARCHAR(255)
+        tableName: users
+- changeSet:
+    id: 1561722096834-4
+    author: root (generated)
     changes:
     - createTable:
         columns:
@@ -57,16 +97,16 @@ databaseChangeLog:
             type: UUID
         tableName: users_tasks
 - changeSet:
-    id: 1559679293546-3
-    author: lion (generated)
+    id: 1561722096834-5
+    author: root (generated)
     changes:
     - addUniqueConstraint:
         columnNames: tasks_id
         constraintName: UK_ntgmxrnn2x6w47tltwj5d1fyt
         tableName: users_tasks
 - changeSet:
-    id: 1559679293546-4
-    author: lion (generated)
+    id: 1561722096834-6
+    author: root (generated)
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: assigned_to_id
@@ -78,8 +118,8 @@ databaseChangeLog:
         referencedTableName: users
         validate: true
 - changeSet:
-    id: 1559679293546-5
-    author: lion (generated)
+    id: 1561722096834-7
+    author: root (generated)
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: user_id
@@ -91,8 +131,21 @@ databaseChangeLog:
         referencedTableName: users
         validate: true
 - changeSet:
-    id: 1559679293546-6
-    author: lion (generated)
+    id: 1561722096834-8
+    author: root (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: user_roles
+        constraintName: FKhfh9dx7w3ubf1co1vdev94g3f
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: users
+        validate: true
+- changeSet:
+    id: 1561722096834-9
+    author: root (generated)
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: created_by_id
@@ -104,8 +157,8 @@ databaseChangeLog:
         referencedTableName: users
         validate: true
 - changeSet:
-    id: 1559679293546-7
-    author: lion (generated)
+    id: 1561722096834-10
+    author: root (generated)
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: tasks_id

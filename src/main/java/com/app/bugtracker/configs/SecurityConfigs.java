@@ -37,6 +37,7 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .authorizeRequests()
             .antMatchers("/").permitAll()
+            .antMatchers(HttpMethod.POST, Urls.Auth).permitAll()
             .antMatchers(HttpMethod.POST, Urls.USERS).permitAll()
             .antMatchers(HttpMethod.PUT, Urls.USERS + "/**").permitAll()
             .and()
@@ -50,6 +51,7 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
     
     @Override
     public final void configure(final WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(HttpMethod.POST, Urls.Auth);
         web.ignoring().antMatchers(HttpMethod.POST, Urls.USERS);
         web.ignoring().antMatchers(HttpMethod.PUT, Urls.USERS + "/**");
         web.ignoring().antMatchers("/swagger-ui.html");
@@ -57,6 +59,8 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(final AuthenticationManagerBuilder authManager) throws Exception {
+        authManager.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+        super.configure(authManager);
     }
     
     @Bean

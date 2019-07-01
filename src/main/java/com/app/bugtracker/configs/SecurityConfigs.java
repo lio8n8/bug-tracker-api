@@ -39,7 +39,7 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
             .antMatchers("/").permitAll()
             .antMatchers(HttpMethod.POST, Urls.Auth).permitAll()
             .antMatchers(HttpMethod.POST, Urls.USERS).permitAll()
-            .antMatchers(HttpMethod.PUT, Urls.USERS + "/**").permitAll()
+            .anyRequest().authenticated()
             .and()
             .addFilterBefore(
                     new JwtTokenAuthenticationFilter(
@@ -53,7 +53,6 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
     public final void configure(final WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.POST, Urls.Auth);
         web.ignoring().antMatchers(HttpMethod.POST, Urls.USERS);
-        web.ignoring().antMatchers(HttpMethod.PUT, Urls.USERS + "/**");
         web.ignoring().antMatchers("/swagger-ui.html");
     }
     

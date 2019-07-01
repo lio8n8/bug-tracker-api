@@ -53,7 +53,8 @@ public class JwtTokenService implements IJwtTokenService {
     
     @Override
     public Authentication getAuthentication(final HttpServletRequest req) {
-        String token = req.getHeader(AUTHORIZATION);
+        String token = req.getHeader("Authorization");
+
         if (null != token && token.length() > 0) {
             String username = Jwts.parser()
                     .setSigningKey(secretKey)
@@ -61,7 +62,7 @@ public class JwtTokenService implements IJwtTokenService {
                     .getBody()
                     .getSubject();
 
-            if (null != username && username.length() > 0) {
+            if (null == username || username.length() <= 0) {
                 return null;
             }
 

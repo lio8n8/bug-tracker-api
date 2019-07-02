@@ -1,4 +1,4 @@
-package com.app.bugtracker.services;
+package com.app.bugtracker.services.user;
 
 import java.util.Optional;
 import java.util.UUID;

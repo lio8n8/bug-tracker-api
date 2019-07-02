@@ -23,7 +23,7 @@ import com.app.bugtracker.DTO.user.CreateUserDTO;
 import com.app.bugtracker.DTO.user.UpdateUserDTO;
 import com.app.bugtracker.constants.Urls;
 import com.app.bugtracker.models.User;
-import com.app.bugtracker.services.IUsersService;
+import com.app.bugtracker.services.user.IUsersService;
 import com.app.bugtracker.validators.CreateUserValidator;
 
 import io.swagger.annotations.Api;

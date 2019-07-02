@@ -1,14 +1,13 @@
 package com.app.bugtracker.repositories;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.app.bugtracker.models.User;
+import com.app.bugtracker.models.Task;
 
 @Repository
-public interface IUsersRepository extends JpaRepository<User, UUID> {
-    Optional<User> findByEmail(String email);
+public interface ITasksRepository extends JpaRepository<Task, UUID> {
+
 }

@@ -64,8 +64,7 @@ public class UsersService implements IUsersService {
      */
     @Override
     public User create(final CreateUserDTO createUserDTO) {
-        User user = User
-                .builder()
+        User user = User.builder()
                 .email(createUserDTO.getEmail())
                 .psw(bCryptPasswordEncoder.encode(createUserDTO.getPsw()))
                 .build();

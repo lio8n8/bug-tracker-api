@@ -1,6 +1,6 @@
 package com.app.bugtracker.models;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import com.app.bugtracker.constants.Priority;
 import com.app.bugtracker.constants.TaskStatus;
 import com.app.bugtracker.constants.TaskType;
+
+import org.hibernate.annotations.Type;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,7 +55,9 @@ public class Task {
     @ManyToOne
     private User assignedTo;
 
-    private Date created;
+    @Type(type = "java.time.Instant")
+    private Instant created;
 
-    private Date updated;
+    @Type(type = "java.time.Instant")
+    private Instant updated;
 }

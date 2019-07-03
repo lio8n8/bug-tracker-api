@@ -1,24 +1,33 @@
 package com.app.bugtracker.services.task;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.app.bugtracker.DTO.task.CreateTaskDTO;
 import com.app.bugtracker.models.Task;
+import com.app.bugtracker.models.User;
 import com.app.bugtracker.repositories.ITasksRepository;
+import com.app.bugtracker.repositories.IUsersRepository;
+import com.app.bugtracker.exceptions.Exceptions;
+import com.app.bugtracker.exceptions.NotFoundException;
 
 @Service
 public class TasksService implements ITasksService {
 
     private final ITasksRepository tasksRepository;
+    private final IUsersRepository usersRepository;
 
     @Autowired
-    public TasksService(final ITasksRepository tasksRepository) {
+    public TasksService(final ITasksRepository tasksRepository,
+        final IUsersRepository usersRepository) {
         this.tasksRepository = tasksRepository;
+        this.usersRepository = usersRepository;
     }
 
     /**
@@ -29,16 +38,14 @@ public class TasksService implements ITasksService {
      */
     @Override
     public Optional<Task> findById(final UUID id) {
-        // TODO Auto-generated method stub
-        return null;
+          return tasksRepository.findById(id);
     }
 
     @Override
     public Page<Task> findAll(final Integer skip, final Integer limit) {
-        // TODO Auto-generated method stub
-        return null;
+        return tasksRepository.findAll(PageRequest.of(skip, limit));
     }
-
+    
     /**
      * Create task.
      * 
@@ -47,8 +54,25 @@ public class TasksService implements ITasksService {
      */
     @Override
     public Task create(final CreateTaskDTO createTaskDTO) {
-        // TODO Auto-generated method stub
-        return null;
+        User createdBy = usersRepository.findById(createTaskDTO.getCreatedBy())
+                .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));
+
+        User assignedTo = usersRepository.findById(createTaskDTO.getAssignedTo())
+                .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));
+
+        Task task = Task.builder()
+            .title(createTaskDTO.getTitle())
+            .description(createTaskDTO.getDescription())
+            .priority(createTaskDTO.getPriority())
+            .type(createTaskDTO.getType())
+            .status(createTaskDTO.getStatus())
+            .createdBy(createdBy)
+            .assignedTo(assignedTo)
+            .created(Instant.now())
+            .updated(Instant.now())
+            .build();
+
+        return tasksRepository.save(task);
     }
 
     /**
@@ -60,8 +84,21 @@ public class TasksService implements ITasksService {
      */
     @Override
     public Task update(final UUID id, final CreateTaskDTO createTaskDTO) {
-        // TODO Auto-generated method stub
-        return null;
+        Task task = tasksRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(Exceptions.TASK_NOT_FOUND));
+
+        User assignedTo = usersRepository.findById(createTaskDTO.getAssignedTo())
+                .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));
+
+        task.setTitle(createTaskDTO.getTitle());
+        task.setDescription(createTaskDTO.getDescription());
+        task.setPriority(createTaskDTO.getPriority());
+        task.setType(createTaskDTO.getType());
+        task.setStatus(createTaskDTO.getStatus());
+        task.setAssignedTo(assignedTo);
+        task.setUpdated(Instant.now());
+
+        return tasksRepository.save(task);
     }
 
     /**
@@ -71,8 +108,7 @@ public class TasksService implements ITasksService {
      */
     @Override
     public void deleteById(final UUID id) {
-        // TODO Auto-generated method stub
-
+        tasksRepository.deleteById(id);
     }
 
 }

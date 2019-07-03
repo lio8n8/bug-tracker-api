@@ -69,7 +69,7 @@ public class UsersController implements IUsersController {
 	}
 
 	@Override
-	@PutMapping(value = "/{id}")
+	@PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
 	@ApiOperation("Update user.")
 	public ResponseEntity<User> update(@PathVariable final UUID id,
 	        @RequestBody @Valid final UpdateUserDTO updateUserDTO) {

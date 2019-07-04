@@ -84,8 +84,8 @@ public class UsersService implements IUsersService {
                 .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));
         
         user.setEmail(updateUserDTO.getEmail());
-        user.setFName(updateUserDTO.getFName());
-        user.setLName(updateUserDTO.getLName());
+        user.setFirstName(updateUserDTO.getFirstName());
+        user.setLastName(updateUserDTO.getLastName());
         
         return usersRepository.save(user);
     }

@@ -9,7 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.app.bugtracker.constants.Priority;
@@ -49,10 +49,10 @@ public class Task {
 
     private TaskStatus status;
 
-    @ManyToOne
+    @OneToOne
     private User createdBy;
 
-    @ManyToOne
+    @OneToOne
     private User assignedTo;
 
     @Type(type = "java.time.Instant")

@@ -1,0 +1,23 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="root (generated)" id="1562270815547-2">
+        <addColumn tableName="users">
+            <column name="first_name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="root (generated)" id="1562270815547-3">
+        <addColumn tableName="users">
+            <column name="last_name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="root (generated)" id="1562270815547-4">
+        <dropColumn columnName="f_name" tableName="users"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1562270815547-5">
+        <dropColumn columnName="l_name" tableName="users"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1562270815547-1">
+        <dropUniqueConstraint constraintName="UK_ntgmxrnn2x6w47tltwj5d1fyt" tableName="users_tasks"/>
+        <addUniqueConstraint columnNames="tasks_id" constraintName="UK_ntgmxrnn2x6w47tltwj5d1fyt" tableName="users_tasks"/>
+    </changeSet>
+</databaseChangeLog>

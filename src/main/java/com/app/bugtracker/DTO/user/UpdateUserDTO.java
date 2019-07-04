@@ -24,8 +24,8 @@ public class UpdateUserDTO {
     private String email;
     
     @ApiModelProperty("First name")
-    private String fName;
+    private String firstName;
     
     @ApiModelProperty("Last name")
-    private String lName;
+    private String lastName;
 }

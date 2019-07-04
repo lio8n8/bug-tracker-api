@@ -45,9 +45,11 @@ public class User {
 
     private String email;
 
-    private String fName;
+    @Column(name = "first_name")
+    private String firstName;
 
-    private String lName;
+    @Column(name = "last_name")
+    private String lastName;
 
     private String psw;
 

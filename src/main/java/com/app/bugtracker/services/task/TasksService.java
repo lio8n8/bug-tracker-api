@@ -37,8 +37,9 @@ public class TasksService implements ITasksService {
      * @return {@link Task}
      */
     @Override
-    public Optional<Task> findById(final UUID id) {
-          return tasksRepository.findById(id);
+    public Task findById(final UUID id) {
+          return tasksRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));;
     }
 
     @Override

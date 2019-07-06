@@ -1,6 +1,5 @@
 package com.app.bugtracker.services.task;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -19,7 +18,7 @@ public interface ITasksService {
      * @param id task id
      * @return {@link Task}
      */
-    Optional<Task> findById(UUID id);
+    Task findById(UUID id);
 
     Page<Task> findAll(Integer skip, Integer limit);
 

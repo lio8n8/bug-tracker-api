@@ -1,6 +1,5 @@
 package com.app.bugtracker.services.user;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -18,14 +17,14 @@ public interface IUsersService {
      * @param id
      * @return {@link User}
      */
-    Optional<User> findById(UUID id);
+    User findById(UUID id);
     
     /**
      * Find user by email.
      * @param email
      * @return {@link User}
      */
-    Optional<User> findByEmail(String email);
+    User findByEmail(String email);
 
     Page<User> findAll(Integer skip, Integer limit);
 

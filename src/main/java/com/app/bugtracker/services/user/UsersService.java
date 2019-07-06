@@ -35,8 +35,9 @@ public class UsersService implements IUsersService {
      * Finds user by id
      */
     @Override
-    public Optional<User> findById(final UUID id) {
-        return usersRepository.findById(id);
+    public User findById(final UUID id) {
+        return usersRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));
     }
     
     /**
@@ -45,8 +46,9 @@ public class UsersService implements IUsersService {
      * @return {@link User}
      */
     @Override
-    public Optional<User> findByEmail(String email) {
-        return usersRepository.findByEmail(email);
+    public User findByEmail(String email) {
+        return usersRepository.findByEmail(email)
+            .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));
     }
 
     /**

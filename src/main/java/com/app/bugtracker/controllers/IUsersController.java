@@ -7,12 +7,12 @@ import org.springframework.http.ResponseEntity;
 
 import com.app.bugtracker.DTO.user.CreateUserDTO;
 import com.app.bugtracker.DTO.user.UpdateUserDTO;
-import com.app.bugtracker.models.User;
+import com.app.bugtracker.DTO.user.UserDTO;
 
 public interface IUsersController {
-	ResponseEntity<User> findById(UUID id);
-	ResponseEntity<Page<User>> findAll(Integer skip, Integer limit);
-	ResponseEntity<User> create(CreateUserDTO dto);
-	ResponseEntity<User> update(UUID id, UpdateUserDTO dto);
+	ResponseEntity<UserDTO> findById(UUID id);
+	ResponseEntity<Page<UserDTO>> findAll(Integer skip, Integer limit);
+	ResponseEntity<UserDTO> create(CreateUserDTO dto);
+	ResponseEntity<UserDTO> update(UUID id, UpdateUserDTO dto);
 	void deleteById(UUID id);
 }

@@ -39,7 +39,7 @@ public class TasksService implements ITasksService {
     @Override
     public Task findById(final UUID id) {
           return tasksRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));;
+            .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));
     }
 
     @Override

@@ -6,12 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 import com.app.bugtracker.DTO.task.CreateTaskDTO;
-import com.app.bugtracker.models.Task;
+import com.app.bugtracker.DTO.task.TaskDTO;
 
 public interface ITasksController {
-    ResponseEntity<Task> findById(UUID id);
-    ResponseEntity<Page<Task>> findAll(Integer skip, Integer limit);
-    ResponseEntity<Task> create(CreateTaskDTO dto);
-    ResponseEntity<Task> update(UUID id, CreateTaskDTO dto);
+    ResponseEntity<TaskDTO> findById(UUID id);
+    ResponseEntity<Page<TaskDTO>> findAll(Integer skip, Integer limit);
+    ResponseEntity<TaskDTO> create(CreateTaskDTO dto);
+    ResponseEntity<TaskDTO> update(UUID id, CreateTaskDTO dto);
     void deleteById(UUID id);
 }

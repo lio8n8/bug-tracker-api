@@ -1,10 +1,12 @@
 package com.app.bugtracker.controllers;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.bugtracker.DTO.user.CreateUserDTO;
 import com.app.bugtracker.DTO.user.UpdateUserDTO;
+import com.app.bugtracker.DTO.user.UserDTO;
 import com.app.bugtracker.constants.Urls;
-import com.app.bugtracker.models.User;
 import com.app.bugtracker.services.user.IUsersService;
 import com.app.bugtracker.validators.CreateUserValidator;
 
@@ -37,43 +39,48 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "users-controller", description = "Users Controller")
 public class UsersController implements IUsersController {
 	private final IUsersService usersService;
+	private final ConversionService conversionService;
 	
 	@Autowired
-	public UsersController(IUsersService usersService) {
+	public UsersController(final IUsersService usersService, final ConversionService conversionService) {
 		this.usersService = usersService;
+		this.conversionService = conversionService;
 	}
 
 	@Override
 	@GetMapping(path = { "/{id}" })
 	@ApiOperation("Find user by id.")
-	public ResponseEntity<User> findById(@PathVariable final UUID id) {
-		return usersService.findById(id).map(record -> ResponseEntity.ok().body(record))
-				.orElse(ResponseEntity.notFound().build());
+	public ResponseEntity<UserDTO> findById(@PathVariable final UUID id) {
+		return new ResponseEntity<>(conversionService.convert(usersService.findById(id),
+			UserDTO.class), HttpStatus.OK);
 	}
 
 	@Override
 	@GetMapping
 	@ApiOperation("Find users.")
-	public ResponseEntity<Page<User>> findAll(@RequestParam(value = "skip", required = false)final Integer skip,
+	public ResponseEntity<Page<UserDTO>> findAll(@RequestParam(value = "skip", required = false)final Integer skip,
 			@RequestParam(value = "limit", required = false) final Integer limit) {
-		return new ResponseEntity<Page<User>>(usersService.findAll(skip, limit), HttpStatus.OK);
+		return new ResponseEntity<>(usersService.findAll(skip, limit)
+			.map(u -> conversionService.convert(u, UserDTO.class)), HttpStatus.OK);
 	}
 
 	// TODO: Fix custom validator
 	@Override
 	@PostMapping(consumes = "application/json", produces = "application/json")
 	@ApiOperation("Create user.")
-	public ResponseEntity<User> create(@RequestBody @Valid
+	public ResponseEntity<UserDTO> create(@RequestBody @Valid
 	    final CreateUserDTO createUserDTO) {
-		return new ResponseEntity<>(usersService.create(createUserDTO), HttpStatus.CREATED);
+		return new ResponseEntity<>(conversionService.convert(usersService.create(createUserDTO),
+			UserDTO.class), HttpStatus.CREATED);
 	}
 
 	@Override
 	@PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
 	@ApiOperation("Update user.")
-	public ResponseEntity<User> update(@PathVariable final UUID id,
+	public ResponseEntity<UserDTO> update(@PathVariable final UUID id,
 	        @RequestBody @Valid final UpdateUserDTO updateUserDTO) {
-	    return new ResponseEntity<>(usersService.update(id, updateUserDTO), HttpStatus.OK);
+		return new ResponseEntity<>(conversionService.convert(usersService.update(id, updateUserDTO),
+			UserDTO.class), HttpStatus.OK);
 	}
 
 	@Override

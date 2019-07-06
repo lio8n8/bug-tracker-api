@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.bugtracker.DTO.task.CreateTaskDTO;
+import com.app.bugtracker.DTO.task.TaskDTO;
 import com.app.bugtracker.constants.Urls;
-import com.app.bugtracker.models.Task;
 import com.app.bugtracker.services.task.ITasksService;
 
 import io.swagger.annotations.Api;
@@ -35,41 +36,46 @@ import io.swagger.annotations.ApiOperation;
 public class TasksController implements ITasksController {
     
     private final ITasksService tasksService;
+    private final ConversionService conversionService;
     
     @Autowired
-    public TasksController(final ITasksService tasksService) {
+    public TasksController(final ITasksService tasksService, final ConversionService conversionService) {
         this.tasksService = tasksService;
+        this.conversionService = conversionService;
     }
 
     @Override
     @GetMapping(path = { "/{id}" })
     @ApiOperation("Find task by id.")
-    public ResponseEntity<Task> findById(@PathVariable final UUID id) {
-        return tasksService.findById(id).map(record -> ResponseEntity.ok().body(record))
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<TaskDTO> findById(@PathVariable final UUID id) {
+        return new ResponseEntity<>(conversionService.convert(tasksService.findById(id), TaskDTO.class),
+            HttpStatus.OK);
     }
 
     @Override
     @GetMapping
     @ApiOperation("Find tasks.")
-    public ResponseEntity<Page<Task>> findAll(@RequestParam(value = "skip", required = false)final Integer skip,
+    public ResponseEntity<Page<TaskDTO>> findAll(@RequestParam(value = "skip", required = false)final Integer skip,
             @RequestParam(value = "limit", required = false) final Integer limit) {
-        return new ResponseEntity<Page<Task>>(tasksService.findAll(skip, limit), HttpStatus.OK);
+        return new ResponseEntity<>(tasksService.findAll(skip, limit)
+            .map(t -> conversionService.convert(t, TaskDTO.class)), HttpStatus.OK);
     }
 
     @Override
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ApiOperation("Create task.")
-    public ResponseEntity<Task> create(@RequestBody @Valid final CreateTaskDTO createTaskDTO) {
-        return new ResponseEntity<>(tasksService.create(createTaskDTO), HttpStatus.CREATED);
+    public ResponseEntity<TaskDTO> create(@RequestBody @Valid final CreateTaskDTO createTaskDTO) {
+        return new ResponseEntity<>(conversionService.convert(tasksService.create(createTaskDTO), TaskDTO.class),
+            HttpStatus.CREATED);
     }
 
     @Override
     @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     @ApiOperation("Update task.")
-    public ResponseEntity<Task> update(@PathVariable final UUID id,
+    public ResponseEntity<TaskDTO> update(@PathVariable final UUID id,
             @RequestBody @Valid final CreateTaskDTO createTaskDTO) {
-        return new ResponseEntity<>(tasksService.update(id, createTaskDTO), HttpStatus.OK);
+        return new ResponseEntity<>(conversionService.convert(tasksService.update(id, createTaskDTO), TaskDTO.class),
+            HttpStatus.OK);
     }
 
     @Override
@@ -78,5 +84,4 @@ public class TasksController implements ITasksController {
     public void deleteById(@PathVariable final UUID id) {
         tasksService.deleteById(id);        
     }
-
 }

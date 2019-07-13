@@ -22,7 +22,6 @@ import com.app.bugtracker.constants.Urls;
 import com.app.bugtracker.filters.JwtTokenAuthenticationFilter;
 import com.app.bugtracker.services.auth.CustomUserDetailsService;
 import com.app.bugtracker.services.auth.IJwtTokenService;
-//import com.app.bugtracker.services.auth.JwtTokenService;
 
 @Configuration
 @EnableWebSecurity
@@ -39,11 +38,10 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
     @Override
     protected final void configure(final HttpSecurity http) throws Exception{
         http
-            .cors()
-            .and()
             .csrf().disable()
             .authorizeRequests()
             .antMatchers(HttpMethod.POST, Urls.Auth).permitAll()
+            .antMatchers(HttpMethod.OPTIONS, Urls.Auth).permitAll()
             .antMatchers(HttpMethod.POST, Urls.USERS).permitAll()
             .anyRequest().authenticated()
             .and()
@@ -60,6 +58,7 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
         web.ignoring()
             .antMatchers("/v2/api-docs")
             .antMatchers(HttpMethod.POST, Urls.Auth)
+            .antMatchers(HttpMethod.OPTIONS, Urls.Auth)
             .antMatchers(HttpMethod.POST, Urls.USERS)
             .antMatchers("/swagger-ui.html")
             .antMatchers("/swagger-resources/**")
@@ -81,16 +80,5 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-    
-    // TODO: Add allowed origins to env variables.
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:8081"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+    } 
 }

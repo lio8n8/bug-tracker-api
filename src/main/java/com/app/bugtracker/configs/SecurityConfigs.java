@@ -40,9 +40,9 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers(HttpMethod.POST, Urls.Auth).permitAll()
-            .antMatchers(HttpMethod.OPTIONS, Urls.Auth).permitAll()
+            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .antMatchers(HttpMethod.POST, Urls.USERS).permitAll()
+            .antMatchers(HttpMethod.POST, Urls.Auth).permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(
@@ -57,9 +57,9 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
     public final void configure(final WebSecurity web) throws Exception {
         web.ignoring()
             .antMatchers("/v2/api-docs")
-            .antMatchers(HttpMethod.POST, Urls.Auth)
-            .antMatchers(HttpMethod.OPTIONS, Urls.Auth)
+            .antMatchers(HttpMethod.OPTIONS, "/**")
             .antMatchers(HttpMethod.POST, Urls.USERS)
+            .antMatchers(HttpMethod.POST, Urls.Auth)
             .antMatchers("/swagger-ui.html")
             .antMatchers("/swagger-resources/**")
             .antMatchers("/configuration/**")

@@ -53,9 +53,6 @@ public class User {
 
     private String psw;
 
-    @Transient
-    private String confirmPsw;
-
     @ElementCollection(targetClass = UserRoles.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)

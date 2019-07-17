@@ -22,7 +22,7 @@ import com.app.bugtracker.repositories.IUsersRepository;
 @Service
 public class UsersService implements IUsersService {
     private final IUsersRepository usersRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UsersService(IUsersRepository usersRepository,

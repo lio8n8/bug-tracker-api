@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.bugtracker.DTO.task.CreateTaskDTO;
-import com.app.bugtracker.DTO.task.TaskDTO;
+import com.app.bugtracker.dto.task.CreateTaskDTO;
+import com.app.bugtracker.dto.task.TaskDTO;
 import com.app.bugtracker.constants.Urls;
 import com.app.bugtracker.services.task.ITasksService;
 

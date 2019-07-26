@@ -1,4 +1,4 @@
-package com.app.bugtracker.DTO.user;
+package com.app.bugtracker.dto.user;
 
 import java.util.UUID;
 

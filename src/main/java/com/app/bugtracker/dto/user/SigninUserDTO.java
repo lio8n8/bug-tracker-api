@@ -1,4 +1,4 @@
-package com.app.bugtracker.DTO.user;
+package com.app.bugtracker.dto.user;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -16,8 +16,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(description = "Create user dto")
-public class CreateUserDTO {    
+@ApiModel(description = "User signin dto")
+public class SigninUserDTO {    
     @NotEmpty(message = "Email is required.")
     @Email
     @ApiModelProperty("Email")
@@ -26,8 +26,4 @@ public class CreateUserDTO {
     @NotEmpty(message = "Password is required.")
     @ApiModelProperty("Password")
     private String psw;
-    
-    @NotEmpty(message = "Confirm password.")
-    @ApiModelProperty("Confirm password")
-    private String confirmPsw;
 }

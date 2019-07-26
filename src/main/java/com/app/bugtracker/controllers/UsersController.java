@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.bugtracker.DTO.user.CreateUserDTO;
-import com.app.bugtracker.DTO.user.UpdateUserDTO;
-import com.app.bugtracker.DTO.user.UserDTO;
+import com.app.bugtracker.dto.user.CreateUserDTO;
+import com.app.bugtracker.dto.user.UpdateUserDTO;
+import com.app.bugtracker.dto.user.UserDTO;
 import com.app.bugtracker.constants.Urls;
 import com.app.bugtracker.services.user.IUsersService;
 import com.app.bugtracker.validators.CreateUserValidator;

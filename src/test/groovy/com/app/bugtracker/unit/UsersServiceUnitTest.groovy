@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 import java.util.UUID
 
-import com.app.bugtracker.DTO.user.CreateUserDTO;
+import com.app.bugtracker.dto.user.CreateUserDTO;
 import com.app.bugtracker.models.User
 import com.app.bugtracker.repositories.IUsersRepository
 import com.app.bugtracker.services.user.IUsersService

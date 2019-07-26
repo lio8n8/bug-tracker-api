@@ -9,8 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.app.bugtracker.DTO.user.CreateUserDTO;
-import com.app.bugtracker.DTO.user.UpdateUserDTO;
+import com.app.bugtracker.dto.user.CreateUserDTO;
+import com.app.bugtracker.dto.user.UpdateUserDTO;
 import com.app.bugtracker.exceptions.Exceptions;
 import com.app.bugtracker.exceptions.NotFoundException;
 import com.app.bugtracker.models.User;

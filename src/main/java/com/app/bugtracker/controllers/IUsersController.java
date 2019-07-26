@@ -5,9 +5,9 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
-import com.app.bugtracker.DTO.user.CreateUserDTO;
-import com.app.bugtracker.DTO.user.UpdateUserDTO;
-import com.app.bugtracker.DTO.user.UserDTO;
+import com.app.bugtracker.dto.user.CreateUserDTO;
+import com.app.bugtracker.dto.user.UpdateUserDTO;
+import com.app.bugtracker.dto.user.UserDTO;
 
 public interface IUsersController {
 	ResponseEntity<UserDTO> findById(UUID id);

@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 
-import com.app.bugtracker.DTO.task.CreateTaskDTO;
+import com.app.bugtracker.dto.task.CreateTaskDTO;
 import com.app.bugtracker.models.Task;
 
 /**

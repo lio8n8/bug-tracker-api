@@ -1,4 +1,4 @@
-package com.app.bugtracker.DTO.user;
+package com.app.bugtracker.dto.user;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;

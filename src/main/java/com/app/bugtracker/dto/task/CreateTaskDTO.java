@@ -1,4 +1,4 @@
-package com.app.bugtracker.DTO.task;
+package com.app.bugtracker.dto.task;
 
 import java.util.UUID;
 

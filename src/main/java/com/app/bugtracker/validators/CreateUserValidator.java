@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.app.bugtracker.DTO.user.CreateUserDTO;
+import com.app.bugtracker.dto.user.CreateUserDTO;
 import com.app.bugtracker.repositories.IUsersRepository;
 
 // TODO: Create BaseValidator

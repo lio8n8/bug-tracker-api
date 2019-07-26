@@ -5,8 +5,8 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
-import com.app.bugtracker.DTO.task.CreateTaskDTO;
-import com.app.bugtracker.DTO.task.TaskDTO;
+import com.app.bugtracker.dto.task.CreateTaskDTO;
+import com.app.bugtracker.dto.task.TaskDTO;
 
 public interface ITasksController {
     ResponseEntity<TaskDTO> findById(UUID id);

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.bugtracker.DTO.user.SigninUserDTO;
-import com.app.bugtracker.DTO.user.UserAuthResponseDTO;
+import com.app.bugtracker.dto.user.SigninUserDTO;
+import com.app.bugtracker.dto.user.UserAuthResponseDTO;
 import com.app.bugtracker.constants.Urls;
 import com.app.bugtracker.services.auth.IJwtTokenService;
 import com.app.bugtracker.services.user.IUsersService;

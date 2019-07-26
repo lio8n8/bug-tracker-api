@@ -11,15 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.app.bugtracker.exceptions.Exceptions;
-import com.app.bugtracker.exceptions.NotFoundException;
-import com.app.bugtracker.models.User;
-import com.google.common.collect.Lists;
-
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
 public class JwtTokenService implements IJwtTokenService {

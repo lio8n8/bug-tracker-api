@@ -1,7 +1,6 @@
 package com.app.bugtracker.controllers;
 
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -10,7 +9,6 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +24,6 @@ import com.app.bugtracker.dto.user.UpdateUserDTO;
 import com.app.bugtracker.dto.user.UserDTO;
 import com.app.bugtracker.constants.Urls;
 import com.app.bugtracker.services.user.IUsersService;
-import com.app.bugtracker.validators.CreateUserValidator;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

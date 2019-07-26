@@ -15,7 +15,7 @@ public class CustomConversionService {
     public ConversionServiceFactoryBean conversionService() {
         ConversionServiceFactoryBean factoryBean = new ConversionServiceFactoryBean();
 
-        Set<Converter> converters = new HashSet<Converter>();
+        Set<Converter> converters = new HashSet<>();
         converters.add(new UserConverter());
         converters.add(new TaskConverter());
         factoryBean.setConverters(converters);

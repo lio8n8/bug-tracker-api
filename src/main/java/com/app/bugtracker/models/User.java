@@ -1,6 +1,5 @@
 package com.app.bugtracker.models;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -17,7 +16,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.persistence.JoinColumn;
 
 import com.app.bugtracker.constants.UserRoles;

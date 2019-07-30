@@ -32,4 +32,5 @@ HELP.md
 /bin/
 
 .attach*
+/logs/
 *.log

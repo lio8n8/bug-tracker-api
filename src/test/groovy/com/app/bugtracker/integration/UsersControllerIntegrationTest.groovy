@@ -5,8 +5,8 @@ import com.app.bugtracker.dto.user.UserDTO
 import com.app.bugtracker.repositories.IUsersRepository
 import com.app.bugtracker.services.auth.IJwtTokenService
 import com.app.bugtracker.models.User
-import com.app.bugtracker.constants.Urls;
 import com.app.bugtracker.constants.UserRoles
+import com.app.bugtracker.constants.Urls
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -32,11 +32,13 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
     private IUsersRepository usersRepository
+    
+    private HttpHeaders httpHeaders
 
     private Faker faker = new Faker()
-
-    private baseUrl = 'http://127.0.0.1:8080/api' + Urls.USERS
-
+    
+    final private USERS_URL = BASE_URL + Urls.USERS
+    
     def 'Get user by id'() {
         given: 'A user'
         def user = usersRepository.save(User.builder()
@@ -47,13 +49,9 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
         headers.add(HttpHeaders.AUTHORIZATION, jwtTokenService.createToken(user.email))
 
         when: 'Finds user by id'
-        // def result = restTemplate.getForObject('http://127.0.0.1:8080/api/users/f74ad82f-443b-46ba-adcb-f21a384cb093', User.class)
-        def result = restTemplate.exchange(baseUrl + '/' + user.id, GET, new HttpEntity<>(headers), User.class)
-        println(result.getBody().getId())
-        println(result.getBody().getEmail())
+        def result = restTemplate.exchange(USERS_URL + '/' + user.id, GET, new HttpEntity<>(headers), User.class)
 
         then: 'It should return a user info'
         result.getBody().id == user.id
-        println(user);
     }
 }

@@ -1,5 +1,7 @@
 package com.app.bugtracker.controllers;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.bugtracker.dto.task.CreateTaskDTO;
 import com.app.bugtracker.dto.task.TaskDTO;
+import com.app.bugtracker.constants.TaskStatus;
 import com.app.bugtracker.constants.Urls;
 import com.app.bugtracker.services.task.ITasksService;
 
@@ -83,5 +86,16 @@ public class TasksController implements ITasksController {
     @ApiOperation("Delete task by id.")
     public void deleteById(@PathVariable final UUID id) {
         tasksService.deleteById(id);        
+    }
+    
+    /**
+     * Get all possible task statuses.
+     * @return {@link TaskStatus}
+     */
+    @Override()
+    @GetMapping(path = { "/statuses" })
+    @ApiOperation("Get task statuses.")
+    public ResponseEntity<List<TaskStatus>> getTaskStatuses() {
+        return new ResponseEntity<List<TaskStatus>>(Arrays.asList(TaskStatus.values()), HttpStatus.OK);
     }
 }

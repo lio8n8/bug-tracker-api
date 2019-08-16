@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.app.bugtracker.constants.Priority;
+import com.app.bugtracker.constants.TaskPriority;
 import com.app.bugtracker.constants.TaskStatus;
 import com.app.bugtracker.constants.TaskType;
 
@@ -43,7 +43,7 @@ public class Task {
 
     private String description;
 
-    private Priority priority;
+    private TaskPriority priority;
 
     private TaskType type;
 

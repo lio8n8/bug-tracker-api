@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotEmpty;
 
-import com.app.bugtracker.constants.Priority;
+import com.app.bugtracker.constants.TaskPriority;
 import com.app.bugtracker.constants.TaskStatus;
 import com.app.bugtracker.constants.TaskType;
 
@@ -34,7 +34,7 @@ public class CreateTaskDTO {
 
     @NotEmpty(message = "Task priority is required.")
     @ApiModelProperty("Priority")
-    private Priority priority;
+    private TaskPriority priority;
 
     @NotEmpty(message = "Task type is required.")
     @ApiModelProperty("Task type")

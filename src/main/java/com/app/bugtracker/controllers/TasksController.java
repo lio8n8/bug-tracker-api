@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.bugtracker.dto.task.CreateTaskDTO;
 import com.app.bugtracker.dto.task.TaskDTO;
+import com.app.bugtracker.constants.TaskPriority;
 import com.app.bugtracker.constants.TaskStatus;
 import com.app.bugtracker.constants.TaskType;
 import com.app.bugtracker.constants.Urls;
@@ -109,5 +110,16 @@ public class TasksController implements ITasksController {
     @ApiOperation("Get task types.")
     public ResponseEntity<List<TaskType>> getTaskTypes() {
         return new ResponseEntity<>(Arrays.asList(TaskType.values()), HttpStatus.OK);
+    }
+    
+    /**
+     * Get all possible task priorities.
+     * @return {@link TaskPriority}
+     */
+    @Override()
+    @GetMapping(path = { "/priorities" })
+    @ApiOperation("Get task types.")
+    public ResponseEntity<List<TaskPriority>> getTaskPriorities() {
+        return new ResponseEntity<>(Arrays.asList(TaskPriority.values()), HttpStatus.OK);
     }
 }

@@ -1,6 +1,6 @@
 package com.app.bugtracker.constants;
 
-public enum Priority {
+public enum TaskPriority {
     NORMAL,
     MINOR,
     MAJOR,

@@ -2,7 +2,7 @@ package com.app.bugtracker.dto.task;
 
 import java.util.UUID;
 
-import com.app.bugtracker.constants.Priority;
+import com.app.bugtracker.constants.TaskPriority;
 import com.app.bugtracker.constants.TaskStatus;
 import com.app.bugtracker.constants.TaskType;
 
@@ -23,7 +23,7 @@ public class TaskDTO {
     private UUID id;
     private String title;
     private String description;
-    private Priority priority;
+    private TaskPriority priority;
     private TaskType type;
     private TaskStatus status;
 }

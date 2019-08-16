@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.bugtracker.dto.task.CreateTaskDTO;
 import com.app.bugtracker.dto.task.TaskDTO;
 import com.app.bugtracker.constants.TaskStatus;
+import com.app.bugtracker.constants.TaskType;
 import com.app.bugtracker.constants.Urls;
 import com.app.bugtracker.services.task.ITasksService;
 
@@ -97,5 +98,16 @@ public class TasksController implements ITasksController {
     @ApiOperation("Get task statuses.")
     public ResponseEntity<List<TaskStatus>> getTaskStatuses() {
         return new ResponseEntity<List<TaskStatus>>(Arrays.asList(TaskStatus.values()), HttpStatus.OK);
+    }
+    
+    /**
+     * Get all possible task types.
+     * @return {@link TaskType}
+     */
+    @Override()
+    @GetMapping(path = { "/types" })
+    @ApiOperation("Get task types.")
+    public ResponseEntity<List<TaskType>> getTaskTypes() {
+        return new ResponseEntity<>(Arrays.asList(TaskType.values()), HttpStatus.OK);
     }
 }

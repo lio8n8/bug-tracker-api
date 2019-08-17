@@ -49,6 +49,12 @@ public class TasksController implements ITasksController {
         this.conversionService = conversionService;
     }
 
+    /**
+     * Find task by id.
+     * @param id task id
+     *
+     * @return {@link TaskDTO}
+     */
     @Override
     @GetMapping(path = { "/{id}" })
     @ApiOperation("Find task by id.")
@@ -57,6 +63,13 @@ public class TasksController implements ITasksController {
             HttpStatus.OK);
     }
 
+    /**
+     * Find all tasks.
+     * @param skip
+     * @param limit
+     *
+     * @return {@link Page}
+     */
     @Override
     @GetMapping
     @ApiOperation("Find tasks.")
@@ -66,6 +79,12 @@ public class TasksController implements ITasksController {
             .map(t -> conversionService.convert(t, TaskDTO.class)), HttpStatus.OK);
     }
 
+    /**
+     * Create task.
+     * @param createTaskDTO task data
+     *
+     * @return {@link TaskDTO}
+     */
     @Override
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ApiOperation("Create task.")
@@ -74,6 +93,13 @@ public class TasksController implements ITasksController {
             HttpStatus.CREATED);
     }
 
+    /**
+     * Update task.
+     * @param id task id
+     * @param createTaskDTO task data
+     *
+     * @return updated {@link TaskDTO}
+     */
     @Override
     @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     @ApiOperation("Update task.")
@@ -83,6 +109,10 @@ public class TasksController implements ITasksController {
             HttpStatus.OK);
     }
 
+    /**
+     * Delete task by id.
+     * @param id task id
+     */
     @Override
     @DeleteMapping(path = { "/{id}" })
     @ApiOperation("Delete task by id.")
@@ -92,6 +122,7 @@ public class TasksController implements ITasksController {
     
     /**
      * Get all possible task statuses.
+     *
      * @return {@link TaskStatus}
      */
     @Override()
@@ -103,6 +134,7 @@ public class TasksController implements ITasksController {
     
     /**
      * Get all possible task types.
+     *
      * @return {@link TaskType}
      */
     @Override()
@@ -114,6 +146,7 @@ public class TasksController implements ITasksController {
     
     /**
      * Get all possible task priorities.
+     *
      * @return {@link TaskPriority}
      */
     @Override()

@@ -42,6 +42,12 @@ public class AuthController implements IAuthController {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * Signin
+     * @param signinUserDTO
+     *
+     * @return {@link UserAuthResponseDTO}
+     */
     @Override
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ApiOperation("Signin")

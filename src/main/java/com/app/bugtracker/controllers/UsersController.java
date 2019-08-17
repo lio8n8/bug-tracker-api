@@ -44,6 +44,12 @@ public class UsersController implements IUsersController {
 		this.conversionService = conversionService;
 	}
 
+	/**
+     * Find user by id.
+     * @param id user id
+     *
+     * @return {@link UserDTO}
+     */
 	@Override
 	@GetMapping(path = { "/{id}" })
 	@ApiOperation("Find user by id.")
@@ -52,6 +58,13 @@ public class UsersController implements IUsersController {
 			UserDTO.class), HttpStatus.OK);
 	}
 
+	/**
+     * Find all users.
+     * @param skip
+     * @param limit
+     *
+     * @return list of {@link UserDTO}
+     */
 	@Override
 	@GetMapping
 	@ApiOperation("Find users.")
@@ -62,6 +75,12 @@ public class UsersController implements IUsersController {
 	}
 
 	// TODO: Fix custom validator
+	/**
+     * Create user.
+     * @param createUserDTO user data
+     *
+     * @return {@link UserDTO}
+     */
 	@Override
 	@PostMapping(consumes = "application/json", produces = "application/json")
 	@ApiOperation("Create user.")
@@ -71,6 +90,13 @@ public class UsersController implements IUsersController {
 			UserDTO.class), HttpStatus.CREATED);
 	}
 
+	/**
+     * Update user.
+     * @param id user id
+     * @param updateUserDTO
+     *
+     * @return {@link UserDTO}
+     */
 	@Override
 	@PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
 	@ApiOperation("Update user.")
@@ -80,6 +106,10 @@ public class UsersController implements IUsersController {
 			UserDTO.class), HttpStatus.OK);
 	}
 
+	/**
+     * Delete user by id.
+     * @param id user id
+     */
 	@Override
 	@DeleteMapping(path = { "/{id}" })
 	@ApiOperation("Delete user by id.")

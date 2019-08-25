@@ -30,15 +30,13 @@ import javax.validation.Valid;
 @RequestMapping({ Urls.Auth })
 public class AuthController implements IAuthController {
     
-    private IUsersService usersService;
-    private IJwtTokenService jwtTokenService;
     private AuthenticationManager authenticationManager;
+    private IUsersService usersService;
     
     @Autowired
-    public AuthController(IUsersService usersService, IJwtTokenService jwtTokenService,
+    public AuthController(IUsersService usersService,
             AuthenticationManager authenticationManager) {
         this.usersService = usersService;
-        this.jwtTokenService = jwtTokenService;
         this.authenticationManager = authenticationManager;
     }
 
@@ -56,7 +54,7 @@ public class AuthController implements IAuthController {
                 signinUserDTO.getEmail(), signinUserDTO.getPsw()));
         
         getContext().setAuthentication(auth);
-        String token = jwtTokenService.createToken(signinUserDTO.getEmail());
+        String token = IJwtTokenService.createToken(signinUserDTO.getEmail());
 
         // TODO: Create converter
         return new ResponseEntity<>(UserAuthResponseDTO.builder()

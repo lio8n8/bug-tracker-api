@@ -48,12 +48,29 @@ class TasksControllerIntegrationTest extends BaseIntegrationTest {
     @Shared
     private Faker faker = new Faker()
 
-    final private USERS_URL = BASE_URL + Urls.TASKS
+    final private TASKS_URL = BASE_URL + Urls.TASKS
 
     def 'Create task' () {
     }
 
     def 'Get task by id' () {
+        given: 'A user'
+        def user = createUser()
+        and: 'A task'
+        def task = createTask(user)
+
+        when: 'Get task'
+        def result = restTemplate.exchange(TASKS_URL + '/' + task.id, GET,
+                new HttpEntity<>(TestUtils.getAuthHttpHeaders(user.email)), Task.class)
+
+        then: 'Response tatus is OK'
+        result.statusCode == HttpStatus.OK
+        and: 'Task has id'
+        result.body.id
+        and: 'Task title is correct'
+        result.body.title == task.title
+        and: 'Task description is correct'
+        result.body.description == task.description
     }
 
     def 'Get tasks in project' () {

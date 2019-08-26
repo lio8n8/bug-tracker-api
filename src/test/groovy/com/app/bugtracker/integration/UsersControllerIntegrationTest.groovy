@@ -1,6 +1,7 @@
 package com.app.bugtracker.integration
 
 import com.github.javafaker.Faker
+import com.app.bugtracker.dto.user.CreateUserDTO
 import com.app.bugtracker.dto.user.UserDTO
 import com.app.bugtracker.repositories.IUsersRepository
 import com.app.bugtracker.models.User
@@ -14,10 +15,12 @@ import org.springframework.hateoas.PagedResources
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import spock.lang.Shared
 
 import static org.springframework.http.HttpMethod.GET
+import static org.springframework.http.HttpMethod.POST
 
 class UsersControllerIntegrationTest extends BaseIntegrationTest {
     @Autowired
@@ -68,5 +71,24 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
         result.statusCode == HttpStatus.OK &&
                 !result.getBody().getContent().isEmpty() &&
                 result.getBody().content.contains(user)
+    }
+
+    def 'Create user'() {
+        given: 'A user create user dto'
+        def psw = faker.internet().password()
+        CreateUserDTO userDTO = CreateUserDTO.builder()
+                .email(faker.internet().emailAddress())
+                .psw(psw)
+                .confirmPsw(psw)
+                .build()
+
+        HttpEntity<User> request = new HttpEntity<>(userDTO, new HttpHeaders());
+
+        when: 'Create user'
+        def result = restTemplate.exchange(USERS_URL, POST, request, User.class)
+
+        then: 'It should create user'
+        result.statusCode == HttpStatus.CREATED &&
+                result.body.id && result.body.email == userDTO.email
     }
 }

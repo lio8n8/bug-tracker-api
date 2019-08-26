@@ -52,7 +52,7 @@ public interface ITasksController {
      * Delete task by id.
      * @param id task id
      */
-    void deleteById(UUID id);
+    ResponseEntity<Void> deleteById(UUID id);
     
     /**
      * Get all possible task statuses.

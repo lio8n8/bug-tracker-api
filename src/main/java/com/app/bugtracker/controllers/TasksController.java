@@ -116,8 +116,9 @@ public class TasksController implements ITasksController {
     @Override
     @DeleteMapping(path = { "/{id}" })
     @ApiOperation("Delete task by id.")
-    public void deleteById(@PathVariable final UUID id) {
-        tasksService.deleteById(id);        
+    public ResponseEntity<Void> deleteById(@PathVariable final UUID id) {
+        tasksService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
     /**

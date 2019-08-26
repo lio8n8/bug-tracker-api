@@ -129,6 +129,17 @@ class TasksControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     def 'Delete task by id' () {
+        given: 'A user'
+        def user = createUser()
+        and: 'A task'
+        def task = createTask()
+
+        when: 'Deleting task'
+        def result = restTemplate.exchange(TASKS_URL + '/' + task.id, DELETE,
+                new HttpEntity<>(TestUtils.getAuthHttpHeaders(user.email)), Task.class)
+
+        then: 'Response should be empty'
+        result.statusCode == HttpStatus.NO_CONTENT
     }
 
     def private createTask(User createdBy) {

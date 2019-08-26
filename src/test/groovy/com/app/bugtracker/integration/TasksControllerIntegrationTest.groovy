@@ -8,6 +8,9 @@ import com.app.bugtracker.repositories.IUsersRepository
 import com.app.bugtracker.models.User
 import com.app.bugtracker.models.Task
 import com.app.bugtracker.constants.UserRoles
+import com.app.bugtracker.constants.TaskPriority
+import com.app.bugtracker.constants.TaskStatus
+import com.app.bugtracker.constants.TaskType
 import com.app.bugtracker.constants.Urls
 
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,6 +27,9 @@ import spock.lang.Shared
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpMethod.PUT
+
+import javax.persistence.OneToOne
+
 import static org.springframework.http.HttpMethod.DELETE
 
 class TasksControllerIntegrationTest extends BaseIntegrationTest {
@@ -59,11 +65,22 @@ class TasksControllerIntegrationTest extends BaseIntegrationTest {
     def 'Delete task by id' () {
     }
 
-    def private createAdminUser() {
+    def private createTask(User createdBy) {
+        return tasksRepository.save(Task.builder()
+                .title(faker.lorem.sentence())
+                .description(faker.lorem.paragraph())
+                .type(TaskType.TASK)
+                .priority(TaskPriority.NORMAL)
+                .status(TaskStatus.OPEN)
+                .createdBy(createdBy)
+                .assignedTo(null)
+                .build());
+    }
+
+    def private createUser() {
         return usersRepository.save(User.builder()
-                .email(faker.internet().emailAddress())
-                .psw(bCryptPasswordEncoder.encode(faker.internet().password()))
-                .roles([UserRoles.ADMIN] as Set)
+                .email(faker.internet.emailAddress())
+                .psw(bCryptPasswordEncoder.encode(faker.internet.password()))
                 .build())
     }
 }

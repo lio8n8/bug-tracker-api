@@ -101,7 +101,7 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
                 .lastName(faker.name().lastName())
                 .build()
 
-        HttpEntity<User> request = new HttpEntity<>(userDTO, TestUtils.getAuthHttpHeaders(user.email));
+        HttpEntity<User> request = new HttpEntity<>(userDTO, TestUtils.getAuthHttpHeaders(user.email))
 
         when: 'Save updated user'
         def result = restTemplate.exchange(USERS_URL + '/' + user.id, PUT, request, User.class)

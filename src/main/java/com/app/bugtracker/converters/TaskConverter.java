@@ -14,6 +14,8 @@ public class TaskConverter implements Converter<Task, TaskDTO> {
                 .title(source.getTitle())
                 .description(source.getDescription())
                 .priority(source.getPriority())
+                .status(source.getStatus())
+                .type(source.getType())
                 .build();
     }
 

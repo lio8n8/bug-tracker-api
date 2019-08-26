@@ -42,17 +42,14 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
 
     def 'Get user by id'() {
         given: 'A user'
-        def user = usersRepository.save(User.builder()
-                .email(faker.internet().emailAddress())
-                .psw(bCryptPasswordEncoder.encode(faker.internet().password()))
-                .build())
+        def user = this.createUser()
 
         when: 'Finds user by id'
         def result = restTemplate.exchange(USERS_URL + '/' + user.id, GET,
                 new HttpEntity<>(TestUtils.getAuthHttpHeaders(user.email)), User.class)
 
-        then: 'It should return a user info'
-        result.statusCode == HttpStatus.OK && result.getBody().id == user.id
+        then: 'It should return a user'
+        result.statusCode == HttpStatus.OK && result.body.id == user.id
     }
 
     def 'Get users'() {
@@ -72,8 +69,8 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
 
         then: 'It should return a list of users'
         result.statusCode == HttpStatus.OK &&
-                !result.getBody().getContent().isEmpty() &&
-                result.getBody().content.contains(user)
+                !result.body.content.isEmpty() &&
+                result.body.content.contains(user)
     }
 
     def 'Create user'() {
@@ -86,7 +83,7 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
                 .build()
         def request = new HttpEntity<>(userDTO, new HttpHeaders());
 
-        when: 'Create user'
+        when: 'Save user'
         def result = restTemplate.exchange(USERS_URL, POST, request, User.class)
 
         then: 'It should create user'
@@ -96,10 +93,7 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
 
     def 'Update user'() {
         given: 'A user'
-        def user = usersRepository.save(User.builder()
-                .email(faker.internet().emailAddress())
-                .psw(bCryptPasswordEncoder.encode(faker.internet().password()))
-                .build())
+        def user = this.createUser()
         and: 'UpdateUserDTO'
         def userDTO = UpdateUserDTO.builder()
                 .email(faker.internet().emailAddress())
@@ -109,10 +103,10 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
 
         HttpEntity<User> request = new HttpEntity<>(userDTO, TestUtils.getAuthHttpHeaders(user.email));
 
-        when: 'Create user'
+        when: 'Save updated user'
         def result = restTemplate.exchange(USERS_URL + '/' + user.id, PUT, request, User.class)
 
-        then: 'It should create user'
+        then: 'It should update user'
         result.statusCode == HttpStatus.OK &&
                 result.body.firstName == userDTO.firstName &&
                 result.body.lastName == userDTO.lastName
@@ -120,10 +114,7 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
 
     def 'Delete user' () {
         given: 'A user'
-        def user = usersRepository.save(User.builder()
-                .email(faker.internet().emailAddress())
-                .psw(bCryptPasswordEncoder.encode(faker.internet().password()))
-                .build())
+        def user = this.createUser()
 
         when: 'Delete user'
         def result = restTemplate.exchange(USERS_URL + '/' + user.id, DELETE,
@@ -131,5 +122,12 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
 
         then: 'Response should be empty'
         result.statusCode == HttpStatus.NO_CONTENT
+    }
+
+    def private createUser() {
+        return usersRepository.save(User.builder()
+                .email(faker.internet().emailAddress())
+                .psw(bCryptPasswordEncoder.encode(faker.internet().password()))
+                .build())
     }
 }

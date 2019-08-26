@@ -48,5 +48,5 @@ public interface IUsersController {
      * Delete user by id.
      * @param id user id
      */
-    void deleteById(UUID id);
+    ResponseEntity<Void> deleteById(UUID id);
 }

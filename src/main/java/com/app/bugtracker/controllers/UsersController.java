@@ -113,7 +113,8 @@ public class UsersController implements IUsersController {
 	@Override
 	@DeleteMapping(path = { "/{id}" })
 	@ApiOperation("Delete user by id.")
-	public void deleteById(@PathVariable final UUID id) {
+	public ResponseEntity<Void> deleteById(@PathVariable final UUID id) {
         usersService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

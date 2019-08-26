@@ -23,6 +23,7 @@ import spock.lang.Shared
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpMethod.POST
 import static org.springframework.http.HttpMethod.PUT
+import static org.springframework.http.HttpMethod.DELETE
 
 class UsersControllerIntegrationTest extends BaseIntegrationTest {
     @Autowired
@@ -115,5 +116,20 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
         result.statusCode == HttpStatus.OK &&
                 result.body.firstName == userDTO.firstName &&
                 result.body.lastName == userDTO.lastName
+    }
+
+    def 'Delete user' () {
+        given: 'A user'
+        def user = usersRepository.save(User.builder()
+                .email(faker.internet().emailAddress())
+                .psw(bCryptPasswordEncoder.encode(faker.internet().password()))
+                .build())
+
+        when: 'Delete user'
+        def result = restTemplate.exchange(USERS_URL + '/' + user.id, DELETE,
+                new HttpEntity<>(TestUtils.getAuthHttpHeaders(user.email)), User.class)
+
+        then: 'Response should be empty'
+        result.statusCode == HttpStatus.NO_CONTENT
     }
 }

@@ -105,6 +105,27 @@ class TasksControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     def 'Edit task' () {
+        given: 'A user'
+        def user = createUser()
+        and: 'A task'
+        def task = createTask()
+        and: 'An update task DTO'
+        def updateTaskDTO = CreateTaskDTO.builder()
+                .title(faker.lorem.sentence())
+                .description(faker.lorem.paragraph())
+                .type(TaskType.TASK)
+                .priority(TaskPriority.NORMAL)
+                .status(TaskStatus.IN_PROGRESS)
+                .createdBy(user.id)
+                .build()
+
+        when: 'Update task'
+        HttpEntity<Task> request = new HttpEntity<>(updateTaskDTO,
+                TestUtils.getAuthHttpHeaders(user.email))
+        def result = restTemplate.exchange(TASKS_URL + '/' + task.id, PUT, request, Task.class)
+
+        then: 'Response is OK'
+        result.statusCode == HttpStatus.OK
     }
 
     def 'Delete task by id' () {

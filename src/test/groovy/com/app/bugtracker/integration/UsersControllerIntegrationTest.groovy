@@ -3,6 +3,7 @@ package com.app.bugtracker.integration
 import com.github.javafaker.Faker
 import com.app.bugtracker.dto.user.CreateUserDTO
 import com.app.bugtracker.dto.user.UserDTO
+import com.app.bugtracker.dto.user.UpdateUserDTO
 import com.app.bugtracker.repositories.IUsersRepository
 import com.app.bugtracker.models.User
 import com.app.bugtracker.constants.UserRoles
@@ -21,6 +22,7 @@ import spock.lang.Shared
 
 import static org.springframework.http.HttpMethod.GET
 import static org.springframework.http.HttpMethod.POST
+import static org.springframework.http.HttpMethod.PUT
 
 class UsersControllerIntegrationTest extends BaseIntegrationTest {
     @Autowired
@@ -74,15 +76,14 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     def 'Create user'() {
-        given: 'A user create user dto'
+        given: 'CreateUserDTO'
         def psw = faker.internet().password()
-        CreateUserDTO userDTO = CreateUserDTO.builder()
+        def userDTO = CreateUserDTO.builder()
                 .email(faker.internet().emailAddress())
                 .psw(psw)
                 .confirmPsw(psw)
                 .build()
-
-        HttpEntity<User> request = new HttpEntity<>(userDTO, new HttpHeaders());
+        def request = new HttpEntity<>(userDTO, new HttpHeaders());
 
         when: 'Create user'
         def result = restTemplate.exchange(USERS_URL, POST, request, User.class)
@@ -90,5 +91,29 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
         then: 'It should create user'
         result.statusCode == HttpStatus.CREATED &&
                 result.body.id && result.body.email == userDTO.email
+    }
+
+    def 'Update user'() {
+        given: 'A user'
+        def user = usersRepository.save(User.builder()
+                .email(faker.internet().emailAddress())
+                .psw(bCryptPasswordEncoder.encode(faker.internet().password()))
+                .build())
+        and: 'UpdateUserDTO'
+        def userDTO = UpdateUserDTO.builder()
+                .email(faker.internet().emailAddress())
+                .firstName(faker.name().firstName())
+                .lastName(faker.name().lastName())
+                .build()
+
+        HttpEntity<User> request = new HttpEntity<>(userDTO, TestUtils.getAuthHttpHeaders(user.email));
+
+        when: 'Create user'
+        def result = restTemplate.exchange(USERS_URL + '/' + user.id, PUT, request, User.class)
+
+        then: 'It should create user'
+        result.statusCode == HttpStatus.OK &&
+                result.body.firstName == userDTO.firstName &&
+                result.body.lastName == userDTO.lastName
     }
 }

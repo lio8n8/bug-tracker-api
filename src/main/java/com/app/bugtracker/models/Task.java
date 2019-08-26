@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,10 +45,13 @@ public class Task {
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
     private TaskPriority priority;
 
+    @Enumerated(EnumType.STRING)
     private TaskType type;
 
+    @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
     @OneToOne

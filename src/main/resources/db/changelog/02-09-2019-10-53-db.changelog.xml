@@ -1,0 +1,46 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="root (generated)" id="1567454007493-2">
+        <createTable tableName="projects">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="projectsPK"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="img_path" type="VARCHAR(255)"/>
+            <column name="title" type="VARCHAR(255)"/>
+            <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="created_by_id" type="UUID"/>
+            <column name="updated_by_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1567454007493-3">
+        <createTable tableName="projects_tasks">
+            <column name="project_id" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="tasks_id" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="root (generated)" id="1567454007493-4">
+        <addUniqueConstraint columnNames="tasks_id" constraintName="UK_6vsxsod0qnr1k2um2d6c81xf2" tableName="projects_tasks"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1567454007493-5">
+        <addForeignKeyConstraint baseColumnNames="updated_by_id" baseTableName="projects" constraintName="FK55yhlbdirryn61eb91b52cxan" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1567454007493-6">
+        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="projects_tasks" constraintName="FKe5biunhcycnqke3fy6e81ghuq" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="projects" validate="true"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1567454007493-7">
+        <addForeignKeyConstraint baseColumnNames="created_by_id" baseTableName="projects" constraintName="FKm6hycbkdujcdmevl11ir8dphq" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1567454007493-8">
+        <addForeignKeyConstraint baseColumnNames="tasks_id" baseTableName="projects_tasks" constraintName="FKtglcsgx2tbf8mpv3qp3dujqwg" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="tasks" validate="true"/>
+    </changeSet>
+    <changeSet author="root (generated)" id="1567454007493-1">
+        <dropUniqueConstraint constraintName="UK_ntgmxrnn2x6w47tltwj5d1fyt" tableName="users_tasks"/>
+        <addUniqueConstraint columnNames="tasks_id" constraintName="UK_ntgmxrnn2x6w47tltwj5d1fyt" tableName="users_tasks"/>
+    </changeSet>
+</databaseChangeLog>

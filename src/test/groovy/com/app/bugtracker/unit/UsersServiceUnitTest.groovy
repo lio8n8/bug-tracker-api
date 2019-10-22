@@ -9,7 +9,7 @@ import java.util.UUID
 
 import com.app.bugtracker.dto.user.CreateUserDTO;
 import com.app.bugtracker.dto.user.UpdateUserDTO;
-import com.app.bugtracker.models.User
+import com.app.bugtracker.models.user.User
 import com.app.bugtracker.repositories.IUsersRepository
 import com.app.bugtracker.services.user.IUsersService
 import com.app.bugtracker.services.user.UsersService

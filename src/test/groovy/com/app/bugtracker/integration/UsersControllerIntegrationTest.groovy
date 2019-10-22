@@ -5,8 +5,8 @@ import com.app.bugtracker.dto.user.CreateUserDTO
 import com.app.bugtracker.dto.user.UserDTO
 import com.app.bugtracker.dto.user.UpdateUserDTO
 import com.app.bugtracker.repositories.IUsersRepository
-import com.app.bugtracker.models.User
-import com.app.bugtracker.constants.UserRoles
+import com.app.bugtracker.models.user.User
+import com.app.bugtracker.models.user.UserRoles
 import com.app.bugtracker.constants.Urls
 
 import org.springframework.beans.factory.annotation.Autowired

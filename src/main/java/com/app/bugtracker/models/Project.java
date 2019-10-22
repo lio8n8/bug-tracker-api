@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.app.bugtracker.models.task.Task;
+import com.app.bugtracker.models.user.User;
+
 import javax.persistence.Column;
 
 import org.hibernate.annotations.Type;

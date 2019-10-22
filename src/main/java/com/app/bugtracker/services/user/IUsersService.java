@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 
 import com.app.bugtracker.dto.user.CreateUserDTO;
 import com.app.bugtracker.dto.user.UpdateUserDTO;
-import com.app.bugtracker.models.User;
+import com.app.bugtracker.models.user.User;
 
 /**
  * IUserService

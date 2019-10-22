@@ -1,4 +1,4 @@
-package com.app.bugtracker.constants;
+package com.app.bugtracker.models.task;
 
 public enum TaskStatus {
     OPEN,

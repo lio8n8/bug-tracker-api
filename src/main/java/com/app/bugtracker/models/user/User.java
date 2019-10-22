@@ -1,4 +1,4 @@
-package com.app.bugtracker.models;
+package com.app.bugtracker.models.user;
 
 import java.util.List;
 import java.util.Set;
@@ -18,7 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
-import com.app.bugtracker.constants.UserRoles;
+import com.app.bugtracker.models.task.Task;
+import com.app.bugtracker.models.user.UserRoles;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

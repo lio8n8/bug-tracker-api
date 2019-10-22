@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.bugtracker.exceptions.Exceptions;
 import com.app.bugtracker.exceptions.NotFoundException;
-import com.app.bugtracker.models.User;
+import com.app.bugtracker.models.user.User;
 import com.app.bugtracker.repositories.IUsersRepository;
 
 @Service

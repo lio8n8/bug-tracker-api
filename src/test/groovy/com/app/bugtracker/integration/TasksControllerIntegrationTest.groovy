@@ -5,12 +5,12 @@ import com.app.bugtracker.dto.task.CreateTaskDTO
 import com.app.bugtracker.dto.task.TaskDTO
 import com.app.bugtracker.repositories.ITasksRepository
 import com.app.bugtracker.repositories.IUsersRepository
-import com.app.bugtracker.models.User
-import com.app.bugtracker.models.Task
-import com.app.bugtracker.constants.UserRoles
-import com.app.bugtracker.constants.TaskPriority
-import com.app.bugtracker.constants.TaskStatus
-import com.app.bugtracker.constants.TaskType
+import com.app.bugtracker.models.user.User
+import com.app.bugtracker.models.task.Task
+import com.app.bugtracker.models.user.UserRoles
+import com.app.bugtracker.models.task.TaskPriority
+import com.app.bugtracker.models.task.TaskStatus
+import com.app.bugtracker.models.task.TaskType
 import com.app.bugtracker.constants.Urls
 
 import org.springframework.beans.factory.annotation.Autowired

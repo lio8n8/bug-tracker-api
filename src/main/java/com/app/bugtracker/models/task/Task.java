@@ -1,4 +1,4 @@
-package com.app.bugtracker.models;
+package com.app.bugtracker.models.task;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -14,9 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.app.bugtracker.constants.TaskPriority;
-import com.app.bugtracker.constants.TaskStatus;
-import com.app.bugtracker.constants.TaskType;
+import com.app.bugtracker.models.user.User;
 
 import org.hibernate.annotations.Type;
 

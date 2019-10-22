@@ -4,9 +4,9 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotEmpty;
 
-import com.app.bugtracker.constants.TaskPriority;
-import com.app.bugtracker.constants.TaskStatus;
-import com.app.bugtracker.constants.TaskType;
+import com.app.bugtracker.models.task.TaskPriority;
+import com.app.bugtracker.models.task.TaskStatus;
+import com.app.bugtracker.models.task.TaskType;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -12,7 +12,7 @@ import com.app.bugtracker.dto.user.CreateUserDTO;
 import com.app.bugtracker.dto.user.UpdateUserDTO;
 import com.app.bugtracker.exceptions.Exceptions;
 import com.app.bugtracker.exceptions.NotFoundException;
-import com.app.bugtracker.models.User;
+import com.app.bugtracker.models.user.User;
 import com.app.bugtracker.repositories.IUsersRepository;
 
 /**

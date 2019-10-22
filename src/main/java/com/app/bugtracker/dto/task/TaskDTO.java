@@ -2,9 +2,9 @@ package com.app.bugtracker.dto.task;
 
 import java.util.UUID;
 
-import com.app.bugtracker.constants.TaskPriority;
-import com.app.bugtracker.constants.TaskStatus;
-import com.app.bugtracker.constants.TaskType;
+import com.app.bugtracker.models.task.TaskPriority;
+import com.app.bugtracker.models.task.TaskStatus;
+import com.app.bugtracker.models.task.TaskType;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;

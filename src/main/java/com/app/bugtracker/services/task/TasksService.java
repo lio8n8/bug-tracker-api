@@ -9,8 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.app.bugtracker.dto.task.CreateTaskDTO;
-import com.app.bugtracker.models.Task;
-import com.app.bugtracker.models.User;
+import com.app.bugtracker.models.task.Task;
+import com.app.bugtracker.models.user.User;
 import com.app.bugtracker.repositories.ITasksRepository;
 import com.app.bugtracker.repositories.IUsersRepository;
 import com.app.bugtracker.exceptions.Exceptions;

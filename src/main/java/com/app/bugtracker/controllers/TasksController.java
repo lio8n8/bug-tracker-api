@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.bugtracker.dto.task.CreateTaskDTO;
 import com.app.bugtracker.dto.task.TaskDTO;
-import com.app.bugtracker.constants.TaskPriority;
-import com.app.bugtracker.constants.TaskStatus;
-import com.app.bugtracker.constants.TaskType;
+import com.app.bugtracker.models.task.TaskPriority;
+import com.app.bugtracker.models.task.TaskStatus;
+import com.app.bugtracker.models.task.TaskType;
 import com.app.bugtracker.constants.Urls;
 import com.app.bugtracker.services.task.ITasksService;
 

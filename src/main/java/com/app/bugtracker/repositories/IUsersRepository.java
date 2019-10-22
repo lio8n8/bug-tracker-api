@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.app.bugtracker.models.User;
+import com.app.bugtracker.models.user.User;
 
 @Repository
 public interface IUsersRepository extends JpaRepository<User, UUID> {

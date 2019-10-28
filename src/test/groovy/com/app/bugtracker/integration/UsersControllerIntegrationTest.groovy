@@ -1,5 +1,6 @@
 package com.app.bugtracker.integration
 
+import com.app.bugtracker.services.auth.IJwtTokenService
 import com.github.javafaker.Faker
 import com.app.bugtracker.dto.user.CreateUserDTO
 import com.app.bugtracker.dto.user.UserDTO
@@ -10,121 +11,158 @@ import com.app.bugtracker.models.user.UserRoles
 import com.app.bugtracker.constants.Urls
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.HttpStatus
 import org.springframework.hateoas.PagedResources
-import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.core.ParameterizedTypeReference
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.web.reactive.function.BodyInserters
 import spock.lang.Shared
 
-import static org.springframework.http.HttpMethod.GET
-import static org.springframework.http.HttpMethod.POST
-import static org.springframework.http.HttpMethod.PUT
-import static org.springframework.http.HttpMethod.DELETE
+import static org.springframework.http.HttpHeaders.AUTHORIZATION
 
 class UsersControllerIntegrationTest extends BaseIntegrationTest {
-    @Autowired
-    private TestRestTemplate restTemplate
-
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder
 
     @Autowired
     private IUsersRepository usersRepository
 
+    @Autowired
+    IJwtTokenService tokenService
+
     @Shared
     private Faker faker = new Faker()
 
-    final private USERS_URL = BASE_URL + Urls.USERS
+    def 'get user by id'() {
 
-    def 'Get user by id'() {
-        given: 'A user'
+        given: 'a user'
         def user = this.createUser()
 
-        when: 'Finds user by id'
-        def result = restTemplate.exchange(USERS_URL + '/' + user.id, GET,
-                new HttpEntity<>(TestUtils.getAuthHttpHeaders(user.email)), User.class)
+        when: 'find user by id'
+        webTestClient.get()
+                .uri("${Urls.USERS}/${user.id}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION, "Bearer ${tokenService.createToken(user.email)}")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(UserDTO.class)
+                .consumeWith({ u ->
+                    assert u.responseBody.id == user.id
+                    assert u.responseBody.email == user.email
+        })
 
-        then: 'It should return a user'
-        result.statusCode == HttpStatus.OK && result.body.id == user.id
+        then: 'success'
+        true
     }
 
-    def 'Get users'() {
-        given: 'A user with admin role'
+    def 'get users'() {
+
+        given: 'a user with admin role'
         def user = usersRepository.save(User.builder()
                 .email(faker.internet().emailAddress())
                 .psw(bCryptPasswordEncoder.encode(faker.internet().password()))
                 .roles([UserRoles.ADMIN] as Set)
                 .build())
-        def skip = 0
-        def limit = 100
 
-        when: 'Finds all users'
-        def result = restTemplate.exchange("${USERS_URL}?skip=${skip}&limit=${limit}", GET,
-                new HttpEntity<>(TestUtils.getAuthHttpHeaders(user.email)),
-                new ParameterizedTypeReference<PagedResources<User>>() {})
+        when: 'find all users'
+        webTestClient.get()
+                .uri("${Urls.USERS}?skip=0&limit=100")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION, "Bearer ${tokenService.createToken(user.email)}")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(PagedResources.class)
+                .consumeWith({ p ->
+                    assert p.responseBody.content
+                })
 
-        then: 'It should return a list of users'
-        result.statusCode == HttpStatus.OK &&
-                !result.body.content.isEmpty() &&
-                result.body.content.contains(user)
+        then: 'success'
+        true
     }
 
-    def 'Create user'() {
-        given: 'CreateUserDTO'
+    def 'create user'() {
+        
+        given: 'create user DTO'
         def psw = faker.internet().password()
-        def userDTO = CreateUserDTO.builder()
+        def userDTO = CreateUserDTO
+                .builder()
                 .email(faker.internet().emailAddress())
                 .psw(psw)
                 .confirmPsw(psw)
                 .build()
-        def request = new HttpEntity<>(userDTO, new HttpHeaders());
 
-        when: 'Save user'
-        def result = restTemplate.exchange(USERS_URL, POST, request, User.class)
+        when: 'create user'
+        webTestClient.post()
+                .uri(Urls.USERS)
+                .body(BodyInserters.fromObject(userDTO))
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(UserDTO.class)
+                .consumeWith({ user ->
+                    assert user.responseBody.id
+                    assert user.responseBody.email == userDTO.email
+                })
 
-        then: 'It should create user'
-        result.statusCode == HttpStatus.CREATED &&
-                result.body.id && result.body.email == userDTO.email
+        then: 'success'
+        true
     }
 
-    def 'Update user'() {
-        given: 'A user'
+    def 'update user'() {
+
+        given: 'a user'
         def user = this.createUser()
-        and: 'UpdateUserDTO'
+
+        and: 'an update user DTO'
         def userDTO = UpdateUserDTO.builder()
                 .email(faker.internet().emailAddress())
                 .firstName(faker.name().firstName())
                 .lastName(faker.name().lastName())
                 .build()
 
-        HttpEntity<User> request = new HttpEntity<>(userDTO, TestUtils.getAuthHttpHeaders(user.email))
+        when: 'update user'
+        webTestClient.put()
+                .uri("${Urls.USERS}/${user.id}")
+                .body(BodyInserters.fromObject(userDTO))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION, "Bearer ${tokenService.createToken(user.email)}")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(UserDTO.class)
+                .consumeWith({ u ->
+                    assert u.responseBody.id == user.id
+                    assert u.responseBody.email == userDTO.email
+                    assert u.responseBody.firstName == userDTO.firstName
+                    assert u.responseBody.lastName == userDTO.lastName
+                })
 
-        when: 'Save updated user'
-        def result = restTemplate.exchange(USERS_URL + '/' + user.id, PUT, request, User.class)
-
-        then: 'It should update user'
-        result.statusCode == HttpStatus.OK &&
-                result.body.firstName == userDTO.firstName &&
-                result.body.lastName == userDTO.lastName
+        then: 'success'
+        true
     }
 
-    def 'Delete user' () {
-        given: 'A user'
+    def 'delete user' () {
+
+        given: 'a user'
         def user = this.createUser()
 
-        when: 'Delete user'
-        def result = restTemplate.exchange(USERS_URL + '/' + user.id, DELETE,
-                new HttpEntity<>(TestUtils.getAuthHttpHeaders(user.email)), User.class)
+        when: 'delete user'
+        webTestClient.delete()
+                .uri("${Urls.USERS}/${user.id}")
+                .header(AUTHORIZATION, "Bearer ${tokenService.createToken(user.email)}")
+                .exchange()
+                .expectStatus()
+                .isNoContent()
 
-        then: 'Response should be empty'
-        result.statusCode == HttpStatus.NO_CONTENT
+        then: 'success'
+        true
     }
 
-    def private createUser() {
+    private User createUser() {
         return usersRepository.save(User.builder()
                 .email(faker.internet().emailAddress())
                 .psw(bCryptPasswordEncoder.encode(faker.internet().password()))

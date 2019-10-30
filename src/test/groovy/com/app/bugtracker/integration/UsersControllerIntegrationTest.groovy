@@ -84,7 +84,7 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     def 'create user'() {
-        
+
         given: 'create user DTO'
         def psw = faker.internet().password()
         def userDTO = CreateUserDTO

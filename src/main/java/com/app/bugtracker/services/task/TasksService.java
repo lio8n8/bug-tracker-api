@@ -54,8 +54,9 @@ public class TasksService implements ITasksService {
      */
     @Override
     public Task create(final CreateTaskDTO createTaskDTO) {
-        User createdBy = usersRepository.findById(createTaskDTO.getCreatedBy())
-                .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));
+        // TODO: Get createdBy from token.
+        /*User createdBy = usersRepository.findById(createTaskDTO.getCreatedBy())
+                .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));*/
 
         User assignedTo = usersRepository.findById(createTaskDTO.getAssignedTo())
                 .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));
@@ -66,7 +67,6 @@ public class TasksService implements ITasksService {
             .priority(createTaskDTO.getPriority())
             .type(createTaskDTO.getType())
             .status(createTaskDTO.getStatus())
-            .createdBy(createdBy)
             .assignedTo(assignedTo)
             .created(Instant.now())
             .updated(Instant.now())

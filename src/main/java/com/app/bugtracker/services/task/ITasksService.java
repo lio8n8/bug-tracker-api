@@ -2,6 +2,7 @@ package com.app.bugtracker.services.task;
 
 import java.util.UUID;
 
+import com.app.bugtracker.dto.task.AssignTaskRequest;
 import com.app.bugtracker.models.user.User;
 import org.springframework.data.domain.Page;
 
@@ -50,9 +51,8 @@ public interface ITasksService {
     /**
      * Assigns task to user.
      *
-     * @param taskId task id.
-     * @param userId user id.
+     * @param assignTaskRequest request.
      * @return {@link Task}.
      */
-    Task assignTo(UUID taskId, UUID userId);
+    Task assignTask(AssignTaskRequest assignTaskRequest);
 }

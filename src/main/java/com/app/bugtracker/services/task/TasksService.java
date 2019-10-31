@@ -3,6 +3,7 @@ package com.app.bugtracker.services.task;
 import java.time.Instant;
 import java.util.UUID;
 
+import com.app.bugtracker.dto.task.AssignTaskRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -114,16 +115,15 @@ public class TasksService implements ITasksService {
     /**
      * Assigns task to user.
      *
-     * @param taskId task id.
-     * @param userId user id.
+     * @param assignTaskRequest request.
      * @return {@link Task}.
      */
     @Override
-    public Task assignTo(UUID taskId, UUID userId){
-        User user = usersRepository.findById(userId)
+    public Task assignTask(AssignTaskRequest assignTaskRequest){
+        User user = usersRepository.findById(assignTaskRequest.getUserId())
                 .orElseThrow(() -> new NotFoundException(Exceptions.USER_NOT_FOUND));
 
-        Task task = tasksRepository.findById(taskId)
+        Task task = tasksRepository.findById(assignTaskRequest.getTaskId())
                 .orElseThrow(() -> new NotFoundException(Exceptions.TASK_NOT_FOUND));
 
         task.setAssignedTo(user);

@@ -3,6 +3,7 @@ package com.app.bugtracker.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import com.app.bugtracker.dto.task.AssignTaskRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
@@ -74,4 +75,12 @@ public interface ITasksController {
      * @return {@link TaskPriority}
      */
     ResponseEntity<List<TaskPriority>> getTaskPriorities();
+
+    /**
+     * Assign task to user.
+     * @param assignTaskRequest request.
+     *
+     * @return {@link TaskDTO}.
+     */
+    ResponseEntity<TaskDTO> assignTask(AssignTaskRequest assignTaskRequest);
 }

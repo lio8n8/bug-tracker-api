@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import com.app.bugtracker.dto.task.AssignTaskRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
@@ -105,7 +106,8 @@ public class TasksController implements ITasksController {
     @ApiOperation("Update task.")
     public ResponseEntity<TaskDTO> update(@PathVariable final UUID id,
             @RequestBody @Valid final CreateTaskDTO createTaskDTO) {
-        return new ResponseEntity<>(conversionService.convert(tasksService.update(id, createTaskDTO), TaskDTO.class),
+        return new ResponseEntity<>(conversionService
+                .convert(tasksService.update(id, createTaskDTO), TaskDTO.class),
             HttpStatus.OK);
     }
 
@@ -130,7 +132,7 @@ public class TasksController implements ITasksController {
     @GetMapping(path = { "/statuses" })
     @ApiOperation("Get task statuses.")
     public ResponseEntity<List<TaskStatus>> getTaskStatuses() {
-        return new ResponseEntity<List<TaskStatus>>(Arrays.asList(TaskStatus.values()), HttpStatus.OK);
+        return new ResponseEntity<>(Arrays.asList(TaskStatus.values()), HttpStatus.OK);
     }
     
     /**
@@ -152,8 +154,18 @@ public class TasksController implements ITasksController {
      */
     @Override()
     @GetMapping(path = { "/priorities" })
-    @ApiOperation("Get task types.")
+    @ApiOperation("Get task priorities.")
     public ResponseEntity<List<TaskPriority>> getTaskPriorities() {
         return new ResponseEntity<>(Arrays.asList(TaskPriority.values()), HttpStatus.OK);
+    }
+
+    @Override()
+    @PostMapping(path = { "/assign" })
+    @ApiOperation("Assign task to user.")
+    public ResponseEntity<TaskDTO> assignTask(
+            final AssignTaskRequest assignTaskRequest) {
+        return new ResponseEntity<>(conversionService
+                .convert(tasksService.assignTask(assignTaskRequest), TaskDTO.class),
+                HttpStatus.OK);
     }
 }

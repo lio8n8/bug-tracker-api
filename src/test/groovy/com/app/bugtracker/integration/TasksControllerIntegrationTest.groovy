@@ -15,25 +15,11 @@ import com.app.bugtracker.models.task.TaskType
 import com.app.bugtracker.constants.Urls
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.HttpStatus
-import org.springframework.hateoas.PagedResources
-import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.core.ParameterizedTypeReference
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.web.reactive.function.BodyInserter
 import org.springframework.web.reactive.function.BodyInserters
-import spock.lang.Shared
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION
-import static org.springframework.http.HttpMethod.GET
-import static org.springframework.http.HttpMethod.POST
-import static org.springframework.http.HttpMethod.PUT
-
-import static org.springframework.http.HttpMethod.DELETE
 
 class TasksControllerIntegrationTest extends BaseIntegrationTest {
 
@@ -48,17 +34,14 @@ class TasksControllerIntegrationTest extends BaseIntegrationTest {
 
     @Autowired IJwtTokenService tokenService
 
-    @Shared
-    private Faker faker = new Faker()
-
     def 'create task' () {
         given: 'a user'
         def user = createUser()
 
         and: 'task DTO'
         def createTaskDTO = CreateTaskDTO.builder()
-                .title(faker.lorem.sentence())
-                .description(faker.lorem.paragraph())
+                .title(TestUtils.faker.lorem.sentence())
+                .description(TestUtils.faker.lorem.paragraph())
                 .type(TaskType.TASK)
                 .priority(TaskPriority.NORMAL)
                 .status(TaskStatus.IN_PROGRESS)
@@ -128,12 +111,11 @@ class TasksControllerIntegrationTest extends BaseIntegrationTest {
 
         and: 'an update task request'
         def updateTaskDTO = CreateTaskDTO.builder()
-                .title(faker.lorem.sentence())
-                .description(faker.lorem.paragraph())
+                .title(TestUtils.faker.lorem.sentence())
+                .description(TestUtils.faker.lorem.paragraph())
                 .type(TaskType.TASK)
                 .priority(TaskPriority.NORMAL)
                 .status(TaskStatus.IN_PROGRESS)
-                .assignedTo(user.id)
                 .build()
 
         when: 'update task'
@@ -181,20 +163,20 @@ class TasksControllerIntegrationTest extends BaseIntegrationTest {
 
     def private createTask(User user) {
         return tasksRepository.save(Task.builder()
-                .title(faker.lorem.sentence())
-                .description(faker.lorem.paragraph())
+                .title(TestUtils.faker.lorem.sentence())
+                .description(TestUtils.faker.lorem.paragraph())
                 .type(TaskType.TASK)
                 .priority(TaskPriority.NORMAL)
                 .status(TaskStatus.OPEN)
                 .createdBy(user)
                 .assignedTo(user)
-                .build());
+                .build())
     }
 
     def private createUser() {
         return usersRepository.save(User.builder()
-                .email(faker.internet.emailAddress())
-                .psw(bCryptPasswordEncoder.encode(faker.internet.password()))
+                .email(TestUtils.faker.internet.emailAddress())
+                .psw(bCryptPasswordEncoder.encode(TestUtils.faker.internet.password()))
                 .build())
     }
 }

@@ -1,7 +1,6 @@
 package com.app.bugtracker.integration
 
 import com.app.bugtracker.services.auth.IJwtTokenService
-import com.github.javafaker.Faker
 import com.app.bugtracker.dto.user.CreateUserDTO
 import com.app.bugtracker.dto.user.UserDTO
 import com.app.bugtracker.dto.user.UpdateUserDTO
@@ -15,7 +14,6 @@ import org.springframework.hateoas.PagedResources
 import org.springframework.http.MediaType
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.reactive.function.BodyInserters
-import spock.lang.Shared
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION
 
@@ -28,9 +26,6 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
     IJwtTokenService tokenService
-
-    @Shared
-    private Faker faker = new Faker()
 
     def 'get user by id'() {
 
@@ -60,8 +55,9 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
 
         given: 'a user with admin role'
         def user = usersRepository.save(User.builder()
-                .email(faker.internet().emailAddress())
-                .psw(bCryptPasswordEncoder.encode(faker.internet().password()))
+                .email(TestUtils.faker.internet().emailAddress())
+                .psw(bCryptPasswordEncoder
+                    .encode(TestUtils.faker.internet().password()))
                 .roles([UserRoles.ADMIN] as Set)
                 .build())
 
@@ -86,10 +82,10 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
     def 'create user'() {
 
         given: 'create user DTO'
-        def psw = faker.internet().password()
+        def psw = TestUtils.faker.internet().password()
         def userDTO = CreateUserDTO
                 .builder()
-                .email(faker.internet().emailAddress())
+                .email(TestUtils.faker.internet().emailAddress())
                 .psw(psw)
                 .confirmPsw(psw)
                 .build()
@@ -118,9 +114,9 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
 
         and: 'an update user DTO'
         def userDTO = UpdateUserDTO.builder()
-                .email(faker.internet().emailAddress())
-                .firstName(faker.name().firstName())
-                .lastName(faker.name().lastName())
+                .email(TestUtils.faker.internet().emailAddress())
+                .firstName(TestUtils.faker.name().firstName())
+                .lastName(TestUtils.faker.name().lastName())
                 .build()
 
         when: 'update user'
@@ -164,8 +160,8 @@ class UsersControllerIntegrationTest extends BaseIntegrationTest {
 
     private User createUser() {
         return usersRepository.save(User.builder()
-                .email(faker.internet().emailAddress())
-                .psw(bCryptPasswordEncoder.encode(faker.internet().password()))
+                .email(TestUtils.faker.internet().emailAddress())
+                .psw(bCryptPasswordEncoder.encode(TestUtils.faker.internet().password()))
                 .build())
     }
 }

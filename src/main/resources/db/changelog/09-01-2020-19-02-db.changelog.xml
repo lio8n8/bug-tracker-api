@@ -1,0 +1,28 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="lio8n8" id="09-01-2020-19-04">
+        <createTable tableName="users">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="usersPK" nullable="false" unique="true"/>
+            </column>
+            <column name="email" type="VARCHAR">
+                <constraints nullable="false" unique="true"/>
+            </column><column name="username" type="VARCHAR">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="psw" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR"/>
+            <column name="last_name" type="VARCHAR"/>
+            <column name="locked" type="BOOLEAN" defaultValue="false"/>
+            <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="now()"/>
+            <column name="updated_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="now()"/>
+            <column name="activated_at" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="last_login" type="TIMESTAMP WITH TIME ZONE"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

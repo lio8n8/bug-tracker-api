@@ -1,45 +1,45 @@
 package com.app.bugtracker.filters;
 
-import java.io.IOException;
+import com.app.bugtracker.services.tokens.ITokensService;
+import io.jsonwebtoken.JwtException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import com.app.bugtracker.services.auth.IJwtTokenService;
-
-import io.jsonwebtoken.JwtException;
+import java.io.IOException;
 
 import static org.springframework.security.core.context.SecurityContextHolder.getContext;
 
+/**
+ * Jwt token authentication filter.
+ */
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
-    private IJwtTokenService jwtTokenService;
-    
+
+    private ITokensService tokensService;
+
     @Autowired
-    public JwtTokenAuthenticationFilter(IJwtTokenService jwtTokenService) {
-        this.jwtTokenService = jwtTokenService;
+    public JwtTokenAuthenticationFilter(final ITokensService tokensService) {
+        this.tokensService = tokensService;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
             throws ServletException, IOException {
         try {
             getContext()
                     .setAuthentication(
-                            jwtTokenService.getAuthentication(
-                                    (HttpServletRequest) request
-                            )
+                            tokensService.getAuthentication(request)
                     );
             filterChain.doFilter(request, response);
         } catch (JwtException e) {
-            ((HttpServletResponse) response).sendError(
+            response.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED, e.getMessage()
             );
-        }        
+        }
     }
-
 }

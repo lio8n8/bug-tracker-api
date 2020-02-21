@@ -1,11 +1,7 @@
 package com.app.bugtracker.configs;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -13,39 +9,46 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 /**
- * Swagger configuration
- *
+ * Contains swagger configuration.
  */
 @Configuration
-@EnableSwagger2
 public class SwaggerConfigs {
-	@Bean
+
+    /**
+     * Set configs.
+     *
+     * @return {@link Docket}.
+     */
+    @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-            .select()
-            .apis(RequestHandlerSelectors
-            .basePackage("com.app.bugtracker.controllers"))
-            .paths(PathSelectors.any())
-            .build()
-            .apiInfo(apiInfo())
-            .securitySchemes(new ArrayList<>(Arrays.asList(new ApiKey("Bearer " + "%token", AUTHORIZATION, "Header"))));
+                .select()
+                .apis(RequestHandlerSelectors
+                        .basePackage("com.app.auth.controllers"))
+                .paths(PathSelectors.any())
+                .build()
+                .apiInfo(apiInfo())
+                .securitySchemes(new ArrayList<>(Arrays.asList(
+                        new ApiKey("Bearer " + "%token", AUTHORIZATION, "Header"))));
     }
-    
+
     /**
-     * Api info
-     * 
-     * @return {@link ApiInfo}
+     * Set API info.
+     *
+     * @return {@link ApiInfo}.
      */
     private static ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-            .title("Bug Tracker Api")
-            .description("Bug tracker api")
-            .version("0.0.1")
-            .build();
+                .title("Auth service")
+                .description("Bug tracker authentication and user registration service.")
+                .version("0.0.1")
+                .build();
     }
 }

@@ -1,8 +1,8 @@
 package com.app.bugtracker.configs;
 
 import com.app.bugtracker.filters.JwtTokenAuthenticationFilter;
-import com.app.bugtracker.services.users.CustomUserDetailsService;
-import com.app.bugtracker.services.tokens.ITokensService;
+import com.app.bugtracker.users.services.CustomUserDetailsService;
+import com.app.bugtracker.auth.services.ITokensService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

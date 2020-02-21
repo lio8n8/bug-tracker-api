@@ -1,10 +1,10 @@
 package com.app.bugtracker.users
 
-import com.app.bugtracker.dto.UserCreateRequest
-import com.app.bugtracker.dto.UserUpdateRequest
-import com.app.bugtracker.models.User
-import com.app.bugtracker.repositories.IUsersRepository
-import com.app.bugtracker.services.users.UsersService
+import com.app.bugtracker.users.dto.UserCreateRequest
+import com.app.bugtracker.users.dto.UserUpdateRequest
+import com.app.bugtracker.users.models.User
+import com.app.bugtracker.users.repositories.IUsersRepository
+import com.app.bugtracker.users.services.UsersService
 import org.springframework.data.domain.PageRequest
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import spock.lang.Specification

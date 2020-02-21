@@ -1,8 +1,8 @@
 package com.app.bugtracker
 
 import com.app.bugtracker.configs.ApplicationConfigs
-import com.app.bugtracker.dto.UserCreateRequest
-import com.app.bugtracker.models.User
+import com.app.bugtracker.users.dto.UserCreateRequest
+import com.app.bugtracker.users.models.User
 import com.github.javafaker.Faker
 
 class Utils {

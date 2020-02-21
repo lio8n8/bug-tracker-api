@@ -1,6 +1,6 @@
 package com.app.bugtracker.filters;
 
-import com.app.bugtracker.services.tokens.ITokensService;
+import com.app.bugtracker.auth.services.ITokensService;
 import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;

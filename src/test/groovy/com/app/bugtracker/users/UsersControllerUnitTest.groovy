@@ -1,11 +1,11 @@
 package com.app.bugtracker.users
 
-import com.app.bugtracker.controllers.users.UsersController
-import com.app.bugtracker.dto.UserCreateRequest
-import com.app.bugtracker.dto.UserDTO
-import com.app.bugtracker.dto.UserUpdateRequest
-import com.app.bugtracker.models.User
-import com.app.bugtracker.services.users.IUsersService
+import com.app.bugtracker.users.controllers.UsersController
+import com.app.bugtracker.users.dto.UserCreateRequest
+import com.app.bugtracker.users.dto.UserDTO
+import com.app.bugtracker.users.dto.UserUpdateRequest
+import com.app.bugtracker.users.models.User
+import com.app.bugtracker.users.services.IUsersService
 import org.springframework.core.convert.ConversionService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest

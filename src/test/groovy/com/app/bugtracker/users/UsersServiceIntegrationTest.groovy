@@ -1,10 +1,10 @@
 package com.app.bugtracker.users
 
 import com.app.bugtracker.BaseIntegrationTest
-import com.app.bugtracker.dto.UserCreateRequest
-import com.app.bugtracker.dto.UserUpdateRequest
-import com.app.bugtracker.repositories.IUsersRepository
-import com.app.bugtracker.services.users.IUsersService
+import com.app.bugtracker.users.repositories.IUsersRepository
+import com.app.bugtracker.users.services.IUsersService
+import com.app.bugtracker.users.dto.UserCreateRequest
+import com.app.bugtracker.users.dto.UserUpdateRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 

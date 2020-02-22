@@ -6,11 +6,12 @@
     <changeSet author="lio8n8" id="09-01-2020-19-04">
         <createTable tableName="users">
             <column name="id" type="UUID">
-                <constraints primaryKey="true" primaryKeyName="usersPK" nullable="false" unique="true"/>
+                <constraints primaryKey="true" primaryKeyName="pk_users" nullable="false" unique="true"/>
             </column>
             <column name="email" type="VARCHAR">
                 <constraints nullable="false" unique="true"/>
-            </column><column name="username" type="VARCHAR">
+            </column>
+            <column name="username" type="VARCHAR">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="psw" type="VARCHAR">

@@ -1,6 +1,6 @@
 package com.app.bugtracker.auth
 
-import com.app.bugtracker.BaseAcceptanceTest
+import com.app.bugtracker.BaseControllerIntegrationTest
 import com.app.bugtracker.auth.dto.AuthResponseDTO
 import com.app.bugtracker.auth.dto.UserLoginRequest
 import com.app.bugtracker.users.dto.UserDTO
@@ -15,7 +15,7 @@ import static com.app.bugtracker.Urls.TOKENS
 import static org.springframework.http.HttpHeaders.AUTHORIZATION
 import static org.springframework.http.MediaType.APPLICATION_JSON
 
-class AuthControllerAcceptanceTest extends BaseAcceptanceTest {
+class AuthControllerIntegrationTest extends BaseControllerIntegrationTest {
 
     @Autowired
     private IUsersService usersService

@@ -7,9 +7,9 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import spock.lang.Specification
 
 @ActiveProfiles('test')
-@SpringBootTest(classes = AuthApplication,
+@SpringBootTest(classes = Application,
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class BaseAcceptanceTest extends Specification {
+public class BaseControllerIntegrationTest extends Specification {
 
     protected WebTestClient webTestClient = WebTestClient
             .bindToServer()

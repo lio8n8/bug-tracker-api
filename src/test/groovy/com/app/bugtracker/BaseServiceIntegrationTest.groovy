@@ -5,7 +5,7 @@ import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
 @ActiveProfiles('test')
-@SpringBootTest(classes = AuthApplication,
+@SpringBootTest(classes = Application,
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class BaseIntegrationTest extends Specification {
+public class BaseServiceIntegrationTest extends Specification {
 }

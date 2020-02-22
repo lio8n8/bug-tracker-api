@@ -8,6 +8,7 @@ import com.app.bugtracker.users.models.User
 import com.app.bugtracker.users.services.IUsersService
 import org.springframework.core.convert.ConversionService
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import spock.lang.Specification
 
@@ -37,7 +38,7 @@ class UsersControllerUnitTest extends Specification {
         def users = getUsers()
 
         and: 'page'
-        def page = Mock(Page)
+        def page = new PageImpl<>(users)
 
         and: 'page request'
         def request = PageRequest.of(0, 25)
@@ -49,7 +50,7 @@ class UsersControllerUnitTest extends Specification {
         1 * usersServiceMock.findAll(request) >> page
 
         and: 'conversion service called'
-        users.size() * conversionServiceMock.convert(!null as User, !null as UserDTO)
+        users.size() * conversionServiceMock.convert(!null as User, UserDTO)
 
         and: 'response OK'
         res.statusCode == OK

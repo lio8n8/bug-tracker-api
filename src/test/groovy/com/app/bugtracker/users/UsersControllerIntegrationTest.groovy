@@ -1,12 +1,11 @@
 package com.app.bugtracker.users
 
-import com.app.bugtracker.BaseAcceptanceTest
+import com.app.bugtracker.BaseControllerIntegrationTest
 import com.app.bugtracker.users.services.IUsersService
 import com.app.bugtracker.auth.services.ITokensService
 import com.app.bugtracker.users.dto.UserDTO
 import com.app.bugtracker.users.dto.UserUpdateRequest
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.web.reactive.function.BodyInserters
 
@@ -17,7 +16,7 @@ import static com.app.bugtracker.Urls.USERS
 import static org.springframework.http.MediaType.APPLICATION_JSON
 import static org.springframework.http.HttpHeaders.AUTHORIZATION
 
-class UsersControllerAcceptanceTest extends BaseAcceptanceTest {
+class UsersControllerIntegrationTest extends BaseControllerIntegrationTest {
 
     @Autowired
     private IUsersService usersService
@@ -73,10 +72,6 @@ class UsersControllerAcceptanceTest extends BaseAcceptanceTest {
                 .exchange()
                 .expectStatus()
                 .isOk()
-                .expectBody(Page.class)
-                .consumeWith({ page ->
-                    assert page.responseBody.content
-                })
 
         then: 'success'
         true

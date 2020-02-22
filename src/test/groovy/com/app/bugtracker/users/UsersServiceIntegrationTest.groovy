@@ -1,6 +1,6 @@
 package com.app.bugtracker.users
 
-import com.app.bugtracker.BaseIntegrationTest
+import com.app.bugtracker.BaseServiceIntegrationTest
 import com.app.bugtracker.users.repositories.IUsersRepository
 import com.app.bugtracker.users.services.IUsersService
 import com.app.bugtracker.users.dto.UserCreateRequest
@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageRequest
 
 import static com.app.bugtracker.Utils.faker
 
-public class UsersServiceIntegrationTest extends BaseIntegrationTest {
+public class UsersServiceIntegrationTest extends BaseServiceIntegrationTest {
 
     @Autowired
     private IUsersRepository usersRepository

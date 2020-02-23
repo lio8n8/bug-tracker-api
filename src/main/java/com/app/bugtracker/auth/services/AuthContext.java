@@ -1,7 +1,6 @@
 package com.app.bugtracker.auth.services;
 
 import com.app.bugtracker.exceptions.AuthenticationException;
-import com.app.bugtracker.users.services.IAuthContext;
 import com.app.bugtracker.users.services.IUsersService;
 import com.app.bugtracker.users.models.User;
 import org.springframework.beans.factory.annotation.Autowired;

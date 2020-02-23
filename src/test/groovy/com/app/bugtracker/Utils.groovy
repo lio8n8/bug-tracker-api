@@ -1,9 +1,18 @@
 package com.app.bugtracker
 
 import com.app.bugtracker.configs.ApplicationConfigs
+import com.app.bugtracker.tasks.dto.TaskRequest
+import com.app.bugtracker.tasks.models.Priority
+import com.app.bugtracker.tasks.models.Status
+import com.app.bugtracker.tasks.models.Task
+import com.app.bugtracker.tasks.models.Type
 import com.app.bugtracker.users.dto.UserCreateRequest
 import com.app.bugtracker.users.models.User
 import com.github.javafaker.Faker
+import org.springframework.security.authentication.TestingAuthenticationToken
+
+import java.time.LocalDateTime
+import static org.springframework.security.core.context.SecurityContextHolder.getContext
 
 class Utils {
     public static Faker faker = new Faker()
@@ -21,18 +30,24 @@ class Utils {
                 .build()
     }
 
-    public static List<User> getUsers() {
-        int x = getRandomInteger(42)
-        List<User> users = new ArrayList<>(x)
+    public static getTask() {
+        User user = getUser()
 
-        for (int i = 0; i < x; i++) {
-            users.add(getUser())
-        }
-
-        return users
+        return Task.builder()
+                .id(UUID.randomUUID())
+                .title(faker.lorem().sentence())
+                .description(faker.lorem().sentence())
+                .type(Type.TASK)
+                .priority(Priority.TRIVIAL)
+                .status(Status.NEW)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .createdBy(user)
+                .updatedBy(user)
+                .build()
     }
 
-    public static getCreateUserRequest() {
+    public static UserCreateRequest getCreateUserRequest() {
         String psw = faker.internet().password()
 
         return UserCreateRequest.builder()
@@ -43,6 +58,27 @@ class Utils {
                 .firstName(faker.name().firstName())
                 .lastName(faker.name().lastName())
                 .build()
+    }
+
+    public static TaskRequest getCreateTaskRequest() {
+        return TaskRequest.builder()
+                .title(faker.lorem().sentence())
+                .description(faker.lorem().sentence())
+                .type(Type.TASK)
+                .priority(Priority.TRIVIAL)
+                .status(Status.NEW)
+                .build()
+    }
+
+    public static List<User> getUsers() {
+        int x = getRandomInteger(42)
+        List<User> users = new ArrayList<>(x)
+
+        for (int i = 0; i < x; i++) {
+            users.add(getUser())
+        }
+
+        return users
     }
 
     public static int getRandomInteger(Integer x) {
@@ -62,5 +98,10 @@ class Utils {
 
             it
         }
+    }
+
+    public static void authenticate(User user) {
+        getContext().setAuthentication(
+                new TestingAuthenticationToken(user.username, null))
     }
 }

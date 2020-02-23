@@ -1,4 +1,4 @@
-package com.app.bugtracker.users.services;
+package com.app.bugtracker.auth.services;
 
 import com.app.bugtracker.users.models.User;
 import org.springframework.security.core.Authentication;

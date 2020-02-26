@@ -54,7 +54,7 @@ spring:
     url: jdbc:postgresql://localhost:5433/bugtracker
     change-log: classpath:db/changelog/db.changelog-master.xml
   application:
-    name: bug-tracker-auth-server
+    name: bug-tracker-api
   h2:
     console:
       enabled: false

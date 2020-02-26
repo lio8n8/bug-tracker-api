@@ -6,7 +6,7 @@
         </encoder>
     </appender>
 
-    <springProfile name="default">
+    <springProfile name="dev">
         <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
         <root level="ERROR">

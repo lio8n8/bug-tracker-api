@@ -31,7 +31,7 @@ public class SwaggerConfigs {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors
-                        .basePackage("com.app.auth.controllers"))
+                        .basePackage("com.app.bugtracker"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
@@ -46,8 +46,8 @@ public class SwaggerConfigs {
      */
     private static ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Auth service")
-                .description("Bug tracker authentication and user registration service.")
+                .title("Bug tracker API")
+                .description("Bug tracker API.")
                 .version("0.0.1")
                 .build();
     }

@@ -7,7 +7,6 @@ import com.app.bugtracker.users.dto.UserUpdateRequest
 import com.app.bugtracker.users.models.User
 import com.app.bugtracker.users.services.IUsersService
 import org.springframework.core.convert.ConversionService
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import spock.lang.Specification
@@ -20,7 +19,6 @@ import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.NO_CONTENT
 
 class UsersControllerUnitTest extends Specification {
-    // TODO: Fix
     def 'find all users'() {
         given: 'users service mock'
         def usersServiceMock = Mock(IUsersService)

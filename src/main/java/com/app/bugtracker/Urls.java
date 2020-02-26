@@ -24,4 +24,29 @@ public interface Urls {
      * Token url.
      */
     String TOKENS = "/api/tokens";
+
+    /**
+     * Tasks root url.
+     */
+    String TASKS = "/api/tasks";
+
+    /**
+     * Task by id.
+     */
+    String TASK = TASKS + "/{id}";
+
+    /**
+     * Task types.
+     */
+    String TASK_TYPES = TASKS + "/types";
+
+    /**
+     * Task priorities.
+     */
+    String TASK_PRIORITIES = TASKS + "/priorities";
+
+    /**
+     * Task statuses.
+     */
+    String TASK_STATUSES = TASKS + "/statuses";
 }

@@ -81,6 +81,17 @@ class Utils {
         return users
     }
 
+    public static List<Task> getTasks() {
+        int x = getRandomInteger(42)
+        List<Task> tasks = new ArrayList<>(x)
+
+        for (int i = 0; i < x; i++) {
+            tasks.add(getTask())
+        }
+
+        return tasks
+    }
+
     public static int getRandomInteger(Integer x) {
         return random.nextInt(x)
     }

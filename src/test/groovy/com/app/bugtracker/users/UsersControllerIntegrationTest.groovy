@@ -81,7 +81,7 @@ class UsersControllerIntegrationTest extends BaseControllerIntegrationTest {
         given: 'create user request'
         def request = getCreateUserRequest()
 
-        when: 'find all users'
+        when: 'create user'
         webTestClient.post()
                 .uri(USERS)
                 .contentType(APPLICATION_JSON)
@@ -152,7 +152,7 @@ class UsersControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'token'
         def token = tokensService.createToken(user.username)
 
-        when: 'update user'
+        when: 'delete user'
         webTestClient.delete()
                 .uri(USER, user.id)
                 .header(AUTHORIZATION, "Bearer ${token}")

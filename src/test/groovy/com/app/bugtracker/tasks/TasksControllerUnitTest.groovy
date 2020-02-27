@@ -178,7 +178,7 @@ class TasksControllerUnitTest extends Specification {
         assert res.body.containsAll(statuses)
     }
 
-    def 'create tas'() {
+    def 'create task'() {
         given: 'tasks service mock'
         def tasksServiceMock = Mock(ITasksService)
 

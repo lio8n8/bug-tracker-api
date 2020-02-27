@@ -126,7 +126,7 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
         authenticate(user)
 
         and: 'task types'
-        List<String> types = Type.values()*.name()
+        def types = Type.values()
 
         when: 'find task types'
         webTestClient.get()
@@ -139,7 +139,7 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                 .isOk()
                 .expectBodyList(Type)
                 .consumeWith({ t ->
-                    assert types.containsAll(types)
+                    assert t.responseBody.containsAll(types)
                 })
 
         then: 'success'
@@ -160,7 +160,7 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
         authenticate(user)
 
         and: 'task priorities'
-        List<String> priorities = Priority.values()*.name()
+        def priorities = Priority.values()
 
         when: 'find task priorities'
         webTestClient.get()
@@ -173,14 +173,13 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                 .isOk()
                 .expectBodyList(Priority)
                 .consumeWith({ p ->
-                    assert priorities.containsAll(priorities)
+                    assert p.responseBody.containsAll(priorities)
                 })
 
         then: 'success'
         true
     }
 
-    // TODO: Fix test.
     def 'find task statuses'() {
         given: 'create user request'
         def createUserReq = getCreateUserRequest()
@@ -195,7 +194,7 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
         authenticate(user)
 
         and: 'task statuses'
-        List<String> statuses = Status.values()*.name()
+        def statuses = Status.values()
 
         when: 'find task statuses'
         webTestClient.get()
@@ -208,7 +207,7 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                 .isOk()
                 .expectBodyList(Status)
                 .consumeWith({ s ->
-                    assert s.containsAll(statuses)
+                    assert s.responseBody.containsAll(statuses)
                 })
 
         then: 'success'

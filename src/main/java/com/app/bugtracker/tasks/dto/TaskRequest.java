@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 /**
  * Task create/update request.
@@ -55,4 +56,11 @@ public class TaskRequest {
      */
     @ApiModelProperty("Task status")
     private Status status;
+
+    /**
+     * Project id.
+     */
+    @ApiModelProperty("Project id.")
+    @NotNull(message = "Project id required.")
+    private UUID projectId;
 }

@@ -1,7 +1,7 @@
 package com.app.bugtracker.tasks
 
 import com.app.bugtracker.BaseServiceIntegrationTest
-import com.app.bugtracker.exceptions.NotFoundException
+import com.app.bugtracker.projects.services.IProjectsService
 import com.app.bugtracker.tasks.models.Status
 import com.app.bugtracker.tasks.repositories.ITasksRepository
 import com.app.bugtracker.tasks.services.ITasksService
@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest
 import java.time.LocalDateTime
 
 import static com.app.bugtracker.Utils.authenticate
+import static com.app.bugtracker.Utils.getCreateProjectRequest
 import static com.app.bugtracker.Utils.getCreateTaskRequest
 import static com.app.bugtracker.Utils.getCreateUserRequest
 
@@ -29,6 +30,9 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
     @Autowired
     ITasksRepository tasksRepository
 
+    @Autowired
+    IProjectsService projectsService
+
     def 'find all tasks'() {
         given: 'user'
         def user = usersService.create(getCreateUserRequest())
@@ -36,13 +40,18 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
         and: 'user is authenticated'
         authenticate(user)
 
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
         and: 'task created'
-        def task = tasksService.create(getCreateTaskRequest())
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
 
         when: 'find all tasks'
         def res = tasksService.findAll(PageRequest.of(0, 25))
 
-        then: 'page with user returned'
+        then: 'page with task returned'
         assert res.getContent().any { it.id == task.id}
     }
 
@@ -53,8 +62,13 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
         and: 'user is authenticated'
         authenticate(user)
 
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
         and: 'task exists'
-        def task = tasksService.create(getCreateTaskRequest())
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
 
         when: 'find task by id'
         def res = tasksService.findById(task.id)
@@ -70,8 +84,11 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
         and: 'user is authenticated'
         authenticate(user)
 
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
         and: 'create task request'
-        def request = getCreateTaskRequest()
+        def request = getCreateTaskRequest().tap { projectId = project.id }
 
         when: 'create task'
         def task = tasksService.create(request)
@@ -98,11 +115,18 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
         and: 'user is authenticated'
         authenticate(user)
 
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
         and: 'task exists'
-        def task = tasksService.create(getCreateTaskRequest())
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
 
         and: 'update task request'
-        def request = getCreateTaskRequest()
+        def request = getCreateTaskRequest().tap {
+            projectId = project.id
+        }
 
         when: 'update task'
         tasksService.update(task.id, request)
@@ -120,7 +144,7 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
     }
 
     def 'patch task'() {
-
+        // TODO: Implement!
     }
 
     def 'delete task by id'() {
@@ -130,14 +154,19 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
         and: 'user is authenticated'
         authenticate(user)
 
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
         and: 'task exists'
-        def task = tasksService.create(getCreateTaskRequest())
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
 
         when: 'delete task by id'
         tasksService.deleteById(task.id)
 
         then: 'try to find task'
-        def res =tasksRepository.findById(task.id)
+        def res = tasksRepository.findById(task.id)
 
         and: 'task deleted'
         res.isEmpty()

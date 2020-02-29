@@ -2,6 +2,7 @@ package com.app.bugtracker.tasks
 
 import com.app.bugtracker.BaseControllerIntegrationTest
 import com.app.bugtracker.auth.services.ITokensService
+import com.app.bugtracker.projects.services.IProjectsService
 import com.app.bugtracker.tasks.dto.TaskDTO
 import com.app.bugtracker.tasks.models.Priority
 import com.app.bugtracker.tasks.models.Status
@@ -20,6 +21,7 @@ import static com.app.bugtracker.Urls.TASK_PRIORITIES
 import static com.app.bugtracker.Urls.TASK_STATUSES
 import static com.app.bugtracker.Urls.TASK_TYPES
 import static com.app.bugtracker.Utils.authenticate
+import static com.app.bugtracker.Utils.getCreateProjectRequest
 import static com.app.bugtracker.Utils.getCreateTaskRequest
 import static com.app.bugtracker.Utils.getCreateUserRequest
 import static org.springframework.http.HttpHeaders.AUTHORIZATION
@@ -39,6 +41,9 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
     @Autowired
     ITasksService tasksService
 
+    @Autowired
+    IProjectsService projectsService
+
     def 'find all tasks'() {
         given: 'create user request'
         def createUserReq = getCreateUserRequest()
@@ -52,8 +57,13 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
         and: 'user is authenticated'
         authenticate(user)
 
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
         and: 'task exists'
-        def task = tasksService.create(getCreateTaskRequest())
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
 
         when: 'find all tasks'
         webTestClient.get()
@@ -82,8 +92,13 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
         and: 'user is authenticated'
         authenticate(user)
 
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
         and: 'task exists'
-        def task = tasksService.create(getCreateTaskRequest())
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
 
         when: 'find task by id'
         webTestClient.get()
@@ -227,8 +242,13 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
         and: 'user is authenticated'
         authenticate(user)
 
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
         and: 'create task request'
-        def request = getCreateTaskRequest()
+        def request = getCreateTaskRequest().tap {
+            projectId = project.id
+        }
 
         when: 'create task'
         webTestClient.post()
@@ -271,11 +291,18 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
         and: 'user is authenticated'
         authenticate(user)
 
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
         and: 'task exists'
-        def task = tasksService.create(getCreateTaskRequest())
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
 
         and: 'update task request'
-        def request = getCreateTaskRequest()
+        def request = getCreateTaskRequest().tap {
+            projectId = project.id
+        }
 
         when: 'update task'
         webTestClient.put()
@@ -319,8 +346,13 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
         and: 'user is authenticated'
         authenticate(user)
 
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
         and: 'task exists'
-        def task = tasksService.create(getCreateTaskRequest())
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
 
         when: 'delete task'
         webTestClient.delete()

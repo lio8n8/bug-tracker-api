@@ -1,6 +1,7 @@
 package com.app.bugtracker.tasks
 
 import com.app.bugtracker.auth.services.IAuthContext
+import com.app.bugtracker.projects.services.IProjectsService
 import com.app.bugtracker.tasks.dto.TaskRequest
 import com.app.bugtracker.tasks.models.Priority
 import com.app.bugtracker.tasks.models.Task
@@ -23,12 +24,16 @@ class TasksServiceUnitTest extends Specification {
         given: 'tasks repository mock'
         def tasksRepositoryMock = Mock(ITasksRepository)
 
+        and: 'projects service mock'
+        def projectServiceMock = Mock(IProjectsService)
+
         and: 'auth context service mock'
         def authContextMock = Mock(IAuthContext)
 
         and: 'tasks service'
         def taskService = new TasksService(
                 tasksRepositoryMock,
+                projectServiceMock,
                 authContextMock
         )
 
@@ -46,12 +51,16 @@ class TasksServiceUnitTest extends Specification {
         given: 'tasks repository mock'
         def tasksRepositoryMock = Mock(ITasksRepository)
 
+        and: 'projects service mock'
+        def projectServiceMock = Mock(IProjectsService)
+
         and: 'auth context service mock'
         def authContextMock = Mock(IAuthContext)
 
         and: 'tasks service'
         def taskService = new TasksService(
                 tasksRepositoryMock,
+                projectServiceMock,
                 authContextMock
         )
 
@@ -69,12 +78,16 @@ class TasksServiceUnitTest extends Specification {
         given: 'tasks repository mock'
         def tasksRepositoryMock = Mock(ITasksRepository)
 
+        and: 'projects service mock'
+        def projectServiceMock = Mock(IProjectsService)
+
         and: 'auth context service mock'
         def authContextMock = Mock(IAuthContext)
 
         and: 'tasks service'
         def taskService = new TasksService(
                 tasksRepositoryMock,
+                projectServiceMock,
                 authContextMock
         )
 
@@ -106,12 +119,16 @@ class TasksServiceUnitTest extends Specification {
         given: 'tasks repository mock'
         def tasksRepositoryMock = Mock(ITasksRepository)
 
+        and: 'projects service mock'
+        def projectServiceMock = Mock(IProjectsService)
+
         and: 'auth context service mock'
         def authContextMock = Mock(IAuthContext)
 
         and: 'tasks service'
         def taskService = new TasksService(
                 tasksRepositoryMock,
+                projectServiceMock,
                 authContextMock
         )
 
@@ -150,12 +167,16 @@ class TasksServiceUnitTest extends Specification {
         given: 'tasks repository mock'
         def tasksRepositoryMock = Mock(ITasksRepository)
 
+        and: 'projects service mock'
+        def projectServiceMock = Mock(IProjectsService)
+
         and: 'auth context service mock'
         def authContextMock = Mock(IAuthContext)
 
         and: 'tasks service'
         def taskService = new TasksService(
                 tasksRepositoryMock,
+                projectServiceMock,
                 authContextMock
         )
 

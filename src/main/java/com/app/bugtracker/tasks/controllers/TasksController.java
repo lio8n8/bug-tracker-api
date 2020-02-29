@@ -29,8 +29,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static com.app.bugtracker.Urls.*;
-import static org.springframework.http.HttpStatus.*;
+import static com.app.bugtracker.Urls.TASK;
+import static com.app.bugtracker.Urls.TASKS;
+import static com.app.bugtracker.Urls.TASK_STATUSES;
+import static com.app.bugtracker.Urls.TASK_TYPES;
+import static com.app.bugtracker.Urls.TASK_PRIORITIES;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -175,10 +181,10 @@ public class TasksController implements ITasksController{
      */
     @Override
     @DeleteMapping(path = TASK)
-    @ApiOperation("Delete task.")
+    @ApiOperation("Delete task by id.")
     public ResponseEntity deleteById(@PathVariable("id") final UUID id) {
         tasksService.deleteById(id);
 
-        return new ResponseEntity<>(NO_CONTENT);
+        return new ResponseEntity(NO_CONTENT);
     }
 }

@@ -49,4 +49,14 @@ public interface Urls {
      * Task statuses.
      */
     String TASK_STATUSES = TASKS + "/statuses";
+
+    /**
+     * Projects root url.
+     */
+    String PROJECTS = "/api/projects";
+
+    /**
+     * Project by id.
+     */
+    String PROJECT = PROJECTS + "/{id}";
 }

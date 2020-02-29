@@ -2,12 +2,14 @@ package com.app.bugtracker.tasks.services;
 
 import com.app.bugtracker.auth.services.IAuthContext;
 import com.app.bugtracker.exceptions.NotFoundException;
+import com.app.bugtracker.projects.services.IProjectsService;
 import com.app.bugtracker.tasks.dto.TaskRequest;
 import com.app.bugtracker.tasks.models.Priority;
 import com.app.bugtracker.tasks.models.Status;
 import com.app.bugtracker.tasks.models.Task;
 import com.app.bugtracker.tasks.repositories.ITasksRepository;
 import com.app.bugtracker.users.models.User;
+import com.app.bugtracker.projects.models.Project;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,16 +28,23 @@ public class TasksService implements ITasksService {
     /**
      * Tasks repository.
      */
-    private ITasksRepository tasksRepository;
+    private final ITasksRepository tasksRepository;
+
+    /**
+     * Projects service.
+     */
+    private final IProjectsService projectsService;
 
     /**
      * Authentication context.
      */
-    private IAuthContext authContext;
+    private final IAuthContext authContext;
 
-    public TasksService(ITasksRepository tasksRepository,
-                        IAuthContext authContext) {
+    public TasksService(final ITasksRepository tasksRepository,
+                        final IProjectsService projectsService,
+                        final IAuthContext authContext) {
         this.tasksRepository = tasksRepository;
+        this.projectsService = projectsService;
         this.authContext = authContext;
     }
 
@@ -43,7 +52,7 @@ public class TasksService implements ITasksService {
      * {@inheritDoc}
      */
     @Override
-    public Task findById(UUID id) {
+    public Task findById(final UUID id) {
         return tasksRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(TASK_NOT_FOUND));
     }
@@ -52,7 +61,7 @@ public class TasksService implements ITasksService {
      * {@inheritDoc}
      */
     @Override
-    public Page<Task> findAll(Pageable request) {
+    public Page<Task> findAll(final Pageable request) {
         return tasksRepository.findAll(request);
     }
 
@@ -60,8 +69,9 @@ public class TasksService implements ITasksService {
      * {@inheritDoc}
      */
     @Override
-    public Task create(TaskRequest request) {
+    public Task create(final TaskRequest request) {
         User user = authContext.getUser();
+        Project project = projectsService.findById(request.getProjectId());
 
         return tasksRepository.save(
                 Task.builder()
@@ -74,6 +84,7 @@ public class TasksService implements ITasksService {
                     .updatedAt(LocalDateTime.now())
                     .createdBy(user)
                     .updatedBy(user)
+                    .project(project)
                 .build()
         );
     }
@@ -82,8 +93,9 @@ public class TasksService implements ITasksService {
      * {@inheritDoc}
      */
     @Override
-    public Task update(UUID id, TaskRequest request) {
+    public Task update(final UUID id, final TaskRequest request) {
         Task task = findById(id);
+        Project project = projectsService.findById(request.getProjectId());
 
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
@@ -92,6 +104,7 @@ public class TasksService implements ITasksService {
         task.setStatus(request.getStatus());
         task.setUpdatedAt(LocalDateTime.now());
         task.setUpdatedBy(authContext.getUser());
+        task.setProject(project);
 
         return tasksRepository.save(task);
     }
@@ -100,7 +113,7 @@ public class TasksService implements ITasksService {
      * {@inheritDoc}
      */
     @Override
-    public Task patch(UUID id, TaskRequest request) {
+    public Task patch(final UUID id, final TaskRequest request) {
         throw new RuntimeException("Not yet implemented!");
     }
 
@@ -108,7 +121,7 @@ public class TasksService implements ITasksService {
      * {@inheritDoc}
      */
     @Override
-    public void deleteById(UUID id) {
+    public void deleteById(final UUID id) {
         tasksRepository.deleteById(id);
     }
 }

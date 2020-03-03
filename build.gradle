@@ -28,7 +28,6 @@ dependencies {
     implementation 'io.springfox:springfox-swagger2:2.7.0'
     implementation 'io.springfox:springfox-swagger-ui:2.7.0'
     implementation 'io.springfox:springfox-swagger2:2.9.2'
-    implementation group: 'org.projectreactor', name: 'reactor-spring', version: '1.0.1.RELEASE'
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'

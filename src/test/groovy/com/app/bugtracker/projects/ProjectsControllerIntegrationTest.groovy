@@ -4,21 +4,17 @@ import com.app.bugtracker.BaseControllerIntegrationTest
 import com.app.bugtracker.auth.services.ITokensService
 import com.app.bugtracker.projects.dto.ProjectDTO
 import com.app.bugtracker.projects.services.IProjectsService
-import com.app.bugtracker.tasks.dto.TaskDTO
+import com.app.bugtracker.users.models.User
 import com.app.bugtracker.users.services.IUsersService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.PageRequest
 import org.springframework.web.reactive.function.BodyInserters
 
 import java.time.LocalDateTime
 
 import static com.app.bugtracker.Urls.PROJECT
 import static com.app.bugtracker.Urls.PROJECTS
-import static com.app.bugtracker.Urls.TASK
-import static com.app.bugtracker.Urls.TASKS
 import static com.app.bugtracker.Utils.authenticate
 import static com.app.bugtracker.Utils.getCreateProjectRequest
-import static com.app.bugtracker.Utils.getCreateTaskRequest
 import static com.app.bugtracker.Utils.getCreateUserRequest
 import static org.springframework.http.HttpHeaders.AUTHORIZATION
 import static org.springframework.http.MediaType.APPLICATION_JSON
@@ -37,18 +33,16 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
     @Autowired
     IProjectsService projectsService
 
-    def 'find project by id'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
+    private User user = null
 
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
-        def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
+    def setup() {
+        user = usersService.create(getCreateUserRequest())
         authenticate(user)
+    }
+
+    def 'find project by id'() {
+        given: 'token'
+        def token = tokensService.createToken(user.username)
 
         and: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
@@ -78,17 +72,8 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
     }
 
     def 'find all projects'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
-
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
+        given: 'token'
         def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
-        authenticate(user)
 
         and: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
@@ -109,17 +94,8 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
     }
 
     def 'create project'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
-
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
+        given: 'token'
         def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
-        authenticate(user)
 
         and: 'create project request'
         def request = getCreateProjectRequest()
@@ -150,17 +126,8 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
     }
 
     def 'update project'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
-
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
+        given: 'token'
         def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
-        authenticate(user)
 
         and: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
@@ -191,17 +158,8 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
     }
 
     def 'delete project by id'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
-
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
+        given: 'token'
         def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
-        authenticate(user)
 
         and: 'project created'
         def project = projectsService.create(getCreateProjectRequest())

@@ -5,6 +5,7 @@ import com.app.bugtracker.projects.services.IProjectsService
 import com.app.bugtracker.tasks.models.Status
 import com.app.bugtracker.tasks.repositories.ITasksRepository
 import com.app.bugtracker.tasks.services.ITasksService
+import com.app.bugtracker.users.models.User
 import com.app.bugtracker.users.services.IUsersService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
@@ -33,14 +34,15 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
     @Autowired
     IProjectsService projectsService
 
-    def 'find all tasks'() {
-        given: 'user'
-        def user = usersService.create(getCreateUserRequest())
+    private User user
 
-        and: 'user is authenticated'
+    def setup() {
+        user = usersService.create(getCreateUserRequest())
         authenticate(user)
+    }
 
-        and: 'project created'
+    def 'find all tasks'() {
+        given: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
 
         and: 'task created'
@@ -56,13 +58,7 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
     }
 
     def 'find task by id'() {
-        given: 'user'
-        def user = usersService.create(getCreateUserRequest())
-
-        and: 'user is authenticated'
-        authenticate(user)
-
-        and: 'project created'
+        given: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
 
         and: 'task exists'
@@ -78,13 +74,7 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
     }
 
     def 'create task'() {
-        given: 'user'
-        def user = usersService.create(getCreateUserRequest())
-
-        and: 'user is authenticated'
-        authenticate(user)
-
-        and: 'project created'
+        given: 'project'
         def project = projectsService.create(getCreateProjectRequest())
 
         and: 'create task request'
@@ -109,13 +99,7 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
     }
 
     def 'update task'() {
-        given: 'user'
-        def user = usersService.create(getCreateUserRequest())
-
-        and: 'user is authenticated'
-        authenticate(user)
-
-        and: 'project created'
+        given: 'project'
         def project = projectsService.create(getCreateProjectRequest())
 
         and: 'task exists'
@@ -148,13 +132,7 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
     }
 
     def 'delete task by id'() {
-        given: 'user'
-        def user = usersService.create(getCreateUserRequest())
-
-        and: 'user is authenticated'
-        authenticate(user)
-
-        and: 'project created'
+        given: 'project'
         def project = projectsService.create(getCreateProjectRequest())
 
         and: 'task exists'

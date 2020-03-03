@@ -8,6 +8,7 @@ import com.app.bugtracker.tasks.models.Priority
 import com.app.bugtracker.tasks.models.Status
 import com.app.bugtracker.tasks.models.Type
 import com.app.bugtracker.tasks.services.ITasksService
+import com.app.bugtracker.users.models.User
 import com.app.bugtracker.users.services.IUsersService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
@@ -44,18 +45,16 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
     @Autowired
     IProjectsService projectsService
 
-    def 'find all tasks'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
+    private User user
 
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
-        def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
+    def setup() {
+        user = usersService.create(getCreateUserRequest())
         authenticate(user)
+    }
+
+    def 'find all tasks'() {
+        given: 'token'
+        def token = tokensService.createToken(user.username)
 
         and: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
@@ -80,17 +79,8 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
     }
 
     def 'find task by id'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
-
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
+        given: 'token'
         def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
-        authenticate(user)
 
         and: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
@@ -128,17 +118,8 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
     }
 
     def 'find task types'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
-
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
+        given: 'token'
         def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
-        authenticate(user)
 
         and: 'task types'
         def types = Type.values()
@@ -162,17 +143,8 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
     }
 
     def 'find task priorities'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
-
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
+        given: 'token'
         def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
-        authenticate(user)
 
         and: 'task priorities'
         def priorities = Priority.values()
@@ -196,18 +168,8 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
     }
 
     def 'find task statuses'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
-
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
+        given: 'token'
         def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
-        authenticate(user)
-
         and: 'task statuses'
         def statuses = Status.values()
 
@@ -230,17 +192,8 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
     }
 
     def 'create task'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
-
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
+        given: 'token'
         def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
-        authenticate(user)
 
         and: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
@@ -279,17 +232,8 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
     }
 
     def 'update task'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
-
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
+        given: 'token'
         def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
-        authenticate(user)
 
         and: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
@@ -334,17 +278,8 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
     }
 
     def 'delete task by id'() {
-        given: 'create user request'
-        def createUserReq = getCreateUserRequest()
-
-        and: 'user created'
-        def user = usersService.create(createUserReq)
-
-        and: 'token'
+        given: 'token'
         def token = tokensService.createToken(user.username)
-
-        and: 'user is authenticated'
-        authenticate(user)
 
         and: 'project created'
         def project = projectsService.create(getCreateProjectRequest())

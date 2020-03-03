@@ -3,6 +3,7 @@ package com.app.bugtracker.projects
 import com.app.bugtracker.BaseServiceIntegrationTest
 import com.app.bugtracker.projects.repositories.IProjectsRepository
 import com.app.bugtracker.projects.services.IProjectsService
+import com.app.bugtracker.users.models.User
 import com.app.bugtracker.users.services.IUsersService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
@@ -25,14 +26,15 @@ class ProjectsServiceIntegrationTest extends BaseServiceIntegrationTest {
     @Autowired
     IProjectsRepository projectsRepository
 
-    def 'find project by id'() {
-        given: 'user'
-        def user = usersService.create(getCreateUserRequest())
+    private User user = null
 
-        and: 'user is authenticated'
+    def setup() {
+        user = usersService.create(getCreateUserRequest())
         authenticate(user)
+    }
 
-        and: 'project created'
+    def 'find project by id'() {
+        given: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
 
         when: 'find project by id'
@@ -47,13 +49,7 @@ class ProjectsServiceIntegrationTest extends BaseServiceIntegrationTest {
     }
 
     def 'find all projects'() {
-        given: 'user'
-        def user = usersService.create(getCreateUserRequest())
-
-        and: 'user is authenticated'
-        authenticate(user)
-
-        and: 'project created'
+        given: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
 
         when: 'find all tasks'
@@ -64,13 +60,7 @@ class ProjectsServiceIntegrationTest extends BaseServiceIntegrationTest {
     }
 
     def 'create project'() {
-        given: 'user'
-        def user = usersService.create(getCreateUserRequest())
-
-        and: 'user is authenticated'
-        authenticate(user)
-
-        and: 'create project request'
+        given: 'create project request'
         def request = getCreateProjectRequest()
 
         when: 'create project'
@@ -89,13 +79,7 @@ class ProjectsServiceIntegrationTest extends BaseServiceIntegrationTest {
     }
 
     def 'update project'() {
-        given: 'user'
-        def user = usersService.create(getCreateUserRequest())
-
-        and: 'user is authenticated'
-        authenticate(user)
-
-        and: 'project created'
+        given: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
 
         and: 'update project request'
@@ -115,13 +99,7 @@ class ProjectsServiceIntegrationTest extends BaseServiceIntegrationTest {
     }
 
     def 'delete project by id'() {
-        given: 'user'
-        def user = usersService.create(getCreateUserRequest())
-
-        and: 'user is authenticated'
-        authenticate(user)
-
-        and: 'project created'
+        given: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
 
         when: 'delete project by id'

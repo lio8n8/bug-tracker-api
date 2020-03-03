@@ -59,4 +59,14 @@ public interface Urls {
      * Project by id.
      */
     String PROJECT = PROJECTS + "/{id}";
+
+    /**
+     * Companies root url.
+     */
+    String COMPANIES = "/api/companies";
+
+    /**
+     * Company by id.
+     */
+    String COMPANY = COMPANIES + "/{id}";
 }

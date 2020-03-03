@@ -1,5 +1,7 @@
 package com.app.bugtracker
 
+import com.app.bugtracker.companies.dto.CompanyRequestDTO
+import com.app.bugtracker.companies.models.Company
 import com.app.bugtracker.configs.ApplicationConfigs
 import com.app.bugtracker.projects.dto.ProjectRequest
 import com.app.bugtracker.tasks.dto.TaskRequest
@@ -33,7 +35,7 @@ class Utils {
                 .build()
     }
 
-    public static getTask() {
+    public static Task getTask() {
         User user = getUser()
 
         return Task.builder()
@@ -51,7 +53,7 @@ class Utils {
                 .build()
     }
 
-    public static getProject() {
+    public static Project getProject() {
         User user = getUser()
 
         return Project.builder()
@@ -62,6 +64,15 @@ class Utils {
                 .updatedAt(LocalDateTime.now())
                 .createdBy(user)
                 .updatedBy(user)
+                .build()
+    }
+
+    public static Company getCompany() {
+        return Company.builder()
+                .id(UUID.randomUUID())
+                .name(faker.company().name())
+                .title(faker.lorem().sentence())
+                .description(faker.lorem().sentence())
                 .build()
     }
 
@@ -90,6 +101,14 @@ class Utils {
 
     public static ProjectRequest getCreateProjectRequest() {
         return ProjectRequest.builder()
+                .title(faker.lorem().sentence())
+                .description(faker.lorem().sentence())
+                .build()
+    }
+
+    public static CompanyRequestDTO getCreateCompanyRequest() {
+        return CompanyRequestDTO.builder()
+                .name(faker.company().name())
                 .title(faker.lorem().sentence())
                 .description(faker.lorem().sentence())
                 .build()
@@ -126,6 +145,17 @@ class Utils {
         }
 
         return projects
+    }
+
+    public static List<Company> getCompanies() {
+        int x = getRandomInteger(42)
+        List<Company> companies = new ArrayList<>(x)
+
+        for (int i = 0; i < x; i++) {
+            companies.add(getCompany())
+        }
+
+        return companies
     }
 
     public static int getRandomInteger(Integer x) {

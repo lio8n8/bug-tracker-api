@@ -3,6 +3,7 @@ package com.app.bugtracker.tasks
 import com.app.bugtracker.tasks.controllers.TasksController
 import com.app.bugtracker.tasks.dto.TaskDTO
 import com.app.bugtracker.tasks.dto.TaskRequest
+import com.app.bugtracker.tasks.dto.UserTaskRequestDTO
 import com.app.bugtracker.tasks.models.Priority
 import com.app.bugtracker.tasks.models.Status
 import com.app.bugtracker.tasks.models.Task
@@ -15,6 +16,7 @@ import spock.lang.Specification
 
 import static com.app.bugtracker.Utils.getTask
 import static com.app.bugtracker.Utils.getTasks
+import static com.app.bugtracker.Utils.getUser
 import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.NO_CONTENT
 import static org.springframework.http.HttpStatus.OK
@@ -305,5 +307,125 @@ class TasksControllerUnitTest extends Specification {
 
         and: 'response status is NO_CONTENT'
         res.statusCode == NO_CONTENT
+    }
+
+    def 'add assignee to task'() {
+        given: 'tasks service mock'
+        def tasksServiceMock = Mock(ITasksService)
+
+        and: 'conversion service mock'
+        def conversionServiceMock = Mock(ConversionService)
+
+        and: 'tasks controller'
+        def tasksController = new TasksController(
+                tasksServiceMock,
+                conversionServiceMock
+        )
+
+        and: 'task'
+        def task = getTask()
+
+        and: 'user'
+        def user = getUser()
+
+        and: 'request'
+        def request = UserTaskRequestDTO.builder()
+                .userId(user.id)
+                .build()
+
+        when: 'assign task to user'
+        def res = tasksController.assignTaskToUser(task.id, request)
+
+        then: 'assignee was added'
+        1 * tasksServiceMock.assignTaskToUser(task.id, request) >> task.tap { assignee = user }
+
+        and: 'conversion service called'
+        1 * conversionServiceMock.convert(task, TaskDTO) >> TaskDTO.builder().build()
+
+        and: 'response status is OK'
+        res.statusCode == OK
+
+        and: 'response contains body'
+        res.body
+    }
+
+    def 'change task assignee'() {
+        given: 'tasks service mock'
+        def tasksServiceMock = Mock(ITasksService)
+
+        and: 'conversion service mock'
+        def conversionServiceMock = Mock(ConversionService)
+
+        and: 'tasks controller'
+        def tasksController = new TasksController(
+                tasksServiceMock,
+                conversionServiceMock
+        )
+
+        and: 'user'
+        def user = getUser()
+
+        and: 'task with assignee'
+        def task = getTask().tap { assignee = user }
+
+        and: 'a new assignee'
+        def assignee = getUser()
+
+        and: 'request'
+        def request = UserTaskRequestDTO.builder()
+                .userId(assignee.id)
+                .build()
+
+        when: 'change task assignee'
+        def res = tasksController.changeTaskAssignee(task.id, user.id, request)
+
+        then: 'assignee was changed'
+        1 * tasksServiceMock.changeTaskAssignee(task.id, user.id, request) >> task.tap { assignee }
+
+        and: 'conversion service called'
+        1 * conversionServiceMock.convert(task, TaskDTO) >> TaskDTO.builder().build()
+
+        and: 'response status is OK'
+        res.statusCode == OK
+
+        and: 'response contains body'
+        res.body
+    }
+
+    def 'delete task assignee'() {
+        given: 'tasks service mock'
+        def tasksServiceMock = Mock(ITasksService)
+
+        and: 'conversion service mock'
+        def conversionServiceMock = Mock(ConversionService)
+
+        and: 'tasks controller'
+        def tasksController = new TasksController(
+                tasksServiceMock,
+                conversionServiceMock
+        )
+
+        and: 'user'
+        def user = getUser()
+
+        and: 'task wit assignee'
+        def task = getTask().tap {
+            assignee = user
+        }
+
+        when: 'delete task assignee'
+        def res = tasksController.deleteTaskAssignee(task.id, user.id)
+
+        then: 'assignee was deleted'
+        1 * tasksServiceMock.deleteTaskAssignee(task.id, user.id) >> task.tap { assignee = null }
+
+        and: 'conversion service called'
+        1 * conversionServiceMock.convert(task, TaskDTO) >> TaskDTO.builder().build()
+
+        and: 'response status is OK'
+        res.statusCode == OK
+
+        and: 'response contains body'
+        res.body
     }
 }

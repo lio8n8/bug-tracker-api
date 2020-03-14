@@ -100,4 +100,11 @@ public class Task {
      */
     @ManyToOne
     private Project project;
+
+    /**
+     * The user to whom the task was assigned.
+     */
+    @ManyToOne
+    @JoinColumn(name = "assignee")
+    private User assignee;
 }

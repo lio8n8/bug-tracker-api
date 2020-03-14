@@ -3,11 +3,13 @@ package com.app.bugtracker.tasks
 import com.app.bugtracker.auth.services.IAuthContext
 import com.app.bugtracker.projects.services.IProjectsService
 import com.app.bugtracker.tasks.dto.TaskRequest
+import com.app.bugtracker.tasks.dto.UserTaskRequestDTO
 import com.app.bugtracker.tasks.models.Priority
 import com.app.bugtracker.tasks.models.Task
 import com.app.bugtracker.tasks.models.Type
 import com.app.bugtracker.tasks.repositories.ITasksRepository
 import com.app.bugtracker.tasks.services.TasksService
+import com.app.bugtracker.users.services.IUsersService
 import org.springframework.data.domain.PageRequest
 import spock.lang.Specification
 
@@ -27,6 +29,9 @@ class TasksServiceUnitTest extends Specification {
         and: 'projects service mock'
         def projectServiceMock = Mock(IProjectsService)
 
+        and: 'users service mock'
+        def usersServiceMock = Mock(IUsersService)
+
         and: 'auth context service mock'
         def authContextMock = Mock(IAuthContext)
 
@@ -34,6 +39,7 @@ class TasksServiceUnitTest extends Specification {
         def taskService = new TasksService(
                 tasksRepositoryMock,
                 projectServiceMock,
+                usersServiceMock,
                 authContextMock
         )
 
@@ -54,6 +60,9 @@ class TasksServiceUnitTest extends Specification {
         and: 'projects service mock'
         def projectServiceMock = Mock(IProjectsService)
 
+        and: 'users service mock'
+        def usersServiceMock = Mock(IUsersService)
+
         and: 'auth context service mock'
         def authContextMock = Mock(IAuthContext)
 
@@ -61,6 +70,7 @@ class TasksServiceUnitTest extends Specification {
         def taskService = new TasksService(
                 tasksRepositoryMock,
                 projectServiceMock,
+                usersServiceMock,
                 authContextMock
         )
 
@@ -81,6 +91,9 @@ class TasksServiceUnitTest extends Specification {
         and: 'projects service mock'
         def projectServiceMock = Mock(IProjectsService)
 
+        and: 'users service mock'
+        def usersServiceMock = Mock(IUsersService)
+
         and: 'auth context service mock'
         def authContextMock = Mock(IAuthContext)
 
@@ -88,6 +101,7 @@ class TasksServiceUnitTest extends Specification {
         def taskService = new TasksService(
                 tasksRepositoryMock,
                 projectServiceMock,
+                usersServiceMock,
                 authContextMock
         )
 
@@ -122,6 +136,9 @@ class TasksServiceUnitTest extends Specification {
         and: 'projects service mock'
         def projectServiceMock = Mock(IProjectsService)
 
+        and: 'users service mock'
+        def usersServiceMock = Mock(IUsersService)
+
         and: 'auth context service mock'
         def authContextMock = Mock(IAuthContext)
 
@@ -129,6 +146,7 @@ class TasksServiceUnitTest extends Specification {
         def taskService = new TasksService(
                 tasksRepositoryMock,
                 projectServiceMock,
+                usersServiceMock,
                 authContextMock
         )
 
@@ -170,6 +188,9 @@ class TasksServiceUnitTest extends Specification {
         and: 'projects service mock'
         def projectServiceMock = Mock(IProjectsService)
 
+        and: 'users service mock'
+        def usersServiceMock = Mock(IUsersService)
+
         and: 'auth context service mock'
         def authContextMock = Mock(IAuthContext)
 
@@ -177,6 +198,7 @@ class TasksServiceUnitTest extends Specification {
         def taskService = new TasksService(
                 tasksRepositoryMock,
                 projectServiceMock,
+                usersServiceMock,
                 authContextMock
         )
 
@@ -188,5 +210,135 @@ class TasksServiceUnitTest extends Specification {
 
         then: 'task deleted'
         1 * tasksRepositoryMock.deleteById(task.id)
+    }
+
+    def 'assign task to user'() {
+        given: 'tasks repository mock'
+        def tasksRepositoryMock = Mock(ITasksRepository)
+
+        and: 'projects service mock'
+        def projectServiceMock = Mock(IProjectsService)
+
+        and: 'users service mock'
+        def usersServiceMock = Mock(IUsersService)
+
+        and: 'auth context service mock'
+        def authContextMock = Mock(IAuthContext)
+
+        and: 'tasks service'
+        def taskService = new TasksService(
+                tasksRepositoryMock,
+                projectServiceMock,
+                usersServiceMock,
+                authContextMock
+        )
+
+        and: 'task'
+        def task = getTask()
+
+        and: 'assignee'
+        def assignee = getUser()
+
+        when: 'assign task to user'
+        taskService.assignTaskToUser(task.id, UserTaskRequestDTO.builder()
+                .userId(assignee.id)
+                .build())
+
+        then: 'task exists'
+        1 * tasksRepositoryMock.findById(task.id) >> Optional.of(task)
+
+        and: 'user exists'
+        1 * usersServiceMock.findById(assignee.id) >> assignee
+
+        and: 'save task method called'
+        1 * tasksRepositoryMock.save(!null as Task)
+    }
+
+    def 'change task assignee'() {
+        given: 'tasks repository mock'
+        def tasksRepositoryMock = Mock(ITasksRepository)
+
+        and: 'projects service mock'
+        def projectServiceMock = Mock(IProjectsService)
+
+        and: 'users service mock'
+        def usersServiceMock = Mock(IUsersService)
+
+        and: 'auth context service mock'
+        def authContextMock = Mock(IAuthContext)
+
+        and: 'tasks service'
+        def taskService = new TasksService(
+                tasksRepositoryMock,
+                projectServiceMock,
+                usersServiceMock,
+                authContextMock
+        )
+
+        and: 'task'
+        def task = getTask()
+
+        and: 'current assignee'
+        def currentAssignee = getUser()
+
+        and: 'a new assignee'
+        def assignee = getUser()
+
+        when: 'assign change task assignee'
+        taskService.changeTaskAssignee(task.id, currentAssignee.id, UserTaskRequestDTO.builder()
+                .userId(assignee.id)
+                .build())
+
+        then: 'task exists'
+        1 * tasksRepositoryMock.findById(task.id) >> Optional.of(task)
+
+        and: 'current assignee exists'
+        1 * usersServiceMock.findById(currentAssignee.id) >> currentAssignee
+
+        and: 'a new assignee exists'
+        1 * usersServiceMock.findById(assignee.id) >> assignee
+
+        and: 'save task method called'
+        1 * tasksRepositoryMock.save(!null as Task)
+    }
+
+    def 'delete task assignee'() {
+        given: 'tasks repository mock'
+        def tasksRepositoryMock = Mock(ITasksRepository)
+
+        and: 'projects service mock'
+        def projectServiceMock = Mock(IProjectsService)
+
+        and: 'users service mock'
+        def usersServiceMock = Mock(IUsersService)
+
+        and: 'auth context service mock'
+        def authContextMock = Mock(IAuthContext)
+
+        and: 'tasks service'
+        def taskService = new TasksService(
+                tasksRepositoryMock,
+                projectServiceMock,
+                usersServiceMock,
+                authContextMock
+        )
+
+        and: 'task'
+        def task = getTask()
+
+        and: 'assignee'
+        def assignee = getUser()
+
+        when: 'delete task assignee'
+        taskService.deleteTaskAssignee(task.id, assignee.id)
+
+        then: 'task exists'
+        1 * tasksRepositoryMock.findById(task.id) >> Optional.of(task)
+
+        and: 'assignee exists'
+        1 * usersServiceMock.findById(assignee.id) >> assignee
+
+        and: 'save task method called'
+        1 * tasksRepositoryMock.save(!null as Task)
     }
 }

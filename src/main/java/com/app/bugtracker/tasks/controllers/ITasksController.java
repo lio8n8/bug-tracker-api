@@ -2,6 +2,7 @@ package com.app.bugtracker.tasks.controllers;
 
 import com.app.bugtracker.tasks.dto.TaskDTO;
 import com.app.bugtracker.tasks.dto.TaskRequest;
+import com.app.bugtracker.tasks.dto.UserTaskRequestDTO;
 import com.app.bugtracker.tasks.models.Priority;
 import com.app.bugtracker.tasks.models.Status;
 import com.app.bugtracker.tasks.models.Type;
@@ -84,4 +85,35 @@ public interface ITasksController {
      * @return empty response
      */
     ResponseEntity deleteById(UUID id);
+
+    /**
+     * Assigns task to user.
+     *
+     * @param taskId task id
+     * @param request request with assignee id
+     *
+     * @return {@link TaskDTO}
+     */
+    ResponseEntity<TaskDTO> assignTaskToUser(UUID taskId, UserTaskRequestDTO request);
+
+    /**
+     * Changes task assignee.
+     *
+     * @param taskId task id
+     * @param userId user id
+     * @param request request with new assignee id
+     *
+     * @return {@link TaskDTO}
+     */
+    ResponseEntity<TaskDTO> changeTaskAssignee(UUID taskId, UUID userId, UserTaskRequestDTO request);
+
+    /**
+     * Deletes assignee from task.
+     *
+     * @param taskId task id
+     * @param userId user id
+     *
+     * @return {@link TaskDTO}
+     */
+    ResponseEntity<TaskDTO> deleteTaskAssignee(UUID taskId, UUID userId);
 }

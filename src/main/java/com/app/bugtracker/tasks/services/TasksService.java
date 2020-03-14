@@ -4,12 +4,14 @@ import com.app.bugtracker.auth.services.IAuthContext;
 import com.app.bugtracker.exceptions.NotFoundException;
 import com.app.bugtracker.projects.services.IProjectsService;
 import com.app.bugtracker.tasks.dto.TaskRequest;
+import com.app.bugtracker.tasks.dto.UserTaskRequestDTO;
 import com.app.bugtracker.tasks.models.Priority;
 import com.app.bugtracker.tasks.models.Status;
 import com.app.bugtracker.tasks.models.Task;
 import com.app.bugtracker.tasks.repositories.ITasksRepository;
 import com.app.bugtracker.users.models.User;
 import com.app.bugtracker.projects.models.Project;
+import com.app.bugtracker.users.services.IUsersService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,15 +38,22 @@ public class TasksService implements ITasksService {
     private final IProjectsService projectsService;
 
     /**
+     * Users service.
+     */
+    private final IUsersService usersService;
+
+    /**
      * Authentication context.
      */
     private final IAuthContext authContext;
 
     public TasksService(final ITasksRepository tasksRepository,
                         final IProjectsService projectsService,
+                        final IUsersService usersService,
                         final IAuthContext authContext) {
         this.tasksRepository = tasksRepository;
         this.projectsService = projectsService;
+        this.usersService = usersService;
         this.authContext = authContext;
     }
 
@@ -123,5 +132,45 @@ public class TasksService implements ITasksService {
     @Override
     public void deleteById(final UUID id) {
         tasksRepository.deleteById(id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Task assignTaskToUser(UUID taskId, UserTaskRequestDTO request) {
+        Task task = findById(taskId);
+        User assignee = usersService.findById(request.getUserId());
+
+        task.setAssignee(assignee);
+
+        return tasksRepository.save(task);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Task changeTaskAssignee(UUID taskId, UUID userId, UserTaskRequestDTO request) {
+        Task task = findById(taskId);
+        User assignee = usersService.findById(userId);
+        User newAssignee = usersService.findById(request.getUserId());
+
+        task.setAssignee(newAssignee);
+
+        return tasksRepository.save(task);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Task deleteTaskAssignee(UUID taskId, UUID userId) {
+        Task task = findById(taskId);
+        usersService.findById(userId);
+
+        task.setAssignee(null);
+
+        return tasksRepository.save(task);
     }
 }

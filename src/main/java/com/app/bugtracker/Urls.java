@@ -51,6 +51,16 @@ public interface Urls {
     String TASK_STATUSES = TASKS + "/statuses";
 
     /**
+     * Task assignees.
+     */
+    String TASK_ASSIGNEES = TASKS + "{taskId}" + "/assignees";
+
+    /**
+     * Task assignee.
+     */
+    String TASK_ASSIGNEE = TASK_ASSIGNEES + "/{assigneeId}";
+
+    /**
      * Projects root url.
      */
     String PROJECTS = "/api/projects";

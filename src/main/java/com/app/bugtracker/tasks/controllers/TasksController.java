@@ -2,6 +2,7 @@ package com.app.bugtracker.tasks.controllers;
 
 import com.app.bugtracker.tasks.dto.TaskDTO;
 import com.app.bugtracker.tasks.dto.TaskRequest;
+import com.app.bugtracker.tasks.dto.UserTaskRequestDTO;
 import com.app.bugtracker.tasks.models.Priority;
 import com.app.bugtracker.tasks.models.Status;
 import com.app.bugtracker.tasks.models.Type;
@@ -31,6 +32,8 @@ import java.util.UUID;
 
 import static com.app.bugtracker.Urls.TASK;
 import static com.app.bugtracker.Urls.TASKS;
+import static com.app.bugtracker.Urls.TASK_ASSIGNEE;
+import static com.app.bugtracker.Urls.TASK_ASSIGNEES;
 import static com.app.bugtracker.Urls.TASK_STATUSES;
 import static com.app.bugtracker.Urls.TASK_TYPES;
 import static com.app.bugtracker.Urls.TASK_PRIORITIES;
@@ -186,5 +189,58 @@ public class TasksController implements ITasksController{
         tasksService.deleteById(id);
 
         return new ResponseEntity(NO_CONTENT);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @PostMapping(path = TASK_ASSIGNEES,
+            produces = APPLICATION_JSON_VALUE,
+            consumes = APPLICATION_JSON_VALUE)
+    @ApiOperation("Add assignee to task.")
+    public ResponseEntity<TaskDTO> assignTaskToUser(
+            @PathVariable("taskId") final UUID taskId,
+            @RequestBody @Valid final UserTaskRequestDTO request) {
+
+        return new ResponseEntity<>(conversionService.convert(
+                tasksService.assignTaskToUser(taskId, request),
+                TaskDTO.class
+        ), OK);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @PutMapping(path = TASK_ASSIGNEE,
+            produces = APPLICATION_JSON_VALUE,
+            consumes = APPLICATION_JSON_VALUE)
+    @ApiOperation("Change task assignee.")
+    public ResponseEntity<TaskDTO> changeTaskAssignee(
+            @PathVariable("taskId") final UUID taskId,
+            @PathVariable("assigneeId") UUID userId,
+            @RequestBody @Valid final UserTaskRequestDTO request) {
+
+        return new ResponseEntity<>(conversionService.convert(
+                tasksService.changeTaskAssignee(taskId, userId, request),
+                TaskDTO.class
+        ), OK);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @DeleteMapping(path = TASK_ASSIGNEE)
+    @ApiOperation("Delete task assignee.")
+    public ResponseEntity<TaskDTO> deleteTaskAssignee(
+            @PathVariable("taskId") final UUID taskId,
+            @PathVariable("assigneeId") final UUID userId) {
+
+        return new ResponseEntity<>(conversionService.convert(
+                tasksService.deleteTaskAssignee(taskId, userId),
+                TaskDTO.class
+        ), OK);
     }
 }

@@ -35,6 +35,7 @@
             <column name="updated_by" type="UUID">
                 <constraints nullable="false"/>
             </column>
+            <column name="assignee" type="UUID"/>
         </createTable>
 
         <addForeignKeyConstraint baseColumnNames="created_by"
@@ -46,6 +47,12 @@
         <addForeignKeyConstraint baseColumnNames="updated_by"
                                  baseTableName="tasks"
                                  constraintName="fk_tasks_updated_by"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+
+        <addForeignKeyConstraint baseColumnNames="assignee"
+                                 baseTableName="tasks"
+                                 constraintName="fk_tasks_assignee"
                                  referencedColumnNames="id"
                                  referencedTableName="users"/>
     </changeSet>

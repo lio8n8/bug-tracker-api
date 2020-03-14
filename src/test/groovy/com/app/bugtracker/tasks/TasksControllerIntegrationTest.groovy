@@ -4,6 +4,7 @@ import com.app.bugtracker.BaseControllerIntegrationTest
 import com.app.bugtracker.auth.services.ITokensService
 import com.app.bugtracker.projects.services.IProjectsService
 import com.app.bugtracker.tasks.dto.TaskDTO
+import com.app.bugtracker.tasks.dto.UserTaskRequestDTO
 import com.app.bugtracker.tasks.models.Priority
 import com.app.bugtracker.tasks.models.Status
 import com.app.bugtracker.tasks.models.Type
@@ -18,6 +19,8 @@ import java.time.LocalDateTime
 
 import static com.app.bugtracker.Urls.TASK
 import static com.app.bugtracker.Urls.TASKS
+import static com.app.bugtracker.Urls.TASK_ASSIGNEE
+import static com.app.bugtracker.Urls.TASK_ASSIGNEES
 import static com.app.bugtracker.Urls.TASK_PRIORITIES
 import static com.app.bugtracker.Urls.TASK_STATUSES
 import static com.app.bugtracker.Urls.TASK_TYPES
@@ -296,6 +299,123 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                 .exchange()
                 .expectStatus()
                 .isNoContent()
+
+        then: 'success'
+        true
+    }
+
+    def 'assign task to user'() {
+        given: 'token'
+        def token = tokensService.createToken(user.username)
+
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
+        and: 'task exists'
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
+
+        and: 'request'
+        def request = UserTaskRequestDTO.builder()
+                .userId(user.id)
+                .build()
+
+        when: 'add assignee to task'
+        webTestClient.post()
+                .uri(TASK_ASSIGNEES, task.id)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .body(BodyInserters.fromValue(request))
+                .header(AUTHORIZATION, "Bearer ${token}")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(TaskDTO.class)
+                .consumeWith({ t ->
+                    assert t.responseBody.id == task.id
+                    assert t.responseBody.assignee.id == user.id
+                })
+
+        then: 'success'
+        true
+    }
+
+    def 'change task assignee'() {
+        given: 'token'
+        def token = tokensService.createToken(user.username)
+
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
+        and: 'task exists'
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
+
+        and: 'task has assignee'
+        tasksService.assignTaskToUser(task.id, UserTaskRequestDTO.builder()
+                .userId(user.id)
+                .build())
+
+        and: 'a new assignee'
+        def assignee = usersService.create(getCreateUserRequest())
+
+        and: 'request'
+        def request = UserTaskRequestDTO.builder()
+                .userId(assignee.id)
+                .build()
+
+        when: 'change task assignee'
+        webTestClient.put()
+                .uri(TASK_ASSIGNEE, task.id, user.id)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .body(BodyInserters.fromValue(request))
+                .header(AUTHORIZATION, "Bearer ${token}")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(TaskDTO.class)
+                .consumeWith({ t ->
+                    assert t.responseBody.id == task.id
+                    assert t.responseBody.assignee.id == assignee.id
+                })
+
+        then: 'success'
+        true
+    }
+
+    def 'delete task assignee'() {
+        given: 'token'
+        def token = tokensService.createToken(user.username)
+
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
+        and: 'task exists'
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
+
+        and: 'task has assignee'
+        tasksService.assignTaskToUser(task.id, UserTaskRequestDTO.builder()
+                .userId(user.id)
+                .build())
+
+        when: 'delete task assignee'
+        webTestClient.delete()
+                .uri(TASK_ASSIGNEE, task.id, user.id)
+                .accept(APPLICATION_JSON)
+                .header(AUTHORIZATION, "Bearer ${token}")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(TaskDTO.class)
+                .consumeWith({ t ->
+                    assert t.responseBody.id == task.id
+                    assert t.responseBody.assignee == null
+                })
 
         then: 'success'
         true

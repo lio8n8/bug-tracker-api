@@ -75,4 +75,9 @@ public class TaskDTO {
      * User who updated the task.
      */
     private UserDTO updatedBy;
+
+    /**
+     * Task assignee.
+     */
+    private UserDTO assignee;
 }

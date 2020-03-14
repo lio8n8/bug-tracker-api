@@ -2,6 +2,7 @@ package com.app.bugtracker.tasks
 
 import com.app.bugtracker.BaseServiceIntegrationTest
 import com.app.bugtracker.projects.services.IProjectsService
+import com.app.bugtracker.tasks.dto.UserTaskRequestDTO
 import com.app.bugtracker.tasks.models.Status
 import com.app.bugtracker.tasks.repositories.ITasksRepository
 import com.app.bugtracker.tasks.services.ITasksService
@@ -148,5 +149,80 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
 
         and: 'task deleted'
         res.isEmpty()
+    }
+
+    def 'assign task to user'() {
+        given: 'project'
+        def project = projectsService.create(getCreateProjectRequest())
+
+        and: 'task exists'
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
+
+        and: 'user exists'
+        def user = usersService.create(getCreateUserRequest())
+
+        when: 'assign task to user'
+        def res = tasksService.assignTaskToUser(task.id, UserTaskRequestDTO.builder()
+                .userId(user.id)
+                .build())
+
+        then: 'task should be assigned to user'
+        res.assignee.id.equals(user.id)
+    }
+
+    def 'change task assignee'() {
+        given: 'project'
+        def project = projectsService.create(getCreateProjectRequest())
+
+        and: 'task exists'
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
+
+        and: 'current task assignee'
+        def currentAssignee = usersService.create(getCreateUserRequest())
+
+        and: 'new task assignee'
+        def assignee = usersService.create(getCreateUserRequest())
+
+        and: 'task has assignee'
+        tasksService.assignTaskToUser(task.id, UserTaskRequestDTO.builder()
+                .userId(currentAssignee.id)
+                .build())
+
+        when: 'update task assignee'
+        def res = tasksService.changeTaskAssignee(task.id, currentAssignee.id, UserTaskRequestDTO.builder()
+                .userId(assignee.id)
+                .build())
+
+        then: 'task should be assigned to other user'
+        res.assignee.id.equals(assignee.id)
+    }
+
+    def 'delete task assignee'() {
+        given: 'project'
+        def project = projectsService.create(getCreateProjectRequest())
+
+        and: 'task exists'
+        def task = tasksService.create(getCreateTaskRequest().tap {
+            projectId = project.id
+        })
+
+        and: 'user exists'
+        def user = usersService.create(getCreateUserRequest())
+
+        and: 'task has assignee'
+        tasksService.assignTaskToUser(task.id, UserTaskRequestDTO.builder()
+                .userId(user.id)
+                .build())
+
+        when: 'assign task to user'
+        def res = tasksService.deleteTaskAssignee(task.id, user.id)
+
+        then: 'task should has no assignee'
+        res.assignee.equals(null)
+
     }
 }

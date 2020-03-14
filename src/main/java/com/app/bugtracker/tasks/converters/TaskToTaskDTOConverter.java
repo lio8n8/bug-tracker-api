@@ -38,6 +38,7 @@ public class TaskToTaskDTOConverter implements Converter<Task, TaskDTO> {
                 .updatedAt(source.getUpdatedAt())
                 .createdBy(conversionService.convert(source.getCreatedBy(), UserDTO.class))
                 .updatedBy(conversionService.convert(source.getUpdatedBy(), UserDTO.class))
+                .assignee(conversionService.convert(source.getAssignee(), UserDTO.class))
                 .build();
     }
 }

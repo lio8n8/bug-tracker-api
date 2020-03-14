@@ -12,7 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import static javax.persistence.GenerationType.AUTO;
@@ -75,23 +75,23 @@ public class User {
      * Account activation time.
      */
     @Column(name = "activated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private LocalDateTime activatedAt;
+    private Instant activatedAt;
 
     /**
      * Account creation time.
      */
     @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     /**
      * Time of account updating.
      */
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     /**
      * Time of last login.
      */
     @Column(name = "last_login", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private LocalDateTime lastLogin;
+    private Instant lastLogin;
 }

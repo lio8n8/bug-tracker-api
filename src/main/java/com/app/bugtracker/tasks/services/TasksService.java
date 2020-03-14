@@ -16,7 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import static com.app.bugtracker.exceptions.Exceptions.TASK_NOT_FOUND;
@@ -89,8 +89,8 @@ public class TasksService implements ITasksService {
                     .type(request.getType())
                     .priority(request.getPriority() != null ? request.getPriority() : Priority.TRIVIAL)
                     .status(Status.NEW)
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
+                    .createdAt(Instant.now())
+                    .updatedAt(Instant.now())
                     .createdBy(user)
                     .updatedBy(user)
                     .project(project)
@@ -111,7 +111,7 @@ public class TasksService implements ITasksService {
         task.setType(request.getType());
         task.setPriority(request.getPriority());
         task.setStatus(request.getStatus());
-        task.setUpdatedAt(LocalDateTime.now());
+        task.setUpdatedAt(Instant.now());
         task.setUpdatedBy(authContext.getUser());
         task.setProject(project);
 

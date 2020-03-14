@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import static com.app.bugtracker.exceptions.Exceptions.PROJECT_NOT_FOUND;
@@ -66,8 +66,8 @@ public class ProjectsService implements IProjectsService {
         return projectsRepository.save(Project.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
+                .createdAt(Instant.now())
+                .updatedAt(Instant.now())
                 .createdBy(user)
                 .updatedBy(user)
                 .build());
@@ -83,7 +83,7 @@ public class ProjectsService implements IProjectsService {
 
         project.setTitle(request.getTitle());
         project.setDescription(request.getDescription());
-        project.setUpdatedAt(LocalDateTime.now());
+        project.setUpdatedAt(Instant.now());
         project.setUpdatedBy(user);
 
         return projectsRepository.save(project);

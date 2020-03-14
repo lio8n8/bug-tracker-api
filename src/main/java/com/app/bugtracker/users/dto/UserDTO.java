@@ -1,13 +1,16 @@
 package com.app.bugtracker.users.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.app.bugtracker.serializers.InstantDeserializer;
+import com.app.bugtracker.serializers.InstantSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -53,24 +56,28 @@ public class UserDTO {
     /**
      * Account creation date.
      */
-    @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
-    private LocalDateTime createdAt;
+    @JsonDeserialize(using = InstantDeserializer.class)
+    @JsonSerialize(using = InstantSerializer.class)
+    private Instant createdAt;
 
     /**
      * Account activation date.
      */
-    @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
-    private LocalDateTime activatedAt;
+    @JsonDeserialize(using = InstantDeserializer.class)
+    @JsonSerialize(using = InstantSerializer.class)
+    private Instant activatedAt;
 
     /**
      * Account updating date.
      */
-    @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
-    private LocalDateTime updatedAt;
+    @JsonDeserialize(using = InstantDeserializer.class)
+    @JsonSerialize(using = InstantSerializer.class)
+    private Instant updatedAt;
 
     /**
      * User's last login.
      */
-    @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
-    private LocalDateTime lastLogin;
+    @JsonDeserialize(using = InstantDeserializer.class)
+    @JsonSerialize(using = InstantSerializer.class)
+    private Instant lastLogin;
 }

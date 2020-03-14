@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import static com.app.bugtracker.exceptions.Exceptions.USER_NOT_FOUND;
@@ -89,8 +89,8 @@ public class UsersService implements IUsersService {
                 .email(request.getEmail())
                 .username(request.getUsername())
                 .psw(bCryptPasswordEncoder.encode(request.getPassword()))
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
+                .createdAt(Instant.now())
+                .updatedAt(Instant.now())
                 .locked(true)
                 .build();
 
@@ -116,7 +116,7 @@ public class UsersService implements IUsersService {
         user.setEmail(request.getEmail());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setUpdatedAt(LocalDateTime.now());
+        user.setUpdatedAt(Instant.now());
 
         return usersRepository.save(user);
     }

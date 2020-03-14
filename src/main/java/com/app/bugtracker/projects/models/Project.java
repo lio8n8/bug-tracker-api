@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,13 +55,13 @@ public class Project {
      * Task creation time.
      */
     @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     /**
      * Time of task updating.
      */
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     /**
      * User, who updated the task.

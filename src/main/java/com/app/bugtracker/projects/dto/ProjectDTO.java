@@ -1,14 +1,17 @@
 package com.app.bugtracker.projects.dto;
 
+import com.app.bugtracker.serializers.InstantDeserializer;
+import com.app.bugtracker.serializers.InstantSerializer;
 import com.app.bugtracker.users.dto.UserDTO;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -39,14 +42,16 @@ public class ProjectDTO {
     /**
      * Time of creation.
      */
-    @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
-    private LocalDateTime createdAt;
+    @JsonDeserialize(using = InstantDeserializer.class)
+    @JsonSerialize(using = InstantSerializer.class)
+    private Instant createdAt;
 
     /**
      * Time of updating.
      */
-    @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
-    private LocalDateTime updatedAt;
+    @JsonDeserialize(using = InstantDeserializer.class)
+    @JsonSerialize(using = InstantSerializer.class)
+    private Instant updatedAt;
 
     /**
      * User who created the project.

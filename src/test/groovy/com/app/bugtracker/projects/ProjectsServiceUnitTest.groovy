@@ -7,7 +7,7 @@ import com.app.bugtracker.projects.models.Project
 import org.springframework.data.domain.PageRequest
 import spock.lang.Specification
 
-import java.time.LocalDateTime
+import java.time.Instant
 
 import static com.app.bugtracker.Utils.getCreateProjectRequest
 import static com.app.bugtracker.Utils.getProject

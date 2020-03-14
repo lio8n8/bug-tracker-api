@@ -22,8 +22,6 @@ spring:
   h2:
     console:
       enabled: false
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
   logging:
     config: classpath:logback-spring.xml
 server:
@@ -58,8 +56,6 @@ spring:
   h2:
     console:
       enabled: false
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
   logging:
     config: classpath:logback-spring.xml
 server:

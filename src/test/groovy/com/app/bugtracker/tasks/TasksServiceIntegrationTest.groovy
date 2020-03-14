@@ -11,7 +11,7 @@ import com.app.bugtracker.users.services.IUsersService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 
-import java.time.LocalDateTime
+import java.time.Instant
 
 import static com.app.bugtracker.Utils.authenticate
 import static com.app.bugtracker.Utils.getCreateProjectRequest
@@ -92,8 +92,8 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
             type == request.type
             priority == request.priority
             status == Status.NEW
-            createdAt.isBefore(LocalDateTime.now())
-            updatedAt.isBefore(LocalDateTime.now())
+            createdAt.isBefore(Instant.now())
+            updatedAt.isBefore(Instant.now())
             createdBy.id == user.id
             updatedBy.id == user.id
         }

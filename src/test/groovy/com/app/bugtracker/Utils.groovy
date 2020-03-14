@@ -15,7 +15,7 @@ import com.app.bugtracker.projects.models.Project
 import com.github.javafaker.Faker
 import org.springframework.security.authentication.TestingAuthenticationToken
 
-import java.time.LocalDateTime
+import java.time.Instant
 import static org.springframework.security.core.context.SecurityContextHolder.getContext
 
 // TODO: Refactor.
@@ -45,8 +45,8 @@ class Utils {
                 .type(Type.TASK)
                 .priority(Priority.TRIVIAL)
                 .status(Status.NEW)
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
+                .createdAt(Instant.now())
+                .updatedAt(Instant.now())
                 .createdBy(user)
                 .updatedBy(user)
                 .project(getProject())
@@ -60,8 +60,8 @@ class Utils {
                 .id(UUID.randomUUID())
                 .title(faker.lorem().sentence())
                 .description(faker.lorem().sentence())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
+                .createdAt(Instant.now())
+                .updatedAt(Instant.now())
                 .createdBy(user)
                 .updatedBy(user)
                 .build()

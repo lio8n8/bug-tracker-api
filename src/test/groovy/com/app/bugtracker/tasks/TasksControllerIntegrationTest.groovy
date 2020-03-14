@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
 import org.springframework.web.reactive.function.BodyInserters
 
-import java.time.LocalDateTime
+import java.time.Instant
 
 import static com.app.bugtracker.Urls.TASK
 import static com.app.bugtracker.Urls.TASKS
@@ -226,8 +226,8 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                     assert t.responseBody.status == request.status
                     assert t.responseBody.createdBy.id == user.id
                     assert t.responseBody.updatedBy.id == user.id
-                    assert t.responseBody.createdAt.isBefore(LocalDateTime.now())
-                    assert t.responseBody.updatedAt.isBefore(LocalDateTime.now())
+                    assert t.responseBody.createdAt.isBefore(Instant.now())
+                    assert t.responseBody.updatedAt.isBefore(Instant.now())
                 })
 
         then: 'success'

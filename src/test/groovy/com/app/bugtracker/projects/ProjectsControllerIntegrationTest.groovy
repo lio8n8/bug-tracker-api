@@ -9,7 +9,7 @@ import com.app.bugtracker.users.services.IUsersService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.reactive.function.BodyInserters
 
-import java.time.LocalDateTime
+import java.time.Instant
 
 import static com.app.bugtracker.Urls.PROJECT
 import static com.app.bugtracker.Urls.PROJECTS
@@ -117,8 +117,8 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
                     assert p.responseBody.description == request.description
                     assert p.responseBody.createdBy.id == user.id
                     assert p.responseBody.updatedBy.id == user.id
-                    assert p.responseBody.createdAt.isBefore(LocalDateTime.now())
-                    assert p.responseBody.updatedAt.isBefore(LocalDateTime.now())
+                    assert p.responseBody.createdAt.isBefore(Instant.now())
+                    assert p.responseBody.updatedAt.isBefore(Instant.now())
                 })
 
         then: 'success'

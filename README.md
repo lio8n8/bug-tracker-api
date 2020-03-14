@@ -1,4 +1,4 @@
-![](https://github.com/lio8n8/bug-tracker-api/workflows/Build/badge.svg)
+![](https://github.com/lio8n8/bug-tracker-api/workflows/Test/badge.svg)
 
 # Bug tracker
 This is an example of bug tracker api. Project is built with using of Spring Framework and for tests used Spock.

@@ -19,6 +19,8 @@ import java.time.Instant
 
 import static com.app.bugtracker.Urls.TASK
 import static com.app.bugtracker.Urls.TASKS
+import static com.app.bugtracker.Urls.TASKS_BY_ASSIGNEE
+import static com.app.bugtracker.Urls.TASKS_FOR_CURRENT_USER
 import static com.app.bugtracker.Urls.TASK_ASSIGNEE
 import static com.app.bugtracker.Urls.TASK_ASSIGNEES
 import static com.app.bugtracker.Urls.TASK_PRIORITIES
@@ -189,6 +191,75 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                 .consumeWith({ s ->
                     assert s.responseBody.containsAll(statuses)
                 })
+
+        then: 'success'
+        true
+    }
+
+    def 'find tasks by assignee id'() {
+        given: 'token'
+        def token = tokensService.createToken(user.username)
+
+        and: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
+        and: 'assignee'
+        def assignee = usersService.create(getCreateUserRequest())
+
+        and: 'tasks'
+        def size = 5
+        (1..size).each {
+            def task = tasksService.create(getCreateTaskRequest().tap {
+                projectId = project.id
+            })
+            tasksService.assignTaskToUser(task.id, UserTaskRequestDTO.builder()
+                    .userId(assignee.id)
+                    .build())
+        }
+
+        when: 'find all tasks'
+        webTestClient.get()
+                .uri(TASKS_BY_ASSIGNEE, assignee.id, PageRequest.of(0, 25))
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .header(AUTHORIZATION, "Bearer ${token}")
+                .exchange()
+                .expectStatus()
+                .isOk()
+
+        then: 'success'
+        true
+    }
+
+    def 'find task assigned to current user'() {
+        given: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
+        and: 'assignee'
+        def assignee = usersService.create(getCreateUserRequest())
+
+        and: 'tasks'
+        def size = 5
+        (1..size).each {
+            def task = tasksService.create(getCreateTaskRequest().tap {
+                projectId = project.id
+            })
+            tasksService.assignTaskToUser(task.id, UserTaskRequestDTO.builder()
+                    .userId(assignee.id)
+                    .build())
+        }
+
+        and: 'token'
+        def token = tokensService.createToken(assignee.username)
+
+        when: 'find all tasks'
+        webTestClient.get()
+                .uri(TASKS_FOR_CURRENT_USER, PageRequest.of(0, 25))
+                .accept(APPLICATION_JSON)
+                .header(AUTHORIZATION, "Bearer ${token}")
+                .exchange()
+                .expectStatus()
+                .isOk()
 
         then: 'success'
         true

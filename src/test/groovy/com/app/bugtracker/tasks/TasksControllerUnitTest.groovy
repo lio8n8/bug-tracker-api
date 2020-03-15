@@ -180,6 +180,98 @@ class TasksControllerUnitTest extends Specification {
         assert res.body.containsAll(statuses)
     }
 
+    def 'find tasks by assignee'() {
+        given: 'tasks service mock'
+        def tasksServiceMock = Mock(ITasksService)
+
+        and: 'conversion service mock'
+        def conversionServiceMock = Mock(ConversionService)
+
+        and: 'tasks controller'
+        def tasksController = new TasksController(
+                tasksServiceMock,
+                conversionServiceMock
+        )
+
+        and: 'tasks'
+        def tasks = getTasks()
+
+        and: 'assignee'
+        def assignee = getUser()
+
+        and: 'assign task to user'
+        tasks.collect {
+            t -> t.assignee = assignee
+        }
+
+        and: 'page'
+        def page = new PageImpl<>(tasks)
+
+        and: 'page request'
+        def request = PageRequest.of(0, 25)
+
+        when: 'find tasks by assignee id'
+        def res = tasksController.findByAssigneeId(assignee.id, request)
+
+        then: 'page was returned'
+        1 * tasksServiceMock.findByAssigneeId(assignee.id, request) >> page
+
+        and: 'conversion service called'
+        tasks.size() * conversionServiceMock.convert(!null as Task, TaskDTO)
+
+        and: 'response OK'
+        res.statusCode == OK
+
+        and: 'response contains body'
+        res.body
+    }
+
+    def 'find tasks assigned to current user'() {
+        given: 'tasks service mock'
+        def tasksServiceMock = Mock(ITasksService)
+
+        and: 'conversion service mock'
+        def conversionServiceMock = Mock(ConversionService)
+
+        and: 'tasks controller'
+        def tasksController = new TasksController(
+                tasksServiceMock,
+                conversionServiceMock
+        )
+
+        and: 'tasks'
+        def tasks = getTasks()
+
+        and: 'assignee'
+        def assignee = getUser()
+
+        and: 'assign task to user'
+        tasks.collect {
+            t -> t.assignee = assignee
+        }
+
+        and: 'page'
+        def page = new PageImpl<>(tasks)
+
+        and: 'page request'
+        def request = PageRequest.of(0, 25)
+
+        when: 'find tasks assigned to current user'
+        def res = tasksController.findByCurrentAssignee(request)
+
+        then: 'page was returned'
+        1 * tasksServiceMock.findByCurrentUser(request) >> page
+
+        and: 'conversion service called'
+        tasks.size() * conversionServiceMock.convert(!null as Task, TaskDTO)
+
+        and: 'response OK'
+        res.statusCode == OK
+
+        and: 'response contains body'
+        res.body
+    }
+
     def 'create task'() {
         given: 'tasks service mock'
         def tasksServiceMock = Mock(ITasksService)

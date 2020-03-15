@@ -58,20 +58,87 @@ class TasksServiceIntegrationTest extends BaseServiceIntegrationTest {
         assert res.getContent().any { it.id == task.id}
     }
 
-    def 'find task by id'() {
+    def 'find tasks by id'() {
         given: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
 
-        and: 'task exists'
+        and: 'task created'
         def task = tasksService.create(getCreateTaskRequest().tap {
             projectId = project.id
         })
 
-        when: 'find task by id'
+        when: 'find all tasks'
         def res = tasksService.findById(task.id)
 
-        then: 'task is returned'
-        res && res.id && res.title == task.title
+        then: 'task returned'
+        with(res) {
+            id == task.id
+            title == task.title
+            description == task.description
+            status == task.status
+            priority == task.priority
+            type == task.type
+            project.id == task.project.id
+        }
+    }
+
+    def 'find tasks by assignee id'() {
+        given: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
+        and: 'assignee'
+        def assignee = usersService.create(getCreateUserRequest())
+
+        and: 'tasks'
+        def size = 5
+        (1..size).each {
+            def task = tasksService.create(getCreateTaskRequest().tap {
+                projectId = project.id
+            })
+            tasksService.assignTaskToUser(task.id, UserTaskRequestDTO.builder()
+                    .userId(assignee.id)
+                    .build())
+        }
+
+        when: 'find tasks by assignee id'
+        def res = tasksService.findByAssigneeId(assignee.id, PageRequest.of(0, 25))
+
+        then: 'tasks list size are correct'
+        res.content.size() == size
+
+        and: 'all task contain created assignee'
+        assert res.content.every { t -> t.assignee.id == assignee.id }
+    }
+
+    def 'find tasks assigned for current user'() {
+        given: 'project created'
+        def project = projectsService.create(getCreateProjectRequest())
+
+        and: 'assignee'
+        def assignee = usersService.create(getCreateUserRequest())
+
+        and: 'tasks'
+        def size = 5
+        (1..size).each {
+            def task = tasksService.create(getCreateTaskRequest().tap {
+                projectId = project.id
+            })
+            tasksService.assignTaskToUser(task.id, UserTaskRequestDTO.builder()
+                    .userId(assignee.id)
+                    .build())
+        }
+
+        and: 'authenticate assignee'
+        authenticate(assignee)
+
+        when: 'find tasks for current users'
+        def res = tasksService.findByCurrentUser()
+
+        then: 'tasks list size are correct'
+        res.content.size() == size
+
+        and: 'all task contain created assignee'
+        assert res.content.every { t -> t.assignee.id == assignee.id }
     }
 
     def 'create task'() {

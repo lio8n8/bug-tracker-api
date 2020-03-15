@@ -6,7 +6,6 @@ import com.app.bugtracker.tasks.models.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Collection;
 import java.util.UUID;
 
 /**
@@ -31,12 +30,21 @@ public interface ITasksService {
     Page<Task> findAll(Pageable request);
 
     /**
-     * Finds tasks by user id.
+     * Finds tasks by assignee id.
      *
+     * @param request pageable request
      * @param id user id
      * @return list of {@link Task}
      */
-    //Collection<Task> findByUserId(UUID id);
+    Page<Task> findByAssigneeId(UUID id, Pageable request);
+
+    /**
+     * Finds all tasks where current user is assignee.
+     *
+     * @param request pageable request
+     * @return {@link Page} of {@link Task}
+     */
+    Page<Task> findByCurrentUser(Pageable request);
 
     /**
      * Creates a new task.

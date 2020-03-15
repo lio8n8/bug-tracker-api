@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Collection;
 import java.util.UUID;
 
 public interface ITasksRepository extends JpaRepository<Task, UUID> {
@@ -18,10 +17,11 @@ public interface ITasksRepository extends JpaRepository<Task, UUID> {
     Page<Task> findAll(Pageable pageable);
 
     /**
-     * Finds tasks by user id.
+     * Finds tasks by assignee id.
      *
+     * @param pageable request
      * @param id user id
      * @return list of {@link Task}
      */
-    Collection<Task> findByAssigneeId(UUID id);
+    Page<Task> findByAssigneeId(UUID id, Pageable pageable);
 }

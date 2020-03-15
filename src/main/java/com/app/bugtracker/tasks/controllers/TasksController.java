@@ -37,6 +37,8 @@ import static com.app.bugtracker.Urls.TASK_ASSIGNEES;
 import static com.app.bugtracker.Urls.TASK_STATUSES;
 import static com.app.bugtracker.Urls.TASK_TYPES;
 import static com.app.bugtracker.Urls.TASK_PRIORITIES;
+import static com.app.bugtracker.Urls.TASKS_BY_ASSIGNEE;
+import static com.app.bugtracker.Urls.TASKS_FOR_CURRENT_USER;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -128,6 +130,42 @@ public class TasksController implements ITasksController{
     public ResponseEntity<List<Status>> findTaskStatuses() {
 
         return new ResponseEntity<>(Arrays.asList(Status.values()), OK);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @GetMapping(path = TASKS_BY_ASSIGNEE)
+    @ApiOperation(value = "Finds tasks by assignee id.", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<TaskDTO>> findByAssigneeId(
+            @PathVariable("id") final UUID id,
+            @PageableDefault(page = 0, size = 25)
+            @SortDefault.SortDefaults({
+                    @SortDefault(sort = "updatedAt", direction = Sort.Direction.ASC)
+            }) final Pageable request) {
+
+        return new ResponseEntity<>(tasksService.findByAssigneeId(id, request).map(
+                t -> conversionService.convert(t, TaskDTO.class)
+        ), OK);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @GetMapping(path = TASKS_FOR_CURRENT_USER)
+    @ApiOperation(value = "Finds tasks assigned to current user.", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<TaskDTO>> findByCurrentAssignee(
+            @PageableDefault(page = 0, size = 25)
+            @SortDefault.SortDefaults({
+                    @SortDefault(sort = "updatedAt", direction = Sort.Direction.ASC)
+            }) final Pageable request
+    ) {
+
+        return new ResponseEntity<>(tasksService.findByCurrentUser(request).map(
+                t -> conversionService.convert(t, TaskDTO.class)
+        ), OK);
     }
 
     /**

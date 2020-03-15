@@ -84,6 +84,77 @@ class TasksServiceUnitTest extends Specification {
         1 * tasksRepositoryMock.findById(task.id) >> Optional.of(task)
     }
 
+    def 'find task by assignee id'() {
+        given: 'tasks repository mock'
+        def tasksRepositoryMock = Mock(ITasksRepository)
+
+        and: 'projects service mock'
+        def projectServiceMock = Mock(IProjectsService)
+
+        and: 'users service mock'
+        def usersServiceMock = Mock(IUsersService)
+
+        and: 'auth context service mock'
+        def authContextMock = Mock(IAuthContext)
+
+        and: 'tasks service'
+        def taskService = new TasksService(
+                tasksRepositoryMock,
+                projectServiceMock,
+                usersServiceMock,
+                authContextMock
+        )
+
+        and: 'page request'
+        def request = PageRequest.of(0, 42)
+
+        and: 'user'
+        def user = getUser()
+
+        when: 'find tasks by assignee id'
+        taskService.findByAssigneeId(user.id, request)
+
+        then: 'findByAssignee method called'
+        1 * tasksRepositoryMock.findByAssigneeId(user.id, request)
+    }
+
+    def 'find task assigned for current user'() {
+        given: 'tasks repository mock'
+        def tasksRepositoryMock = Mock(ITasksRepository)
+
+        and: 'projects service mock'
+        def projectServiceMock = Mock(IProjectsService)
+
+        and: 'users service mock'
+        def usersServiceMock = Mock(IUsersService)
+
+        and: 'auth context service mock'
+        def authContextMock = Mock(IAuthContext)
+
+        and: 'tasks service'
+        def taskService = new TasksService(
+                tasksRepositoryMock,
+                projectServiceMock,
+                usersServiceMock,
+                authContextMock
+        )
+
+        and: 'page request'
+        def request = PageRequest.of(0, 42)
+
+        and: 'user'
+        def user = getUser()
+
+        when: 'find tasks assigned for current user'
+        taskService.findByCurrentUser(request)
+
+        then: 'user exists and authenticated'
+        1 * authContextMock.getUser() >> user
+
+        and: 'findByAssignee method called'
+        1 * tasksRepositoryMock.findByAssigneeId(user.id, request)
+    }
+
     def 'create task' () {
         given: 'tasks repository mock'
         def tasksRepositoryMock = Mock(ITasksRepository)

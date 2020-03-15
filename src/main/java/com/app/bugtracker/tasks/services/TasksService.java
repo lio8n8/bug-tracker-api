@@ -78,6 +78,24 @@ public class TasksService implements ITasksService {
      * {@inheritDoc}
      */
     @Override
+    public Page<Task> findByAssigneeId(final UUID id, final Pageable request) {
+        return tasksRepository.findByAssigneeId(id, request);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Page<Task> findByCurrentUser(Pageable request) {
+        User user = authContext.getUser();
+
+        return tasksRepository.findByAssigneeId(user.getId(), request);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Task create(final TaskRequest request) {
         User user = authContext.getUser();
         Project project = projectsService.findById(request.getProjectId());

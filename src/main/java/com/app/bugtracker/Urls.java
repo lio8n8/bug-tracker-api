@@ -51,9 +51,19 @@ public interface Urls {
     String TASK_STATUSES = TASKS + "/statuses";
 
     /**
+     * Tasks for current user.
+     */
+    String TASKS_FOR_CURRENT_USER = TASKS + "/assignees/me";
+
+    /**
+     * Tasks by user id.
+     */
+    String TASKS_BY_ASSIGNEE = TASKS + "/assignees/{id}";
+
+    /**
      * Task assignees.
      */
-    String TASK_ASSIGNEES = TASKS + "{taskId}" + "/assignees";
+    String TASK_ASSIGNEES = TASKS + "/{taskId}" + "/assignees";
 
     /**
      * Task assignee.

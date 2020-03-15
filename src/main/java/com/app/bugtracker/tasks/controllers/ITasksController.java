@@ -53,6 +53,24 @@ public interface ITasksController {
     ResponseEntity<List<Status>> findTaskStatuses();
 
     /**
+     * Finds tasks by assignee id.
+     *
+     * @param id assignee id
+     * @param request pageable request
+     *
+     * @return pages with {@link TaskDTO}
+     */
+    ResponseEntity<Page<TaskDTO>> findByAssigneeId(UUID id, Pageable request);
+
+    /**
+     * Finds tasks assigned to current user.
+     *
+     * @param request pageable request
+     * @return pages with {@link TaskDTO}
+     */
+    ResponseEntity<Page<TaskDTO>> findByCurrentAssignee(Pageable request);
+
+    /**
      * Creates a new task.
      *
      * @param request create task request

@@ -95,11 +95,5 @@
         <root level="INFO">
             <appender-ref ref="STDOUT"/>
         </root>
-        <logger name="com.app.bugtracker" additivity="false" level="ALL">
-            <appender-ref ref="LOG_FILE_INFO"/>
-            <appender-ref ref="LOG_FILE_WARN"/>
-            <appender-ref ref="LOG_FILE_DEBUG"/>
-            <appender-ref ref="LOG_FILE_ERROR"/>
-        </logger>
     </springProfile>
 </configuration>

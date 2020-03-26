@@ -37,7 +37,7 @@ class AuthControllerIntegrationTest extends BaseControllerIntegrationTest {
                 .password(createUserReq.password)
                 .build()
 
-        when: 'get token'
+        expect: 'get token'
         webTestClient.post()
                 .uri(TOKENS)
                 .contentType(APPLICATION_JSON)
@@ -50,9 +50,6 @@ class AuthControllerIntegrationTest extends BaseControllerIntegrationTest {
                 .consumeWith({ res ->
                     assert res.responseBody.token
                 })
-
-        then: 'success'
-        true
     }
 
     def 'get current user'() {
@@ -66,10 +63,9 @@ class AuthControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'get token'
         def token = tokensService.createToken(createUserReq.username)
 
-        when: 'find user by id'
+        expect: 'find user by id'
         webTestClient.get()
                 .uri(USER_CURRENT)
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
@@ -80,8 +76,5 @@ class AuthControllerIntegrationTest extends BaseControllerIntegrationTest {
                     assert u.responseBody.id == user.id
                     assert u.responseBody.username == user.username
                 })
-
-        then: 'success'
-        true
     }
 }

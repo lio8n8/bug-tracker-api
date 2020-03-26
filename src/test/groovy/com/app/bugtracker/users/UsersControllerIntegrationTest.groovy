@@ -34,10 +34,9 @@ class UsersControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'token'
         def token = tokensService.createToken(user.username)
 
-        when: 'find user by id'
+        expect: 'find user by id'
         webTestClient.get()
                 .uri(USER, user.id)
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
@@ -48,9 +47,6 @@ class UsersControllerIntegrationTest extends BaseControllerIntegrationTest {
                     assert u.responseBody.id == user.id
                     assert u.responseBody.username == user.username
                 })
-
-        then: 'success'
-        true
     }
 
     def 'get all users'() {
@@ -63,25 +59,21 @@ class UsersControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'token'
         def token = tokensService.createToken(user.username)
 
-        when: 'find all users'
+        expect: 'find all users'
         webTestClient.get()
                 .uri(USERS, PageRequest.of(0, 25))
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
                 .expectStatus()
                 .isOk()
-
-        then: 'success'
-        true
     }
 
     def 'create user'() {
         given: 'create user request'
         def request = getCreateUserRequest()
 
-        when: 'create user'
+        expect: 'create user'
         webTestClient.post()
                 .uri(USERS)
                 .contentType(APPLICATION_JSON)
@@ -98,9 +90,6 @@ class UsersControllerIntegrationTest extends BaseControllerIntegrationTest {
                     assert user.responseBody.firstName == request.firstName
                     assert user.responseBody.lastName == request.lastName
                 })
-
-        then: 'success'
-        true
     }
 
     def 'update user'() {
@@ -120,7 +109,7 @@ class UsersControllerIntegrationTest extends BaseControllerIntegrationTest {
                 .lastName(faker.name().lastName())
                 .build()
 
-        when: 'update user'
+        expect: 'update user'
         webTestClient.put()
                 .uri(USER, user.id)
                 .contentType(APPLICATION_JSON)
@@ -137,9 +126,6 @@ class UsersControllerIntegrationTest extends BaseControllerIntegrationTest {
                     assert u.responseBody.firstName == request.firstName
                     assert u.responseBody.lastName == request.lastName
                 })
-
-        then: 'success'
-        true
     }
 
     def 'delete user by id'() {
@@ -152,15 +138,12 @@ class UsersControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'token'
         def token = tokensService.createToken(user.username)
 
-        when: 'delete user'
+        expect: 'delete user'
         webTestClient.delete()
                 .uri(USER, user.id)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
                 .expectStatus()
                 .isNoContent()
-
-        then: 'success'
-        true
     }
 }

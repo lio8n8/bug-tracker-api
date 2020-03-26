@@ -69,18 +69,14 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
             projectId = project.id
         })
 
-        when: 'find all tasks'
+        expect: 'find all tasks'
         webTestClient.get()
                 .uri(TASKS, PageRequest.of(0, 25))
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
                 .expectStatus()
                 .isOk()
-
-        then: 'success'
-        true
     }
 
     def 'find task by id'() {
@@ -95,10 +91,9 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
             projectId = project.id
         })
 
-        when: 'find task by id'
+        expect: 'find task by id'
         webTestClient.get()
                 .uri(TASK, task.id)
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
@@ -117,9 +112,6 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                     assert t.responseBody.createdAt
                     assert t.responseBody.updatedAt
                 })
-
-        then: 'success'
-        true
     }
 
     def 'find task types'() {
@@ -129,10 +121,9 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
         and: 'task types'
         def types = Type.values()
 
-        when: 'find task types'
+        expect: 'find task types'
         webTestClient.get()
                 .uri(TASK_TYPES)
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
@@ -142,9 +133,6 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                 .consumeWith({ t ->
                     assert t.responseBody.containsAll(types)
                 })
-
-        then: 'success'
-        true
     }
 
     def 'find task priorities'() {
@@ -154,10 +142,9 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
         and: 'task priorities'
         def priorities = Priority.values()
 
-        when: 'find task priorities'
+        expect: 'find task priorities'
         webTestClient.get()
                 .uri(TASK_PRIORITIES)
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
@@ -167,21 +154,18 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                 .consumeWith({ p ->
                     assert p.responseBody.containsAll(priorities)
                 })
-
-        then: 'success'
-        true
     }
 
     def 'find task statuses'() {
         given: 'token'
         def token = tokensService.createToken(user.username)
+
         and: 'task statuses'
         def statuses = Status.values()
 
-        when: 'find task statuses'
+        expect: 'find task statuses'
         webTestClient.get()
                 .uri(TASK_STATUSES)
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
@@ -191,9 +175,6 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                 .consumeWith({ s ->
                     assert s.responseBody.containsAll(statuses)
                 })
-
-        then: 'success'
-        true
     }
 
     def 'find tasks by assignee id'() {
@@ -217,18 +198,14 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                     .build())
         }
 
-        when: 'find all tasks'
+        expect: 'find all tasks'
         webTestClient.get()
                 .uri(TASKS_BY_ASSIGNEE, assignee.id, PageRequest.of(0, 25))
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
                 .expectStatus()
                 .isOk()
-
-        then: 'success'
-        true
     }
 
     def 'find task assigned to current user'() {
@@ -252,7 +229,7 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
         and: 'token'
         def token = tokensService.createToken(assignee.username)
 
-        when: 'find all tasks'
+        expect: 'find all tasks'
         webTestClient.get()
                 .uri(TASKS_FOR_CURRENT_USER, PageRequest.of(0, 25))
                 .accept(APPLICATION_JSON)
@@ -260,9 +237,6 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                 .exchange()
                 .expectStatus()
                 .isOk()
-
-        then: 'success'
-        true
     }
 
     def 'create task'() {
@@ -277,7 +251,7 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
             projectId = project.id
         }
 
-        when: 'create task'
+        expect: 'create task'
         webTestClient.post()
                 .uri(TASKS)
                 .contentType(APPLICATION_JSON)
@@ -300,9 +274,6 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                     assert t.responseBody.createdAt.isBefore(Instant.now())
                     assert t.responseBody.updatedAt.isBefore(Instant.now())
                 })
-
-        then: 'success'
-        true
     }
 
     def 'update task'() {
@@ -322,7 +293,7 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
             projectId = project.id
         }
 
-        when: 'update task'
+        expect: 'update task'
         webTestClient.put()
                 .uri(TASK, task.id)
                 .contentType(APPLICATION_JSON)
@@ -342,9 +313,6 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                     assert t.responseBody.status == request.status
                     assert t.responseBody.updatedBy.id == user.id
                 })
-
-        then: 'success'
-        true
     }
 
     def 'patch task'() {
@@ -363,16 +331,13 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
             projectId = project.id
         })
 
-        when: 'delete task'
+        expect: 'delete task'
         webTestClient.delete()
                 .uri(TASK, task.id)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
                 .expectStatus()
                 .isNoContent()
-
-        then: 'success'
-        true
     }
 
     def 'assign task to user'() {
@@ -392,7 +357,7 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                 .userId(user.id)
                 .build()
 
-        when: 'add assignee to task'
+        expect: 'add assignee to task'
         webTestClient.post()
                 .uri(TASK_ASSIGNEES, task.id)
                 .contentType(APPLICATION_JSON)
@@ -407,9 +372,6 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                     assert t.responseBody.id == task.id
                     assert t.responseBody.assignee.id == user.id
                 })
-
-        then: 'success'
-        true
     }
 
     def 'change task assignee'() {
@@ -437,7 +399,7 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                 .userId(assignee.id)
                 .build()
 
-        when: 'change task assignee'
+        expect: 'change task assignee'
         webTestClient.put()
                 .uri(TASK_ASSIGNEE, task.id, user.id)
                 .contentType(APPLICATION_JSON)
@@ -452,9 +414,6 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                     assert t.responseBody.id == task.id
                     assert t.responseBody.assignee.id == assignee.id
                 })
-
-        then: 'success'
-        true
     }
 
     def 'delete task assignee'() {
@@ -474,7 +433,7 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                 .userId(user.id)
                 .build())
 
-        when: 'delete task assignee'
+        expect: 'delete task assignee'
         webTestClient.delete()
                 .uri(TASK_ASSIGNEE, task.id, user.id)
                 .accept(APPLICATION_JSON)
@@ -487,8 +446,5 @@ class TasksControllerIntegrationTest extends BaseControllerIntegrationTest{
                     assert t.responseBody.id == task.id
                     assert t.responseBody.assignee == null
                 })
-
-        then: 'success'
-        true
     }
 }

@@ -49,10 +49,9 @@ class CompaniesControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'company created'
         def company = companiesService.create(getCreateCompanyRequest())
 
-        when: 'find company by id'
+        expect: 'find company by id'
         webTestClient.get()
                 .uri(COMPANY, company.id)
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
@@ -65,9 +64,6 @@ class CompaniesControllerIntegrationTest extends BaseControllerIntegrationTest {
                     assert c.responseBody.title == company.title
                     assert c.responseBody.description == company.description
                 })
-
-        then: 'success'
-        true
     }
 
     def 'find all companies'() {
@@ -77,18 +73,14 @@ class CompaniesControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'company created'
         def company = companiesService.create(getCreateCompanyRequest())
 
-        when: 'find all companies'
+        expect: 'find all companies'
         webTestClient.get()
                 .uri(COMPANIES)
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
                 .expectStatus()
                 .isOk()
-
-        then: 'success'
-        true
     }
 
     def 'create company'() {
@@ -98,7 +90,7 @@ class CompaniesControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'create company request'
         def request = getCreateCompanyRequest()
 
-        when: 'create company'
+        expect: 'create company'
         webTestClient.post()
                 .uri(COMPANIES)
                 .contentType(APPLICATION_JSON)
@@ -115,9 +107,6 @@ class CompaniesControllerIntegrationTest extends BaseControllerIntegrationTest {
                     assert c.responseBody.title == request.title
                     assert c.responseBody.description == request.description
                 })
-
-        then: 'success'
-        true
     }
 
     def 'update company'() {
@@ -130,7 +119,7 @@ class CompaniesControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'update company request'
         def request = getCreateCompanyRequest()
 
-        when: 'update company'
+        expect: 'update company'
         webTestClient.put()
                 .uri(COMPANY, company.id)
                 .contentType(APPLICATION_JSON)
@@ -147,9 +136,6 @@ class CompaniesControllerIntegrationTest extends BaseControllerIntegrationTest {
                     assert c.responseBody.title == request.title
                     assert c.responseBody.description == request.description
                 })
-
-        then: 'success'
-        true
     }
 
     def 'delete company by id'() {
@@ -159,15 +145,12 @@ class CompaniesControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'company created'
         def company = companiesService.create(getCreateCompanyRequest())
 
-        when: 'delete companies'
+        expect: 'delete companies'
         webTestClient.delete()
                 .uri(COMPANY, company.id)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
                 .expectStatus()
                 .isNoContent()
-
-        then: 'success'
-        true
     }
 }

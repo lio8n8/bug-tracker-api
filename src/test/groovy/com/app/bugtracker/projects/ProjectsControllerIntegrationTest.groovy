@@ -47,10 +47,9 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
 
-        when: 'find project by id'
+        expect: 'find project by id'
         webTestClient.get()
                 .uri(PROJECT, project.id)
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
@@ -66,9 +65,6 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
                     assert p.responseBody.createdAt
                     assert p.responseBody.updatedAt
                 })
-
-        then: 'success'
-        true
     }
 
     def 'find all projects'() {
@@ -78,19 +74,14 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
 
-
-        when: 'find all projects'
+        expect: 'find all projects'
         webTestClient.get()
                 .uri(PROJECTS)
-                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
                 .expectStatus()
                 .isOk()
-
-        then: 'success'
-        true
     }
 
     def 'create project'() {
@@ -100,7 +91,7 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'create project request'
         def request = getCreateProjectRequest()
 
-        when: 'create project'
+        expect: 'create project'
         webTestClient.post()
                 .uri(PROJECTS)
                 .contentType(APPLICATION_JSON)
@@ -120,9 +111,6 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
                     assert p.responseBody.createdAt.isBefore(Instant.now())
                     assert p.responseBody.updatedAt.isBefore(Instant.now())
                 })
-
-        then: 'success'
-        true
     }
 
     def 'update project'() {
@@ -135,7 +123,7 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'update project request'
         def request = getCreateProjectRequest()
 
-        when: 'update project'
+        expect: 'update project'
         webTestClient.put()
                 .uri(PROJECT, project.id)
                 .contentType(APPLICATION_JSON)
@@ -152,9 +140,6 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
                     assert p.responseBody.description == request.description
                     assert p.responseBody.updatedBy.id == user.id
                 })
-
-        then: 'success'
-        true
     }
 
     def 'delete project by id'() {
@@ -164,15 +149,12 @@ class ProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
         and: 'project created'
         def project = projectsService.create(getCreateProjectRequest())
 
-        when: 'delete project'
+        expect: 'delete project'
         webTestClient.delete()
                 .uri(PROJECT, project.id)
                 .header(AUTHORIZATION, "Bearer ${token}")
                 .exchange()
                 .expectStatus()
                 .isNoContent()
-
-        then: 'success'
-        true
     }
 }

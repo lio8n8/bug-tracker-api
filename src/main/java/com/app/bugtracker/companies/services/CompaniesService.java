@@ -4,7 +4,6 @@ import com.app.bugtracker.exceptions.NotFoundException;
 import com.app.bugtracker.companies.dto.CompanyRequestDTO;
 import com.app.bugtracker.companies.models.Company;
 import com.app.bugtracker.companies.repositories.ICompaniesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ public class CompaniesService implements ICompaniesService {
      */
     private final ICompaniesRepository companiesRepository;
 
-    @Autowired
     public CompaniesService(final ICompaniesRepository companiesRepository) {
         this.companiesRepository = companiesRepository;
     }

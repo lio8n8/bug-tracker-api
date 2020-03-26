@@ -70,6 +70,11 @@ public class Task {
     private Status status;
 
     /**
+     * Task estimate.
+     */
+    private Integer estimate;
+
+    /**
      * Task creation time.
      */
     @Column(name = "created_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")

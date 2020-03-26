@@ -7,6 +7,7 @@ import com.app.bugtracker.auth.services.ITokensService;
 import com.app.bugtracker.auth.services.AuthContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  */
 @RestController
 @Api(tags = "auth-controller")
+@Slf4j
 public class AuthController implements IAuthController {
 
     /**

@@ -6,7 +6,6 @@ import com.app.bugtracker.projects.dto.ProjectRequest;
 import com.app.bugtracker.projects.models.Project;
 import com.app.bugtracker.projects.repositories.IProjectsRepository;
 import com.app.bugtracker.users.models.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,6 @@ public class ProjectsService implements IProjectsService {
      */
     private final IAuthContext authContext;
 
-    @Autowired
     public ProjectsService(final IProjectsRepository projectsRepository,
                            final IAuthContext authContext) {
         this.projectsRepository = projectsRepository;

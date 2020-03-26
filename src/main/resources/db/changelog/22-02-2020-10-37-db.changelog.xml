@@ -23,6 +23,7 @@
             <column name="status" type="VARCHAR">
                 <constraints nullable="false"/>
             </column>
+            <column name="estimate" type="INTEGER"/>
             <column name="created_at" type="TIMESTAMP WITH TIME ZONE" defaultValueComputed="now()">
                 <constraints nullable="false"/>
             </column>

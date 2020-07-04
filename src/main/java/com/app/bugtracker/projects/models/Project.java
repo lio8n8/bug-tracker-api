@@ -14,10 +14,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static javax.persistence.GenerationType.AUTO;
@@ -78,5 +81,9 @@ public class Project {
     private User updatedBy;
 
     @OneToMany(mappedBy = "project")
-    List<Task> tasks;
+    private List<Task> tasks;
+
+    @ManyToMany
+    @JoinTable(name = "users_projects")
+    private Set<User> team;
 }

@@ -1,5 +1,6 @@
 package com.app.bugtracker.users.models;
 
+import com.app.bugtracker.projects.models.Project;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,8 +12,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 import static javax.persistence.GenerationType.AUTO;
@@ -94,4 +97,7 @@ public class User {
      */
     @Column(name = "last_login", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private Instant lastLogin;
+
+    @ManyToMany
+    private Set<Project> projects;
 }

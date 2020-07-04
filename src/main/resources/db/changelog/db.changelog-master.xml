@@ -4,4 +4,5 @@
     <include file="22-02-2020-10-37-db.changelog.xml" relativeToChangelogFile="true"/>
     <include file="28-02-2020-22-48-db.changelog.xml" relativeToChangelogFile="true"/>
     <include file="03-02-2020-23-17-52--companies-table.xml" relativeToChangelogFile="true"/>
+    <include file="07-05-2020-22-40-users-projects-table-db.changelog.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

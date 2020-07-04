@@ -56,7 +56,7 @@ class ProjectsServiceIntegrationTest extends BaseServiceIntegrationTest {
         def res = projectsService.findAll(PageRequest.of(0, 25))
 
         then: 'page with project returned'
-        assert res.getContent().any { it.id == project.id}
+        assert res.getContent().collect { it.id }.contains(project.id)
     }
 
     def 'create project'() {

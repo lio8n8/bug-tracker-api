@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bug Tracker Schema</title>
+
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title {
+            display: flex;
+            justify-content: center;
+            color: #002626;
+        }
+
+        main {
+            width: 80%;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        table {
+            max-width: 20%;
+            margin: 0.5rem;
+            border: 1px solid #002626;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        table caption {
+            font-size: 1.2rem;
+        }
+
+        th,
+        td {
+            padding: 0 0.5rem;
+        }
+
+        table tr {
+            height: 1.6rem;
+        }
+
+        table tr:nth-child(odd) {
+            background: #0E4749;
+            color: #FFF;
+        }
+
+        table tr:first-child {
+            background: #002626;
+            color: #FFF;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="title">Bug Tracker Database Model</h1>
+
+    <main>
+        <table>
+            <caption>Users</caption>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>username</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>psw</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>locked</td>
+                <td>Boolean</td>
+            </tr>
+            <tr>
+                <td>activatedAt</td>
+                <td>Date</td>
+            </tr>
+            <tr>
+                <td>createdAt</td>
+                <td>Date</td>
+            </tr>
+            <tr>
+                <td>updatedAt</td>
+                <td>Date</td>
+            </tr>
+            <tr>
+                <td>lastLogin</td>
+                <td>Date</td>
+            </tr>
+        </table>
+
+        <table>
+            <caption>Tasks</caption>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>title</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>description</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>type</td>
+                <td>enum</td>
+            </tr>
+            <tr>
+                <td>priority</td>
+                <td>enum</td>
+            </tr>
+            <tr>
+                <td>status</td>
+                <td>enum</td>
+            </tr>
+            <tr>
+                <td>estimate</td>
+                <td>Integer</td>
+            </tr>
+            <tr>
+                <td>createdAt</td>
+                <td>Date</td>
+            </tr>
+            <tr>
+                <td>updatedAt</td>
+                <td>Date</td>
+            </tr>
+            <tr>
+                <td>createdBy</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>updatedBy</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>project</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>assignee</td>
+                <td>String</td>
+            </tr>
+        </table>
+
+        <table>
+            <caption>Projects</caption>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>title</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>description</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>createdAt</td>
+                <td>Date</td>
+            </tr>
+            <tr>
+                <td>updatedAt</td>
+                <td>Date</td>
+            </tr>
+            <tr>
+                <td>createdBy</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>updatedBy</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>tasks</td>
+                <td>-</td>
+            </tr>
+        </table>
+
+        <table>
+            <caption>Companies</caption>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>title</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>description</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>createdAt</td>
+                <td>Date</td>
+            </tr>
+            <tr>
+                <td>updatedAt</td>
+                <td>Date</td>
+            </tr>
+            <tr>
+                <td>createdBy</td>
+                <td>String</td>
+            </tr>
+            <tr>
+                <td>updatedBy</td>
+                <td>String</td>
+            </tr>
+        </table>
+    </main>
+</body>
+
+</html>

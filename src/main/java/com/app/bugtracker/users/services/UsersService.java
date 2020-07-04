@@ -91,16 +91,10 @@ public class UsersService implements IUsersService {
                 .psw(bCryptPasswordEncoder.encode(request.getPassword()))
                 .createdAt(Instant.now())
                 .updatedAt(Instant.now())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
                 .locked(true)
                 .build();
-
-        if (request.getFirstName() != null) {
-            user.setFirstName(request.getFirstName());
-        }
-
-        if (request.getLastName() != null) {
-            user.setLastName(request.getLastName());
-        }
 
         return usersRepository.save(user);
     }

@@ -54,6 +54,7 @@
             background: #0E4749;
             color: #FFF;
         }
+
         table tr:nth-child(even) {
             background: #427AA1;
             color: #FFF;
@@ -67,193 +68,123 @@
 </head>
 
 <body>
-    <h1 class="title">Bug Tracker Database Model</h1>
+    <h1 class="title">Bug Tracker Entities</h1>
 
-    <main>
-        <table>
-            <caption>Users</caption>
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-            </tr>
-            <tr>
-                <td>id</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>email</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>username</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>psw</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>locked</td>
-                <td>Boolean</td>
-            </tr>
-            <tr>
-                <td>activatedAt</td>
-                <td>Date</td>
-            </tr>
-            <tr>
-                <td>createdAt</td>
-                <td>Date</td>
-            </tr>
-            <tr>
-                <td>updatedAt</td>
-                <td>Date</td>
-            </tr>
-            <tr>
-                <td>lastLogin</td>
-                <td>Date</td>
-            </tr>
-        </table>
+    <main id="main"></main>
 
-        <table>
-            <caption>Tasks</caption>
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-            </tr>
-            <tr>
-                <td>id</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>title</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>description</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>type</td>
-                <td>enum</td>
-            </tr>
-            <tr>
-                <td>priority</td>
-                <td>enum</td>
-            </tr>
-            <tr>
-                <td>status</td>
-                <td>enum</td>
-            </tr>
-            <tr>
-                <td>estimate</td>
-                <td>Integer</td>
-            </tr>
-            <tr>
-                <td>createdAt</td>
-                <td>Date</td>
-            </tr>
-            <tr>
-                <td>updatedAt</td>
-                <td>Date</td>
-            </tr>
-            <tr>
-                <td>createdBy</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>updatedBy</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>project</td>
-                <td>-</td>
-            </tr>
-            <tr>
-                <td>assignee</td>
-                <td>String</td>
-            </tr>
-        </table>
+    <script>
+        const tables = [
+            {
+                caption: 'User',
+                data: {
+                    id: 'UUID',
+                    username: 'String',
+                    email: 'String',
+                    psw: 'String',
+                    locked: 'Boolean',
+                    firstName: 'String',
+                    lastName: 'String',
+                    createdAt: 'Date',
+                    updatedAt: 'Date',
+                    activatedAt: 'Date',
+                    lastLogin: 'Date',
+                    tasks: 'Set<Task>',
+                    projects: 'Set<Project>'
+                }
+            },
+            {
+                caption: 'Task',
+                data: {
+                    id: 'UUID',
+                    title: 'String',
+                    description: 'String',
+                    type: 'Enum',
+                    priority: 'Enum',
+                    status: 'Enum',
+                    estimate: 'Integer',
+                    createdAt: 'Date',
+                    updatedAt: 'Date',
+                    createdBy: 'User',
+                    updatedBy: 'User',
+                    assignee: 'User',
+                    project: 'Project'
+                }
+            },
+            {
+                caption: 'Project',
+                data: {
+                    id: 'UUID',
+                    title: 'String',
+                    description: 'String',
+                    createdAt: 'Date',
+                    updatedAt: 'Date',
+                    createdBy: 'User',
+                    updatedBy: 'User',
+                    tasks: 'Set<Task>',
+                    team: 'Set<User>'
+                }
+            },
+            {
+                caption: 'Company',
+                data: {
+                    id: 'UUID',
+                    name: 'String',
+                    title: 'String',
+                    description: 'String',
+                    createdAt: 'Date',
+                    updatedAt: 'Date',
+                    createdBy: 'User',
+                    updatedBy: 'User'
+                }
+            }
+        ]
 
-        <table>
-            <caption>Projects</caption>
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-            </tr>
-            <tr>
-                <td>id</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>title</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>description</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>createdAt</td>
-                <td>Date</td>
-            </tr>
-            <tr>
-                <td>updatedAt</td>
-                <td>Date</td>
-            </tr>
-            <tr>
-                <td>createdBy</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>updatedBy</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>tasks</td>
-                <td>-</td>
-            </tr>
-        </table>
 
-        <table>
-            <caption>Companies</caption>
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-            </tr>
-            <tr>
-                <td>id</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>name</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>title</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>description</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>createdAt</td>
-                <td>Date</td>
-            </tr>
-            <tr>
-                <td>updatedAt</td>
-                <td>Date</td>
-            </tr>
-            <tr>
-                <td>createdBy</td>
-                <td>String</td>
-            </tr>
-            <tr>
-                <td>updatedBy</td>
-                <td>String</td>
-            </tr>
-        </table>
-    </main>
+        const main = document.getElementById('main');
+
+        for (let t of tables) {
+            let table = document.createElement('table');
+
+            let caption = document.createElement('caption');
+            caption.appendChild(document.createTextNode(t.caption));
+            table.appendChild(caption);
+
+            let tbody = document.createElement('tbody');
+            tbody.appendChild(createTableRow('th', 'Name', 'Type'));
+
+            for (let key in t.data) {
+                tbody.appendChild(createTableRow('td', key, t.data[key]));
+            }
+
+            table.appendChild(tbody);
+            main.appendChild(table);
+        }
+
+
+        /**
+         * Creates a new table row.
+         *
+         * @param callType cell type
+         * @param firstCellValue value of first cell
+         * @param secondCellValue value of second cell
+         *
+         * @returns table row.
+         */
+        function createTableRow(cellType, firstCellValue, secondCellValue) {
+            let tr = document.createElement('tr');
+
+            let firstCell = document.createElement(cellType);
+            firstCell.appendChild(document.createTextNode(firstCellValue));
+            tr.appendChild(firstCell);
+
+            let secondCell = document.createElement(cellType);
+            secondCell.appendChild(document.createTextNode(secondCellValue));
+            tr.appendChild(secondCell);
+
+            return tr;
+        }
+
+    </script>
 </body>
 
 </html>

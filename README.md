@@ -1,5 +1,3 @@
-![](https://github.com/lio8n8/bug-tracker-api/workflows/Test/badge.svg)
-
 # Bug tracker
 This is an example of bug tracker. Project is built with Spring and Spock frameworks.
 

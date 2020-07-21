@@ -51,4 +51,12 @@ public interface IProjectsService {
      * @param id project id
      */
     void deleteById(UUID id);
+
+    /**
+     * Saves project.
+     *
+     * @param project to save
+     * @return saved {@link Project}
+     */
+    Project save(Project project);
 }

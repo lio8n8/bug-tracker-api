@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 import static com.app.bugtracker.exceptions.Exceptions.ERROR_GET_USERNAME_FROM_CONTEXT;
 
 @Service
@@ -15,10 +17,12 @@ public class AuthContext implements IAuthContext {
 
     @Autowired
     private IUsersService usersService;
+
     /**
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }

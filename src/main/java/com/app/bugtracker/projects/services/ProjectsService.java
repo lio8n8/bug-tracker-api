@@ -94,4 +94,12 @@ public class ProjectsService implements IProjectsService {
     public void deleteById(final UUID id) {
         projectsRepository.deleteById(id);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Project save(Project project) {
+        return projectsRepository.save(project);
+    }
 }

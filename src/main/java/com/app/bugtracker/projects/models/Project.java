@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.AUTO;
 
 /**
@@ -83,7 +84,9 @@ public class Project {
     @OneToMany(mappedBy = "project")
     private List<Task> tasks;
 
-    @ManyToMany
-    @JoinTable(name = "users_projects")
+    @ManyToMany(fetch = EAGER)
+    @JoinTable(name = "users_projects",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> team;
 }

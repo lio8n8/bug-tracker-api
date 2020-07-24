@@ -3,9 +3,14 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
+    <changeSet author="lio8n8" id="07-05-2020-21-40">
+        <sql>
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        </sql>
+    </changeSet>
     <changeSet author="lio8n8" id="07-05-2020-22-40">
         <createTable tableName="users_projects">
-            <column name="id" type="UUID">
+            <column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
                 <constraints primaryKey="true" primaryKeyName="pk_users_projects" nullable="false" unique="true"/>
             </column>
             <column name="user_id" type="UUID">

@@ -47,8 +47,7 @@ class TeamsServiceIntegrationTest extends BaseServiceIntegrationTest {
         Set<UUID> usersIds = users.collect { it.id }
 
         when: 'assign users to project'
-        teamsService.addUsersToProject(TeamProjectRequest.builder()
-                .projectId(project.id)
+        teamsService.addUsersToProject(project.id, TeamProjectRequest.builder()
                 .userIds(usersIds)
                 .build())
 
@@ -64,8 +63,7 @@ class TeamsServiceIntegrationTest extends BaseServiceIntegrationTest {
         }
 
         and: 'assign users to project'
-        teamsService.addUsersToProject(TeamProjectRequest.builder()
-                .projectId(project.id)
+        teamsService.addUsersToProject(project.id, TeamProjectRequest.builder()
                 .userIds(users.collect { it.id } as Set<UUID>)
                 .build())
 
@@ -78,8 +76,7 @@ class TeamsServiceIntegrationTest extends BaseServiceIntegrationTest {
         }
 
         when: 'remove users from project'
-        teamsService.removeUsersFromProject(TeamProjectRequest.builder()
-                .projectId(project.id)
+        teamsService.removeUsersFromProject(project.id, TeamProjectRequest.builder()
                 .userIds(usersIds)
                 .build())
 

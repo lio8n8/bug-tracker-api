@@ -20,11 +20,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class TeamProjectRequest {
-
-    @ApiModelProperty("Project id")
-    @NotNull(message = "Project id required.")
-    private UUID projectId;
-
     @ApiModelProperty("User ids")
     @NotNull(message = "User ids required.")
     private Set<UUID> userIds;

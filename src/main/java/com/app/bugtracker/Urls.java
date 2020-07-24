@@ -81,6 +81,11 @@ public interface Urls {
     String PROJECT = PROJECTS + "/{id}";
 
     /**
+     * Project team.
+     */
+    String PROJECT_TEAM = PROJECT + "/team";
+
+    /**
      * Companies root url.
      */
     String COMPANIES = "/api/companies";

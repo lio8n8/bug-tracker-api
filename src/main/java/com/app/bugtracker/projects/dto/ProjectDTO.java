@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -62,4 +63,9 @@ public class ProjectDTO {
      * User who updated the project.
      */
     private UserDTO updatedBy;
+
+    /**
+     * Users assigned to project.
+     */
+    private List<UserDTO> users;
 }

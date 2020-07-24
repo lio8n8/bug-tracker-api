@@ -46,8 +46,8 @@ public class TeamsService implements ITeamsService {
      * {@inheritDoc}
      */
     @Override
-    public Project addUsersToProject(TeamProjectRequest request) {
-        Project project = projectsService.findById(request.getProjectId());
+    public Project addUsersToProject(UUID projectId, TeamProjectRequest request) {
+        Project project = projectsService.findById(projectId);
         Set<User> team = project.getTeam() != null ? project.getTeam() : new HashSet<>();
 
         for(UUID id: request.getUserIds()) {
@@ -63,8 +63,8 @@ public class TeamsService implements ITeamsService {
      * {@inheritDoc}
      */
     @Override
-    public Project removeUsersFromProject(TeamProjectRequest request) {
-        Project project = projectsService.findById(request.getProjectId());
+    public Project removeUsersFromProject(UUID projectId, TeamProjectRequest request) {
+        Project project = projectsService.findById(projectId);
         Set<User> team = project.getTeam();
 
         for(UUID id: request.getUserIds()) {

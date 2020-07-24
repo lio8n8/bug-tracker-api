@@ -9,6 +9,8 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 /**
  * Converts Project to ProjectDTO.
  */
@@ -27,7 +29,7 @@ public class ProjectDTOConverter implements Converter<Project, ProjectDTO> {
 
     @Override
     public ProjectDTO convert(Project source) {
-        return ProjectDTO.builder()
+        ProjectDTO projectDTO = ProjectDTO.builder()
                 .id(source.getId())
                 .title(source.getTitle())
                 .description(source.getDescription())
@@ -36,5 +38,14 @@ public class ProjectDTOConverter implements Converter<Project, ProjectDTO> {
                 .createdBy(conversionService.convert(source.getCreatedBy(), UserDTO.class))
                 .updatedBy(conversionService.convert(source.getUpdatedBy(), UserDTO.class))
                 .build();
+
+        if(null != source.getTeam() && !source.getTeam().isEmpty()) {
+            projectDTO.setUsers(source.getTeam()
+                    .stream()
+                    .map(user -> conversionService.convert(user, UserDTO.class))
+                    .collect(Collectors.toList()));
+        }
+
+        return projectDTO;
     }
 }

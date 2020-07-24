@@ -40,12 +40,11 @@ class TeamsServiceUnitTest extends Specification {
 
         and: 'request'
         def request = TeamProjectRequest.builder()
-                .projectId(project.id)
                 .userIds(users.collect { user.id } as Set)
                 .build()
 
         when: 'assign users to project'
-        teamsService.addUsersToProject(request)
+        teamsService.addUsersToProject(project.id, request)
 
         then: 'project exists'
         1 * projectServiceMock.findById(project.id) >> project
@@ -90,12 +89,11 @@ class TeamsServiceUnitTest extends Specification {
 
         and: 'request'
         def request = TeamProjectRequest.builder()
-                .projectId(project.id)
                 .userIds(usersToRemove.collect { user.id } as Set)
                 .build()
 
         when: 'remove users from project'
-        teamsService.removeUsersFromProject(request)
+        teamsService.removeUsersFromProject(project.id, request)
 
         then: 'project exists'
         1 * projectServiceMock.findById(project.id) >> project

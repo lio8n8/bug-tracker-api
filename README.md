@@ -22,7 +22,7 @@ Start application from the project root folder `./gradlew bootRun`
 Run tests `./gradlew test`
 
 #### API Docs
-[http://127.0.0.1:8080/swagger-ui.html](http://127.0.0.1:8080/swagger-ui.html)
+TODO
 
 #### License
 TODO
